@@ -1,15 +1,26 @@
+using Application;
+using Carter;
+using Infrastructure;
+using UserServices;
+using UserServices.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddCarter();
+builder.Services.AddCustomAuthentification(builder.Configuration);
+builder.Services.AddWebServices();
+
+builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddInfrastucture(builder.Configuration);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -18,8 +29,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapCarter();
 
 app.Run();
