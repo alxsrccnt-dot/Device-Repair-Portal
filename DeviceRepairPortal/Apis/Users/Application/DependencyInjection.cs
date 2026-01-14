@@ -1,6 +1,5 @@
-﻿using Application.Common;
+﻿using Application.Common.Exceptions;
 using Application.Common.Token;
-using Application.Exceptions;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;

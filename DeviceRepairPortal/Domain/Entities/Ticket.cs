@@ -6,11 +6,11 @@ public class Ticket : BaseEntity<Guid>
 {
     public Ticket() { }
 
-    public Ticket(string description, int deviceId, string createdBy, DateTime createdAt)
+    public Ticket(string description, Device device, string createdBy, DateTime createdAt)
         : base(createdBy, createdAt)
     {
         Description = description;
-        DeviceId = deviceId;
+        Device = device;
     }
 
     public string Description { get; set; }

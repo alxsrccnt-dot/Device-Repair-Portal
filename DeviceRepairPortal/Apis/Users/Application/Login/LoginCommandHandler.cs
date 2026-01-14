@@ -1,5 +1,5 @@
-﻿using Application.Common.Token;
-using Application.Exceptions;
+﻿using Application.Common.Exceptions;
+using Application.Common.Token;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

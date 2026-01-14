@@ -25,12 +25,15 @@ public class TokenService(UserManager<User> userManager,TokenSettings jwtSetting
 		{
 			claims.Add(new Claim("scope", "admins.read"));
 			claims.Add(new Claim("scope", "admins.manage"));
-		}
+        }
 
-		if (await userManager.IsInRoleAsync(user, AppRoles.Manager))
-			claims.Add(new Claim("scope", "admins.read"));
+        if (await userManager.IsInRoleAsync(user, AppRoles.Technician))
+		{
+            claims.Add(new Claim("scope", "technicians.read"));
+            claims.Add(new Claim("scope", "technicians.manage"));
+        }
 
-		var token = new JwtSecurityToken(
+        var token = new JwtSecurityToken(
 			issuer: jwtSettings.Issuer,
 			audience: jwtSettings.Audience,
 			claims: claims,
