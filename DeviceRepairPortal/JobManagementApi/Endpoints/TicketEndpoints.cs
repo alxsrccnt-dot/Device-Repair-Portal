@@ -15,6 +15,7 @@ public class TicketEndpoints : ICarterModule
         group.MapPost("", CreateTicket)
             .WithName(nameof(CreateTicket));
     }
+
     public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)
     {
         await mediator.Send(new CreateTicketCommand(request));

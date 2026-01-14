@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Data;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.Data.Repositories.Commands;
 
 internal class UpdateRepository<TEntity>(ApplicationDbContext context) : IUpdateRepository<TEntity> where TEntity : class
 {

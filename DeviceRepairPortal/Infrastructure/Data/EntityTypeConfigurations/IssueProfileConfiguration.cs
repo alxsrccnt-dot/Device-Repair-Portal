@@ -10,9 +10,10 @@ internal class IssueProfileConfiguration : IEntityTypeConfiguration<Issue>
     {
         builder.HasKey(i => i.Id);
 
-        builder.Property(i => i.Name)
+        builder.HasIndex(i  => i.DevicePiece);
+        builder.Property(i => i.DevicePiece)
                .IsRequired()
-               .HasMaxLength(200);
+               .HasMaxLength(100);
 
         builder.Property(i => i.Description)
                .IsRequired()

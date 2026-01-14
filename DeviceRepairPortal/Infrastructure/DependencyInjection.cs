@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Data;
+using Infrastructure.Data.Repositories.Commands;
+using Infrastructure.Data.Repositories.Queries;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Infrastructure.Repositories;
 
 namespace Infrastructure;
 
@@ -43,8 +44,9 @@ public static class DependencyInjection
 		services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
 		services.AddScoped(typeof(ICreateRepository<>), typeof(CreateRepository<>));
 		services.AddScoped(typeof(IUpdateRepository<>), typeof(UpdateRepository<>));
-		services.AddScoped(typeof(IDeleteRepository<>), typeof(DeleteRepository<>));
+        services.AddScoped(typeof(IDeleteRepository<>), typeof(DeleteRepository<>));
+        services.AddScoped(typeof(IReadIssuesRepositories), typeof(ReadIssuesRepositories));
 
-		return services;
+        return services;
 	}
 }

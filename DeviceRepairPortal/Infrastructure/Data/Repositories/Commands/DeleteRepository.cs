@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Data;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.Data.Repositories.Commands;
 
 internal class DeleteRepository<T>(ApplicationDbContext context) : IDeleteRepository<T> where T : class
 {

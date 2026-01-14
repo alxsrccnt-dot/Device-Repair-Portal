@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Data;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.Data.Repositories.Queries;
 
 internal class ReadRepository<TEntity>(ApplicationDbContext context) : IReadRepository<TEntity> where TEntity : class
 {

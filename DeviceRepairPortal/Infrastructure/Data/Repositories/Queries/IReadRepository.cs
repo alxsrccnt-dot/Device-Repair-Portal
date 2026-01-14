@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Repositories;
+﻿namespace Infrastructure.Data.Repositories.Queries;
 
 public interface IReadRepository<T>
 {

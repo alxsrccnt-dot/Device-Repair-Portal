@@ -1,6 +1,4 @@
-﻿using Infrastructure.Data;
-
-namespace Infrastructure.Repositories;
+﻿namespace Infrastructure.Data.Repositories.Commands;
 
 internal class CreateRepository<TEntity>(ApplicationDbContext context) : ICreateRepository<TEntity> where TEntity : class
 {

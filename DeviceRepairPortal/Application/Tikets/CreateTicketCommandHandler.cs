@@ -1,12 +1,13 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Services;
 using Domain.Entities;
-using Infrastructure.Repositories;
+using Infrastructure.Data.Repositories.Commands;
+using Infrastructure.Data.Repositories.Queries;
 using MediatR;
 
 namespace Application.Tikets;
 
-public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateRepository<Ticket> ticketCreateRepository) : IRequestHandler<CreateTicketCommand>
+public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateRepository<Ticket> ticketCreateRepository, IReadIssuesRepositories readIssuesRepositories) : IRequestHandler<CreateTicketCommand>
 {
     public async Task Handle(CreateTicketCommand command, CancellationToken cancellationToken)
     {
@@ -14,6 +15,11 @@ public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateReposit
         
         var device = new Device(request.Brand, request.Model, request.SerialNumber);
         var ticket = new Ticket(request.Description, device, currentUser.Email!, DateTime.UtcNow);
+        if (request.IssuesIds.Any())
+        {
+            var issues = await readIssuesRepositories.GetIssuesByIds(request.IssuesIds);
+            ticket.Issues = issues;
+        }
 
         await ticketCreateRepository.CreateAsync(ticket, cancellationToken);
     }
