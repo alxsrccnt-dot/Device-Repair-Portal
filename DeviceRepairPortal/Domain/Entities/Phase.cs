@@ -3,10 +3,17 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public abstract class Phase(int jobId, string createdBy, DateTime createdAt)
-    : BaseEntity<int>(createdBy, createdAt)
+public class Phase : BaseEntity<int>
 {
-    public int JobId { get; set; } = jobId;
-    public Job Job { get; set; } = null!;
+    public Phase() { }
+
+    public Phase(Guid jobId, string createdBy, DateTime createdAt)
+        : base(createdBy, createdAt)
+    {
+        JobId = jobId;
+    }
+
     public State State { get; set; }
+    public Guid JobId { get; set; }
+    public Job Job { get; set; } = null!;
 }

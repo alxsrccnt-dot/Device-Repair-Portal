@@ -8,6 +8,5 @@ public class Device(string brand, string model, string serialNumber) : Entity<in
     public string Model { get; set; } = model;
     public string SerialNumber { get; set; } = serialNumber;
 
-    public Guid JobId { get; set; }
-    public Job Job { get; set; } = null!;
+    public Ticket Ticket { get; set; } = null!;
 }

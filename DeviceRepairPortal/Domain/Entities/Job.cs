@@ -2,13 +2,16 @@
 
 namespace Domain.Entities;
 
-public class Job(string userEmail, string createdBy, DateTime createdAt) : BaseEntity<Guid>(createdBy, createdAt)
+public class Job : BaseEntity<Guid>
 {
-    public string UserEmail { get; set; } = userEmail;
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public Job() { }
 
-    public Device Device { get; set; } = null!;
+    public Job(string createdBy, DateTime createdAt)
+        : base(createdBy, createdAt){}
+
+    public DateTime? EndDate { get; set; }
+
+    public Ticket Ticket { get; set; } = null!;
     public Investigation? Investigation { get; set; }
     public BillingInformation? BillingInformation { get; set; }
 

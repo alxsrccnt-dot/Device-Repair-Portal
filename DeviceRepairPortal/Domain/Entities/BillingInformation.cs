@@ -2,11 +2,19 @@
 
 namespace Domain.Entities;
 
-public class BillingInformation(Guid jobId, decimal amount, string createdBy, DateTime createdAt)
-    : BaseEntity<Guid>(createdBy, createdAt)
+public class BillingInformation
+    : BaseEntity<Guid>
 {
-    public decimal Ammount { get; set; } = amount;
+    public BillingInformation() { }
 
-    public Guid JobId { get; set; } = jobId;
+    public BillingInformation(Guid jobId, decimal amount, string createdBy, DateTime createdAt)
+        : base(createdBy, createdAt)
+    {
+        JobId = jobId;
+        Amount = amount;
+    }
+
+    public decimal Amount { get; set; }
+    public Guid JobId { get; set; }
     public Job Job { get; set; } = null!;
 }
