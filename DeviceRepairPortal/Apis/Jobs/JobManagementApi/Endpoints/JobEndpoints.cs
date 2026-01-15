@@ -1,4 +1,5 @@
-﻿using Application.Jobs;
+﻿using Application.Investigations;
+using Application.Jobs;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

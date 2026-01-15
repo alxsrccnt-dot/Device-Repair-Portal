@@ -14,6 +14,12 @@ public class Investigation : Entity<int>
         Description = description;
     }
 
+    public Investigation(Guid jobId, string conclusion, string description, ICollection<Issue> issues,string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : this(jobId, conclusion, description, createdBy, usernameOfCreatedBy, createdAt)
+    {
+        Issues = issues;
+    }
+
     public string Conclusion { get; set; }
     public string Description { get; set; }
     public Guid JobId { get; set; }

@@ -4,6 +4,6 @@ namespace Infrastructure.Data.Repositories.Queries;
 
 public interface IReadIssuesRepositories
 {
-    Task<ICollection<Issue>> GetIssuesByIds(IEnumerable<int> ids);
-    Task<Issue> GetByDevicePieceAsync(string devicePiece);
+    Task<ICollection<Issue>> GetIssuesByIds(IEnumerable<int> ids, CancellationToken cancellationToken = default);
+    Task<Issue?> GetByDevicePieceAsync(string devicePiece, CancellationToken cancellationToken = default);
 }
