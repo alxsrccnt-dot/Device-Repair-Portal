@@ -9,6 +9,11 @@ public class SeedDbCommandHandler(UserManager<User> userManager, RoleManager<Ide
 {
     public async Task Handle(SeedDbCommand command, CancellationToken cancellationToken)
     {
+        var adminEmail = "admin@admin.com";
+        var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+        if(existingAdmin is not null)
+            throw new InvalidOperationException("The database is not empty");
+
         string[] roles =
         {
             AppRoles.Admin.ToString(),
@@ -29,7 +34,7 @@ public class SeedDbCommandHandler(UserManager<User> userManager, RoleManager<Ide
         var admin = new User
         {
             UserName = "Admin",
-            Email = "admin@admin.com",
+            Email = adminEmail,
             IsActive = true
         };
         var result1 = await userManager.CreateAsync(admin, password);

@@ -1,4 +1,4 @@
-﻿namespace Application.Register;
+﻿namespace DeviceRepairPortal.Infrastructure.Requests.Auth;
 
 public sealed record RegisterRequest(
 	string UserName,

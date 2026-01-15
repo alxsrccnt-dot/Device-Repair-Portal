@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>@ViewData["Title"] - Device Repair</title>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="~/css/site.css"/>
+
+		@await RenderSectionAsync("Styles", required: false)
+	</head>
+	<body>
+		<div id="AppContent">
+			<div class="content" style="padding: 0;height: 100vh;">
+				<main class="container-fluid h-100" role="main">
+					@RenderBody()
+				</main>
+				<footer class="main-footer">
+					&copy; 2026 - Device repair shop - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+				</footer>
+			</div>
+		</div>
+		<script src="~/lib/jquery/dist/jquery.min.js"></script>
+		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+		@await RenderSectionAsync("Scripts", required: false)
+	</body>
+</html>
