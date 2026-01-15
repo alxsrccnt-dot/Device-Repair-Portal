@@ -1,13 +1,26 @@
 ﻿using Domain.Entities.Base;
+using System.Collections.ObjectModel;
 
 namespace Domain.Entities;
 
-public class Job : BaseEntity<Guid>
+public class Job : Entity<Guid>
 {
     public Job() { }
 
-    public Job(string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt){}
+    public Job(Guid ticketId, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
+    {
+        TicketId = ticketId;
+    }
+
+    public Job(Guid ticketId, string comment, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : this(ticketId, createdBy, usernameOfCreatedBy, createdAt)
+    {
+        Comments = new Collection<Comment>()
+        {
+            new Comment(comment, createdBy, usernameOfCreatedBy, createdAt)
+        };
+    }
 
     public DateTime? EndDate { get; set; }
 

@@ -2,12 +2,12 @@
 
 namespace Domain.Entities;
 
-public class Ticket : BaseEntity<Guid>
+public class Ticket : Entity<Guid>
 {
     public Ticket() { }
 
-    public Ticket(string description, Device device, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+    public Ticket(string description, Device device, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         Description = description;
         Device = device;

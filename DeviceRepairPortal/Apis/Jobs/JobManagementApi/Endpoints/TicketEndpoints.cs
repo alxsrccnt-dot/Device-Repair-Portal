@@ -9,7 +9,7 @@ public class TicketEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/ticket")
+        var group = app.MapGroup("/api/tickets")
             .RequireAuthorization();
 
         group.MapPost("", CreateTicket)

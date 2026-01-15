@@ -3,12 +3,12 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class Phase : BaseEntity<int>
+public class Phase : Entity<int>
 {
     public Phase() { }
 
-    public Phase(Guid jobId, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+    public Phase(Guid jobId, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
     }

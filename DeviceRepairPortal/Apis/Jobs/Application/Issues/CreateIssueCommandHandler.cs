@@ -15,7 +15,7 @@ public class CreateIssueCommandHandler(IReadIssuesRepositories readIssuesReposit
 
         var existingIssue = await readIssuesRepositories.GetByDevicePieceAsync(request.DevicePiece);
         if (existingIssue is not null)
-            throw new ValidationException(new List<string>() { "The issue already exist." });
+            throw new ValidationException("The issue already exist.");
 
         var issue = new Issue(request.DevicePiece, request.Description, request.Price);
         await createRepository.CreateAsync(issue, cancellationToken);

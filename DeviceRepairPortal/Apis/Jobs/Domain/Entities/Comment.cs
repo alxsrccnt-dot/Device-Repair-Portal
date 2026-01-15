@@ -2,15 +2,20 @@
 
 namespace Domain.Entities;
 
-public class Comment : BaseEntity<int>
+public class Comment : Entity<int>
 {
     public Comment() { }
 
+    public Comment(string content, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
+    {
+        Content = content;
+    }
+
     public Comment(Guid jobId, string content, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+        : base(content, createdBy, createdAt)
     {
         JobId = jobId;
-        Content = content;
     }
 
     public string Content { get; set; }

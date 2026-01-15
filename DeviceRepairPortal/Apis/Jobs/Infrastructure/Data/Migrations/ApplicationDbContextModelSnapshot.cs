@@ -46,6 +46,11 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DIscountId")
@@ -81,6 +86,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -144,6 +154,11 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsPercentage")
                         .HasColumnType("bit");
 
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("ValidUntil")
                         .HasColumnType("datetime2");
 
@@ -183,6 +198,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -241,6 +261,11 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("TicketId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
@@ -273,6 +298,11 @@ namespace Infrastructure.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("JobId");
@@ -301,6 +331,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("DeviceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UsernameOfCreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

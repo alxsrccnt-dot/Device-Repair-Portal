@@ -14,7 +14,7 @@ public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateReposit
         var request = ValidateRequest(command.Request);
         
         var device = new Device(request.Brand, request.Model, request.SerialNumber);
-        var ticket = new Ticket(request.Description, device, currentUser.Email!, DateTime.UtcNow);
+        var ticket = new Ticket(request.Description, device, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow);
         if (request.IssuesIds.Any())
         {
             var issues = await readIssuesRepositories.GetIssuesByIds(request.IssuesIds);

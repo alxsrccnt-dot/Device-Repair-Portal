@@ -2,12 +2,12 @@
 
 namespace Domain.Entities;
 
-public class Discount : BaseEntity<int>
+public class Discount : Entity<int>
 {
     public Discount(){ }
 
-    public Discount(string code, int value, bool isPercentage, DateTime validUntil, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+    public Discount(string code, int value, bool isPercentage, DateTime validUntil, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         Code = code;
         Value = value;

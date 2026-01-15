@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class Device(string brand, string model, string serialNumber) : Entity<int>
+public class Device(string brand, string model, string serialNumber) : BaseEntity<int>
 {
     public string Brand { get; set; } = brand;
     public string Model { get; set; } = model;

@@ -3,12 +3,12 @@
 namespace Domain.Entities;
 
 public class BillingInformation
-    : BaseEntity<Guid>
+    : Entity<Guid>
 {
     public BillingInformation() { }
 
-    public BillingInformation(Guid jobId, decimal amount, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+    public BillingInformation(Guid jobId, decimal amount, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
         Amount = amount;

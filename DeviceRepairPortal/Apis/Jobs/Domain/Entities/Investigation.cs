@@ -2,12 +2,12 @@
 
 namespace Domain.Entities;
 
-public class Investigation : BaseEntity<int>
+public class Investigation : Entity<int>
 {
     public Investigation() { }
 
-    public Investigation(Guid jobId, string conclusion, string description, string createdBy, DateTime createdAt)
-        : base(createdBy, createdAt)
+    public Investigation(Guid jobId, string conclusion, string description, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
         Conclusion = conclusion;

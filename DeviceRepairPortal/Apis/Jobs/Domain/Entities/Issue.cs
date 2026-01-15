@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class Issue(string devicePiece, string description, decimal price) : Entity<int>
+public class Issue(string devicePiece, string description, decimal price) : BaseEntity<int>
 {
     public string DevicePiece { get; set; } = devicePiece;
     public string Description { get; set; } = description;

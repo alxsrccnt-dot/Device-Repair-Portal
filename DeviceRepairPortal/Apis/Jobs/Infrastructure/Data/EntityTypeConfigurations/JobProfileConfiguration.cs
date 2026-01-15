@@ -14,6 +14,9 @@ internal class JobProfileConfiguration : IEntityTypeConfiguration<Job>
         builder.Property(x => x.CreatedBy)
                .HasMaxLength(50)
                .IsRequired();
+        builder.Property(x => x.UsernameOfCreatedBy)
+               .HasMaxLength(50)
+               .IsRequired();
         builder.Property(x => x.CreateAt)
                .IsRequired();
 
