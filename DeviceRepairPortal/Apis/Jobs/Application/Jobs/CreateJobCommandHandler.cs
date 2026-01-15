@@ -1,13 +1,16 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Services;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;
 
 namespace Application.Jobs;
 
-public class CreateJobCommandHandler(ICurrentUser currentUser, ICreateRepository<Job> createRepository, IReadRepository<Ticket> readRepository) : IRequestHandler<CreateJobCommand>
+public class CreateJobCommandHandler(ICurrentUser currentUser,
+    ICreateRepository<Job> jobCreateRepository, ICreateRepository<Phase> phaseCreateRepository,
+    IReadRepository<Ticket> readRepository) : IRequestHandler<CreateJobCommand>
 {
     public async Task Handle(CreateJobCommand command, CancellationToken cancellationToken)
     {
@@ -21,6 +24,9 @@ public class CreateJobCommandHandler(ICurrentUser currentUser, ICreateRepository
             ? new Job(request.TicketId, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow)
             : new Job(request.TicketId, request.Comment, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow);
 
-        await createRepository.CreateAsync(newJob, cancellationToken);
+        await jobCreateRepository.CreateAsync(newJob, cancellationToken);
+
+        var phase = new Phase(newJob.Id, State.Reception ,currentUser.Email!, currentUser.UserName!, newJob.CreateAt);
+        await phaseCreateRepository.CreateAsync(phase, cancellationToken);
     }
 }

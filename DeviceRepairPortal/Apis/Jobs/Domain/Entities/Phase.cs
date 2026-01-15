@@ -7,10 +7,11 @@ public class Phase : Entity<int>
 {
     public Phase() { }
 
-    public Phase(Guid jobId, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+    public Phase(Guid jobId, State state, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
         : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
+        State = state;
     }
 
     public State State { get; set; }
