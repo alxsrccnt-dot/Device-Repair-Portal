@@ -27,6 +27,24 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    IsPercentage = table.Column<bool>(type: "bit", nullable: false),
+                    ValidUntil = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Issues",
                 columns: table => new
                 {
@@ -42,17 +60,69 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    DeviceId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Devices_DeviceId",
+                        column: x => x.DeviceId,
+                        principalTable: "Devices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TicketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketIssues",
+                columns: table => new
+                {
+                    IssuesId = table.Column<int>(type: "int", nullable: false),
+                    TicketsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketIssues", x => new { x.IssuesId, x.TicketsId });
+                    table.ForeignKey(
+                        name: "FK_TicketIssues_Issues_IssuesId",
+                        column: x => x.IssuesId,
+                        principalTable: "Issues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TicketIssues_Tickets_TicketsId",
+                        column: x => x.TicketsId,
+                        principalTable: "Tickets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,12 +132,18 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DIscountId = table.Column<int>(type: "int", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BillingInformations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BillingInformations_Discounts_DIscountId",
+                        column: x => x.DIscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BillingInformations_Jobs_JobId",
                         column: x => x.JobId,
@@ -142,34 +218,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    DeviceId = table.Column<int>(type: "int", nullable: false),
-                    JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Devices_DeviceId",
-                        column: x => x.DeviceId,
-                        principalTable: "Devices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Jobs_JobId",
-                        column: x => x.JobId,
-                        principalTable: "Jobs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "InvestigationIssues",
                 columns: table => new
                 {
@@ -193,29 +241,12 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "TicketIssues",
-                columns: table => new
-                {
-                    IssuesId = table.Column<int>(type: "int", nullable: false),
-                    TicketsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TicketIssues", x => new { x.IssuesId, x.TicketsId });
-                    table.ForeignKey(
-                        name: "FK_TicketIssues_Issues_IssuesId",
-                        column: x => x.IssuesId,
-                        principalTable: "Issues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TicketIssues_Tickets_TicketsId",
-                        column: x => x.TicketsId,
-                        principalTable: "Tickets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_BillingInformations_DIscountId",
+                table: "BillingInformations",
+                column: "DIscountId",
+                unique: true,
+                filter: "[DIscountId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BillingInformations_JobId",
@@ -256,6 +287,12 @@ namespace Infrastructure.Migrations
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jobs_TicketId",
+                table: "Jobs",
+                column: "TicketId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Phases_JobId",
                 table: "Phases",
                 column: "JobId");
@@ -270,13 +307,6 @@ namespace Infrastructure.Migrations
                 table: "Tickets",
                 column: "DeviceId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_JobId",
-                table: "Tickets",
-                column: "JobId",
-                unique: true,
-                filter: "[JobId] IS NOT NULL");
         }
 
         /// <inheritdoc />
@@ -298,19 +328,22 @@ namespace Infrastructure.Migrations
                 name: "TicketIssues");
 
             migrationBuilder.DropTable(
+                name: "Discounts");
+
+            migrationBuilder.DropTable(
                 name: "Investigations");
 
             migrationBuilder.DropTable(
                 name: "Issues");
 
             migrationBuilder.DropTable(
+                name: "Jobs");
+
+            migrationBuilder.DropTable(
                 name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Devices");
-
-            migrationBuilder.DropTable(
-                name: "Jobs");
         }
     }
 }

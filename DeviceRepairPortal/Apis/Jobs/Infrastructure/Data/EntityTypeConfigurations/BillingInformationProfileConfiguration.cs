@@ -23,5 +23,11 @@ internal class BillingInformationProfileConfiguration : IEntityTypeConfiguration
                .WithOne(j => j.BillingInformation)
                .HasForeignKey<BillingInformation>(b => b.JobId)
                .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(b => b.Discount)
+               .WithOne(j => j.BillingInformation)
+               .HasForeignKey<BillingInformation>(b => b.DIscountId)
+               .IsRequired(false)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

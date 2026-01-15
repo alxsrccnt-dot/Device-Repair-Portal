@@ -11,6 +11,7 @@ public class Job : BaseEntity<Guid>
 
     public DateTime? EndDate { get; set; }
 
+    public Guid TicketId { get; set; }
     public Ticket Ticket { get; set; } = null!;
     public Investigation? Investigation { get; set; }
     public BillingInformation? BillingInformation { get; set; }

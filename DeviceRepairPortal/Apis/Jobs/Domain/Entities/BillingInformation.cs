@@ -17,4 +17,6 @@ public class BillingInformation
     public decimal Amount { get; set; }
     public Guid JobId { get; set; }
     public Job Job { get; set; } = null!;
+    public int? DIscountId { get; set; }
+    public Discount? Discount { get; set; }
 }

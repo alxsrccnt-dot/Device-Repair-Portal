@@ -16,5 +16,10 @@ internal class JobProfileConfiguration : IEntityTypeConfiguration<Job>
                .IsRequired();
         builder.Property(x => x.CreateAt)
                .IsRequired();
+
+        builder.HasOne(t => t.Ticket)
+               .WithOne(d => d.Job)
+               .HasForeignKey<Job>(t => t.TicketId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

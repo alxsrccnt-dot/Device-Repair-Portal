@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260114221118_InitialCreate")]
+    [Migration("20260115084416_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,10 +43,17 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("DIscountId")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DIscountId")
+                        .IsUnique()
+                        .HasFilter("[DIscountId] IS NOT NULL");
 
                     b.HasIndex("JobId")
                         .IsUnique();
@@ -114,6 +121,41 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Discount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsPercentage")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ValidUntil")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Investigation", b =>
@@ -199,9 +241,15 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("TicketId")
+                        .IsUnique();
 
                     b.ToTable("Jobs");
                 });
@@ -257,17 +305,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceId")
                         .IsUnique();
-
-                    b.HasIndex("JobId")
-                        .IsUnique()
-                        .HasFilter("[JobId] IS NOT NULL");
 
                     b.ToTable("Tickets");
                 });
@@ -304,11 +345,18 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.BillingInformation", b =>
                 {
+                    b.HasOne("Domain.Entities.Discount", "Discount")
+                        .WithOne("BillingInformation")
+                        .HasForeignKey("Domain.Entities.BillingInformation", "DIscountId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Domain.Entities.Job", "Job")
                         .WithOne("BillingInformation")
                         .HasForeignKey("Domain.Entities.BillingInformation", "JobId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Discount");
 
                     b.Navigation("Job");
                 });
@@ -335,6 +383,17 @@ namespace Infrastructure.Migrations
                     b.Navigation("Job");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Job", b =>
+                {
+                    b.HasOne("Domain.Entities.Ticket", "Ticket")
+                        .WithOne("Job")
+                        .HasForeignKey("Domain.Entities.Job", "TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+                });
+
             modelBuilder.Entity("Domain.Entities.Phase", b =>
                 {
                     b.HasOne("Domain.Entities.Job", "Job")
@@ -354,14 +413,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Job", "Job")
-                        .WithOne("Ticket")
-                        .HasForeignKey("Domain.Entities.Ticket", "JobId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.Navigation("Device");
-
-                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("InvestigationIssue", b =>
@@ -400,6 +452,12 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Discount", b =>
+                {
+                    b.Navigation("BillingInformation")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.Job", b =>
                 {
                     b.Navigation("BillingInformation");
@@ -409,8 +467,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Investigation");
 
                     b.Navigation("Phases");
+                });
 
-                    b.Navigation("Ticket")
+            modelBuilder.Entity("Domain.Entities.Ticket", b =>
+                {
+                    b.Navigation("Job")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

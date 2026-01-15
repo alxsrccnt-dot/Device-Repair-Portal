@@ -24,11 +24,6 @@ internal class TicketProfileConfiguration : IEntityTypeConfiguration<Ticket>
                .HasForeignKey<Ticket>(t => t.DeviceId)
                .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(t => t.Job)
-               .WithOne(d => d.Ticket)
-               .HasForeignKey<Ticket>(t => t.JobId)
-               .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(t => t.Issues)
                .WithMany(i => i.Tickets)
                .UsingEntity(j => j.ToTable("TicketIssues"));
