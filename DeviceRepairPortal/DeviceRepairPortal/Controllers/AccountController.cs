@@ -30,7 +30,7 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
             });
         }
 
-        return RedirectToAction("Home", "Index");
+        return RedirectToAction("Index", "Ticket");
     }
 
     public IActionResult Register()
@@ -54,7 +54,7 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
             });
         }
 
-        return RedirectToAction("Home", "Index");
+        return RedirectToAction("Index", "Ticket");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

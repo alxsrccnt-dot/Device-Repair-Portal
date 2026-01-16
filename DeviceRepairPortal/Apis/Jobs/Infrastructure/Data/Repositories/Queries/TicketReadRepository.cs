@@ -9,6 +9,7 @@ internal class TicketReadRepository(ApplicationDbContext context) : ITicketReadR
     public async Task<DataWithTotalCount<Ticket>> GetUserTicketsAsync(PaginatedRequest<string> request)
     {
         var query = context.Tickets
+            .Include(t => t.Job)
             .Include(t => t.Device)
             .Include(t => t.Issues)
             .AsNoTracking()

@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dto;
+﻿namespace DeviceRepairPortal.Models.Device;
 
-public record DeviceDto
+public record DeviceModel
 {
     public string Brand { get; init; }
     public string Model { get; init; }

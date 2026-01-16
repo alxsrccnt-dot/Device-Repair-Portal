@@ -5,8 +5,9 @@ namespace Infrastructure.ApisClients.Monitoring;
 
 public class MonitoringServicesClient(HttpClient httpClient) : BaseApiClient(httpClient), IMonitoringServicesClient
 {
-    public Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request)
+        => await GetAsync<PaginatedResultDto<TicketDto>>(GetUserTicketsUrl(request));
+
+    private string GetUserTicketsUrl(PaginatedRequest request)
+        => string.Format(MonitoringApiRoutesConstants.GetUserTicketEndpointRoute, request.PageNumber, request.PageSize);
 }

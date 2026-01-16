@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dto;
+﻿using Infrastructure.ApisClients.Monitoring.Dto;
 
-public record TicketDto : BaseDto<Guid>
+namespace DeviceRepairPortal.Models.Ticket;
+
+public record TicketModel : BaseModel<Guid>
 {
     public string Description { get; init; }
     public DateTime? JobStartedAt { get; init; }

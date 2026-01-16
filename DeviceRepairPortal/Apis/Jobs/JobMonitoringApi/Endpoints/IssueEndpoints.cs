@@ -1,5 +1,4 @@
-﻿using Application.Management.Issues;
-using Carter;
+﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +8,13 @@ public class IssueEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var adminGroup = app.MapGroup("/api/admin/issues")
-            .RequireAuthorization("admins.manage"); ;
+        var adminGroup = app.MapGroup("/api/issues")
+            .AllowAnonymous();
 
-        adminGroup.MapPost("", CreateIssue)
-            .WithName(nameof(CreateIssue));
+        adminGroup.MapGet("", GetIssues)
+            .WithName(nameof(GetIssues));
     }
 
-    public async Task<IResult> CreateIssue([FromServices] IMediator mediator, [FromBody] CreateIssueRequest request)
-    {
-        await mediator.Send(new CreateIssueCommand(request));
-        return Results.Ok("Issue created.");
-    }
+    public async Task<IResult> GetIssues([FromServices] IMediator mediator)
+        => Results.Ok(await mediator.Send(new GetIssueQuery()));
 }
