@@ -1,3 +1,3 @@
-﻿namespace JobManagementApi.Infrastructure.Token;
+﻿namespace JobMonitoringApi.Infrastructure.Token;
 
 public record TokenSettings(string Secret, string Issuer, string Audience, int ExpirationInMinutes);

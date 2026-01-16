@@ -1,4 +1,4 @@
-﻿using Application.Tikets;
+﻿using Application.Management.Tikets;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

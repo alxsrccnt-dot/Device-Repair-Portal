@@ -15,7 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Services\" />
+    <Folder Include="Models\Ticket\" />
+    <Folder Include="Views\Ticket\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Portal\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

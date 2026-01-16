@@ -1,7 +1,7 @@
-﻿using Application.Jobs;
-using Application.Phases.Common;
-using Application.Phases.Repair;
-using Application.Phases.Return;
+﻿using Application.Management.Jobs;
+using Application.Management.Phases.Common;
+using Application.Management.Phases.Repair;
+using Application.Management.Phases.Return;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

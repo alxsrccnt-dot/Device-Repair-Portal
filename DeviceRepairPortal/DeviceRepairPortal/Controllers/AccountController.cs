@@ -1,6 +1,7 @@
-﻿using DeviceRepairPortal.Infrastructure.ApisClients;
-using DeviceRepairPortal.Models;
+﻿using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.Account;
+using Infrastructure.ApisClients.User;
+using Infrastructure.ApisClients.User.Requests.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -16,7 +17,8 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
     {
         if (ModelState.IsValid)
         {
-            var token = await authServicesClient.GetTokenAsync(model);
+            var token = await authServicesClient.GetTokenAsync(
+                new AuthenticationRequest(model.Email, model.Password));
             if (token is null)
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
@@ -37,11 +39,12 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
-        if (ModelState.IsValid)
+        if (ModelState.IsValid && model.Password == model.ConfirmPassword)
         {
-            var token = await authServicesClient.CreateAccountAndGetTokenAsync(model);
+            var token = await authServicesClient.CreateAccountAndGetTokenAsync(
+                new RegisterRequest(model.Username, model.Email, model.Password));
             if (token is null)
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+                ModelState.AddModelError(string.Empty, "Invalid register attempt");
 
             Response.Cookies.Append("access_token", token, new CookieOptions
             {

@@ -1,6 +1,6 @@
-﻿using JobManagementApi.Infrastructure;
+﻿using JobMonitoringApi.Infrastructure;
 
-namespace MainApi;
+namespace JobMonitoringApi;
 
 public static class DependencyInjection
 {

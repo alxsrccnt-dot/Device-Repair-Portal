@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
-namespace JobManagementApi.Infrastructure;
+namespace JobMonitoringApi.Infrastructure;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {

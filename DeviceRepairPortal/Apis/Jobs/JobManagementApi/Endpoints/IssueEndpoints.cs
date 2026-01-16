@@ -1,4 +1,4 @@
-﻿using Application.Issues;
+﻿using Application.Management.Issues;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Apis\Jobs\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobManagementApi", "Apis\Jobs\JobManagementApi\JobManagementApi.csproj", "{40DD7530-3C14-4846-9BAC-3F14F107195A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{7B6FA837-95BA-42DC-AF4E-5F5C2530259B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Portal\Infrastructure\Infrastructure.csproj", "{FFC9615A-776B-41CF-9064-D45FBBBB46A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,10 @@ Global
 		{40DD7530-3C14-4846-9BAC-3F14F107195A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40DD7530-3C14-4846-9BAC-3F14F107195A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40DD7530-3C14-4846-9BAC-3F14F107195A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC9615A-776B-41CF-9064-D45FBBBB46A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC9615A-776B-41CF-9064-D45FBBBB46A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC9615A-776B-41CF-9064-D45FBBBB46A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC9615A-776B-41CF-9064-D45FBBBB46A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +99,7 @@ Global
 		{8562B43A-6D02-4A83-8F6F-DFC1B1743511} = {3EEB852B-14F0-436A-9D87-CE8D3865E6B2}
 		{EB7F65BE-6C22-49C0-A398-91F2CA71EF30} = {3EEB852B-14F0-436A-9D87-CE8D3865E6B2}
 		{40DD7530-3C14-4846-9BAC-3F14F107195A} = {3EEB852B-14F0-436A-9D87-CE8D3865E6B2}
+		{FFC9615A-776B-41CF-9064-D45FBBBB46A3} = {7B6FA837-95BA-42DC-AF4E-5F5C2530259B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2B89E2F-B0E8-4C63-B1DF-97C50192FF23}

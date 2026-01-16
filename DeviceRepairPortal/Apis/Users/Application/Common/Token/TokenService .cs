@@ -7,12 +7,14 @@ using System.Text;
 
 namespace Application.Common.Token;
 
-public class TokenService(UserManager<User> userManager,TokenSettings jwtSettings) : ITokenService
+public class TokenService(UserManager<User> userManager, TokenSettings jwtSettings) : ITokenService
 {
 	public async Task<string> GenerateJwtToken(User user)
 	{
 		var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret));
 		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+		var roles = await userManager.GetRolesAsync(user);
 
 		var claims = new List<Claim>
 		{
@@ -31,6 +33,11 @@ public class TokenService(UserManager<User> userManager,TokenSettings jwtSetting
 		{
             claims.Add(new Claim("scope", "technicians.read"));
             claims.Add(new Claim("scope", "technicians.manage"));
+        }
+
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
         }
 
         var token = new JwtSecurityToken(

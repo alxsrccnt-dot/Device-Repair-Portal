@@ -1,4 +1,4 @@
-﻿using Application.Billings;
+﻿using Application.Management.Billings;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,9 +1,9 @@
-﻿using JobManagementApi.Infrastructure.Token;
+﻿using JobMonitoringApi.Infrastructure.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace JobManagementApi.Infrastructure;
+namespace JobMonitoringApi.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {

@@ -1,6 +1,9 @@
-﻿namespace DeviceRepairPortal.Controllers
+﻿using Infrastructure.ApisClients.Management;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DeviceRepairPortal.Controllers;
+
+public class TicketController(IManagementServicesClient TicketServicesClient) : Controller
 {
-    public class TicketController
-    {
-    }
+
 }

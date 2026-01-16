@@ -42,10 +42,12 @@ public static class DependencyInjection
 	private static IServiceCollection AddRepositories(this IServiceCollection services)
 	{
 		services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
-		services.AddScoped(typeof(ICreateRepository<>), typeof(CreateRepository<>));
+        services.AddScoped(typeof(IReadIssuesRepositories), typeof(ReadIssuesRepositories));
+        services.AddScoped(typeof(ITicketReadRepository), typeof(TicketReadRepository));
+
+        services.AddScoped(typeof(ICreateRepository<>), typeof(CreateRepository<>));
 		services.AddScoped(typeof(IUpdateRepository<>), typeof(UpdateRepository<>));
         services.AddScoped(typeof(IDeleteRepository<>), typeof(DeleteRepository<>));
-        services.AddScoped(typeof(IReadIssuesRepositories), typeof(ReadIssuesRepositories));
 
         return services;
 	}

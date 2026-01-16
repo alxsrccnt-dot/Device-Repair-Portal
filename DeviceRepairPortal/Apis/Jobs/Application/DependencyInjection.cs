@@ -14,8 +14,9 @@ public static class DependencyInjection
 			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 		});
 		services.AddServicesCollection();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-		return services;
+        return services;
 	}
 
 	private static IServiceCollection AddServicesCollection(this IServiceCollection services)

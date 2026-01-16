@@ -1,9 +1,9 @@
-﻿using Application.Issues;
+﻿using Application.Management.Issues;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobManagementApi.Endpoints;
+namespace JobMonitoringApi.Endpoints;
 
 public class IssueEndpoints : ICarterModule
 {

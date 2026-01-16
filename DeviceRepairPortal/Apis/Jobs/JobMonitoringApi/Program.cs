@@ -1,8 +1,8 @@
 using Application;
 using Carter;
 using Infrastructure;
-using JobManagementApi.Infrastructure;
-using MainApi;
+using JobMonitoringApi;
+using JobMonitoringApi.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
