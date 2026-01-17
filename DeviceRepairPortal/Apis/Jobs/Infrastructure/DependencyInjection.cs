@@ -44,7 +44,7 @@ public static class DependencyInjection
 		services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
         services.AddScoped(typeof(IReadIssuesRepositories), typeof(ReadIssuesRepositories));
         services.AddScoped(typeof(ITicketReadRepository), typeof(TicketReadRepository));
-        services.AddScoped(typeof(IIssueReadRepository), typeof(IssueReadRepository));
+        services.AddScoped(typeof(IJobReadRepository), typeof(JobReadRepository));
 
         services.AddScoped(typeof(ICreateRepository<>), typeof(CreateRepository<>));
 		services.AddScoped(typeof(IUpdateRepository<>), typeof(UpdateRepository<>));

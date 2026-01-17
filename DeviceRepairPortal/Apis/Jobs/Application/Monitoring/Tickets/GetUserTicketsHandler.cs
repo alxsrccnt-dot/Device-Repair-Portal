@@ -12,8 +12,8 @@ public class GetUserTicketsHandler(ICurrentUser currentUser, ITicketReadReposito
     public async Task<PaginatedResultDto<TicketDto>> Handle(GetUserTicketsQuery request, CancellationToken cancellationToken)
     {
         var ticketsWithTotalCount = await ticketReadRepository.GetUserTicketsAsync(
-            new PaginatedRequest<string>(currentUser.Email!, request.PageNumber, request.PageSize));
-        
+            new PaginatedRequest<string>(currentUser.Email!, request.PageNumber, request.PageSize), cancellationToken);
+
         var tickets = mapper.Map<List<TicketDto>>(ticketsWithTotalCount.Items);
 
         return new PaginatedResultDto<TicketDto>(tickets, request.PageNumber, request.PageSize, ticketsWithTotalCount.TotalCount);

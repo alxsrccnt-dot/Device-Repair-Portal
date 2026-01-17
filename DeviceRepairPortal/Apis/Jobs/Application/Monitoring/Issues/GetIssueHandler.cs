@@ -5,8 +5,8 @@ using MediatR;
 
 namespace Application.Monitoring.Issues;
 
-public class GetIssueHandler(IIssueReadRepository issueReadRepository, IMapper mapper) : IRequestHandler<GetIssueQuery, IEnumerable<IssueDto>>
+public class GetIssueHandler(IReadIssuesRepositories readIssuesRepositories, IMapper mapper) : IRequestHandler<GetIssueQuery, IEnumerable<IssueDto>>
 {
     public async Task<IEnumerable<IssueDto>> Handle(GetIssueQuery request, CancellationToken cancellationToken)
-        => mapper.Map<IEnumerable<IssueDto>>(await issueReadRepository.GetIssuesAsync());
+        => mapper.Map<IEnumerable<IssueDto>>(await readIssuesRepositories.GetIssuesAsync());
 }

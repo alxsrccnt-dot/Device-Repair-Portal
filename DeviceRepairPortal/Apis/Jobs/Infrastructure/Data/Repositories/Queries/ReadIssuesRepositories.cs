@@ -10,4 +10,7 @@ internal class ReadIssuesRepositories(ApplicationDbContext context) : IReadIssue
 
     public async Task<Issue?> GetByDevicePieceAsync(string devicePiece, CancellationToken cancellationToken = default)
         => await context.Issues.SingleOrDefaultAsync(i => i.DevicePiece == devicePiece, cancellationToken);
+
+    public async Task<IEnumerable<Issue>> GetIssuesAsync(CancellationToken cancellationToken = default)
+        => await context.Issues.OrderBy(i => i.Id).ToListAsync(cancellationToken);
 }

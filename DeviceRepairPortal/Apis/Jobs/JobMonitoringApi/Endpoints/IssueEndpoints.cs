@@ -1,4 +1,6 @@
-﻿using Carter;
+﻿using Application.Monitoring.Issues;
+using Application.Monitoring.Tickets;
+using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ public class IssueEndpoints : ICarterModule
             .WithName(nameof(GetIssues));
     }
 
-    public async Task<IResult> GetIssues([FromServices] IMediator mediator)
+    public async Task<IResult> GetIssues([FromServices] IMediator mediator,
+        [AsParameters] GetIssueQuery query)
         => Results.Ok(await mediator.Send(new GetIssueQuery()));
 }
