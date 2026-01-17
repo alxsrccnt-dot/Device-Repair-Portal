@@ -2,7 +2,7 @@
 
 namespace Application.Monitoring.Dtos;
 
-public record TicketDto : BaseDto<Guid>
+public class TicketDto : BaseDto<Guid>
 {
     public string Description { get; init; }
     public DateTime? JobStartedAt { get; init; }

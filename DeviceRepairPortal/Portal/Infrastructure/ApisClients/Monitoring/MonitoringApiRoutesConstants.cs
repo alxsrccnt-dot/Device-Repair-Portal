@@ -2,5 +2,5 @@
 
 public class MonitoringApiRoutesConstants
 {
-    public const string GetUserTicketEndpointRoute = "/api/tickets?pageNumber={page}&pageSize={size}";
+    public const string GetUserTicketEndpointRoute = "api/tickets?pageNumber={0}&pageSize={1}";
 }

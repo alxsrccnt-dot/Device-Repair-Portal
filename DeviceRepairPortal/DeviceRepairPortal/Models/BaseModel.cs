@@ -2,5 +2,5 @@
 
 public record BaseModel<T>
 {
-    public T Id { get; set; }
+    public T Id { get; init; }
 }

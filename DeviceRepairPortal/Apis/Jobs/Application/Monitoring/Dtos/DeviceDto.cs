@@ -1,6 +1,6 @@
 ﻿namespace Application.Monitoring.Dtos;
 
-public record DeviceDto
+public class DeviceDto
 {
     public string Brand { get; init; }
     public string Model { get; init; }

@@ -1,6 +1,6 @@
 ﻿namespace Application.Monitoring.Dtos;
 
-public record IssueDto
+public class IssueDto
 {
     public string DevicePiece { get; init; }
     public string Description { get; init; }

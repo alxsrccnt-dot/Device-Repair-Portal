@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dto;
+﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
 public record IssueDto
 {

@@ -2,7 +2,7 @@
 
 namespace Application.Monitoring.Dtos;
 
-public record CommentDto : CreatedInformationsDto
+public class CommentDto : CreatedInformationsDto
 {
     public string Content { get; init; }
 }

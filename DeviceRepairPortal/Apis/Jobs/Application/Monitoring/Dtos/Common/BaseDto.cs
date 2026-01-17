@@ -1,6 +1,6 @@
 ﻿namespace Application.Monitoring.Dtos.Common;
 
-public record BaseDto<T>
+public class BaseDto<T>
 {
-    public T Id;
+    public T Id { get; set; }
 };

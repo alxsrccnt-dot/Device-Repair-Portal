@@ -1,9 +1,95 @@
-﻿@{
-    ViewData["Title"] = "User tickets";
+﻿@using DeviceRepairPortal.Models.Ticket
+@using Infrastructure.ApisClients.Monitoring.Dtos
+
+@model PaginatedResultModel<TicketModel>
+
+@{
+    ViewData["Title"] = "My Tickets";
 }
 
-@model DeviceRepairPortal.Models.Ticket.TicketModel
+<h2 class="mb-4">My Tickets</h2>
 
-<div class="text-center">
-    <h1 class="display-4">User Tickets</h1>
-</div>
+@if (Model.IsEmpty())
+{
+    <div class="alert alert-info">
+        No tickets found.
+    </div>
+}
+else
+{
+    <div class="accordion" id="ticketsAccordion">
+        @foreach (var ticket in Model.Data)
+        {
+            var ticketId = ticket.Id;
+
+            <div class="accordion-item mb-2">
+                <h2 class="accordion-header" id="heading-@ticketId">
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapse-@ticketId">
+                        <strong>@ticket.Description</strong>
+                        <span class="ms-auto text-muted">
+                            @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+                        </span>
+                    </button>
+                </h2>
+
+                <div id="collapse-@ticketId"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#ticketsAccordion">
+                    <div class="accordion-body">
+
+                        <!-- Device -->
+                        <h5>Device</h5>
+                        <table class="table table-sm">
+                            <tr>
+                                <th>Brand</th>
+                                <td>@ticket.Device.Brand</td>
+                            </tr>
+                            <tr>
+                                <th>Model</th>
+                                <td>@ticket.Device.Model</td>
+                            </tr>
+                            <tr>
+                                <th>Serial Number</th>
+                                <td>@ticket.Device.SerialNumber</td>
+                            </tr>
+                        </table>
+
+                        <!-- Issues -->
+                        <h5 class="mt-3">Issues</h5>
+
+                        @if (!ticket.Issues.Any())
+                        {
+                            <p class="text-muted">No issues registered.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var issue in ticket.Issues)
+                                    {
+                                        <tr>
+                                            <td>@issue.DevicePiece</td>
+                                            <td>@issue.Description</td>
+                                            <td>@issue.Price.ToString("C")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -1,6 +1,6 @@
-﻿namespace Application.Monitoring.Dtos;
+﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
-public class DiscountDto
+public record DiscountDto
 {
     public string Code { get; init; }
     public int Value { get; init; }

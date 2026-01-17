@@ -2,7 +2,7 @@
 
 namespace Application.Monitoring.Dtos;
 
-public record InvestigationDto : CreatedInformationsDto
+public class InvestigationDto : CreatedInformationsDto
 {
     public string Conclusion { get; init; }
     public string Description { get; init; }

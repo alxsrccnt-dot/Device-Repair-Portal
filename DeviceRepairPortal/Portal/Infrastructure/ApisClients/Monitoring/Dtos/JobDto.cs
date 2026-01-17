@@ -1,8 +1,8 @@
-﻿using Application.Monitoring.Dtos.Common;
+﻿using Infrastructure.ApisClients.Monitoring.Dtos.Common;
 
-namespace Application.Monitoring.Dtos;
+namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
-public class JobDto : CreatedInformationsDto
+public record JobDto : CreatedInformationsDto
 {
     public DateTime? EndDate { get; init; }
     public JobTicketDto Ticket { get; init; }

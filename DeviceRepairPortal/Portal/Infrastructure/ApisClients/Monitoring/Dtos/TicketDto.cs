@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dto;
+﻿using Infrastructure.ApisClients.Monitoring.Dtos.Common;
+
+namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
 public record TicketDto : BaseDto<Guid>
 {

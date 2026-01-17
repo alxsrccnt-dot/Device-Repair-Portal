@@ -1,4 +1,4 @@
-﻿using Infrastructure.ApisClients.Monitoring.Dto;
+﻿using Infrastructure.ApisClients.Monitoring.Dtos;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
 
 namespace Infrastructure.ApisClients.Monitoring;
