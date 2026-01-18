@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DeviceRepairPortal.Models.Job;
 using Infrastructure.ApisClients.Management;
+using Infrastructure.ApisClients.Management.Requests.Jobs;
 using Infrastructure.ApisClients.Monitoring;
 using Infrastructure.ApisClients.Monitoring.Dtos;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
@@ -26,7 +27,7 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
     [HttpPost]
     public async Task<IActionResult> Create(Guid ticketId)
     {
-        
+        await managementServicesClient.CreateJobAsync(new CreateJobRequest() { TicketId = ticketId});
         return RedirectToAction("Index");
     }
 }
