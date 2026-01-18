@@ -28,18 +28,18 @@ public class JobEndpoints : ICarterModule
     public async Task<IResult> CreateJob([FromServices] IMediator mediator, [FromBody] CreateJobRequest request)
     {
         await mediator.Send(new CreateJobCommand(request));
-        return Results.Ok("Job created.");
+        return Results.Ok();
     }
 
     public async Task<IResult> CreateRepairPhase([FromServices] IMediator mediator, [FromBody] CreatePhaseRequest request)
     {
         await mediator.Send(new CreateRepairPhaseCommand(request));
-        return Results.Ok("Repair phase add to current job.");
+        return Results.Ok();
     }
 
     public async Task<IResult> CreateReturnPhase([FromServices] IMediator mediator, [FromBody] CreatePhaseRequest request)
     {
         await mediator.Send(new CreateReturnPhaseCommand(request));
-        return Results.Ok("Return phase add to current job.");
+        return Results.Ok();
     }
 }

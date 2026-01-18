@@ -22,7 +22,7 @@ public class MonitoringServicesClient(HttpClient httpClient) : BaseApiClient(htt
         => string.Format(MonitoringApiRoutesConstants.GetUserTicketEndpointRoute, request.PageNumber, request.PageSize);
 
     private string GetTicketsUrl(GetTicketsRequest request)
-        => string.Format(MonitoringApiRoutesConstants.GetUserTicketEndpointRoute, request.PageNumber, request.PageSize);
+        => string.Format(MonitoringApiRoutesConstants.GetTicketsEndpointRoute, request.PageNumber, request.PageSize);
 
     private string GetTehnicianJobsUrl(PaginatedRequest request)
         => string.Format(MonitoringApiRoutesConstants.GetTehnicianJobsEndpointRoute, request.PageNumber, request.PageSize);

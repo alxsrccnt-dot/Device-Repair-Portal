@@ -19,6 +19,6 @@ public class InvestigationEndpoints : ICarterModule
     public async Task<IResult> CreateInvestigation([FromServices] IMediator mediator, [FromBody] CreateInvestigationRequest request)
     {
         await mediator.Send(new CreateInvestigationCommand(request));
-        return Results.Ok("Investigation was added.");
+        return Results.Ok();
     }
 }

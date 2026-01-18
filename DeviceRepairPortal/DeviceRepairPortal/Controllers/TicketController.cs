@@ -22,12 +22,12 @@ public class TicketController(IMonitoringServicesClient monitoringServicesClient
         PaginatedResultDto<TicketDto> paginatedResult;
         if (User.IsInRole("Technician") || User.IsInRole("Admin"))
             paginatedResult = await monitoringServicesClient
-                .GetUserTicketsAsync(new GetTicketsRequest(userEmail, isActive, pageNumber, pageSize));
+                .GetTicketsAsync(new GetTicketsRequest(userEmail, isActive, pageNumber, pageSize));
         else
             paginatedResult = await monitoringServicesClient
                 .GetUserTicketsAsync(new PaginatedRequest(pageNumber, pageSize));
 
-        var model = mapper.Map<PaginatedResultViewModel<TicketViewModel>>(dto);
+        var model = mapper.Map<PaginatedResultViewModel<TicketViewModel>>(paginatedResult);
 
         return View(model);
     }

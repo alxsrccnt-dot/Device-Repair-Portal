@@ -19,6 +19,6 @@ public class BillingInformationEndpoints : ICarterModule
     public async Task<IResult> CreateBillingInformation([FromServices] IMediator mediator, [FromBody] CreateBillingInformationRequest request)
     {
         await mediator.Send(new CreateBillingInformationCommand(request));
-        return Results.Ok("Billing was added.");
+        return Results.Ok();
     }
 }

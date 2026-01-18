@@ -11,12 +11,11 @@ public class GetTicketsHandler(ICurrentUser currentUser, ITicketReadRepository t
 {
     public async Task<PaginatedResultDto<TicketDto>> Handle(GetTicketsQuery query, CancellationToken cancellationToken)
     {
-        var request = query.Request;
         var ticketsWithTotalCount = await ticketReadRepository.GetUserTicketsAsync(
-            new TicketsRequest(request.UserEmail, request.IsActive, request.PageNumber, request.PageSize), cancellationToken);
+            new TicketsRequest(query.UserEmail, query.IsActive, query.PageNumber, query.PageSize), cancellationToken);
 
         var tickets = mapper.Map<List<TicketDto>>(ticketsWithTotalCount.Items);
 
-        return new PaginatedResultDto<TicketDto>(tickets, request.PageNumber, request.PageSize, ticketsWithTotalCount.TotalCount);
+        return new PaginatedResultDto<TicketDto>(tickets, query.PageNumber, query.PageSize, ticketsWithTotalCount.TotalCount);
     }
 }

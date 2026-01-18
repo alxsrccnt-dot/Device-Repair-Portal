@@ -19,6 +19,6 @@ public class TicketEndpoints : ICarterModule
     public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)
     {
         await mediator.Send(new CreateTicketCommand(request));
-        return Results.Ok("Ticket created.");
+        return Results.Ok();
     }
 }

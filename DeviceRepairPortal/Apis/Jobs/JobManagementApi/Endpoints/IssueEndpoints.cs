@@ -19,6 +19,6 @@ public class IssueEndpoints : ICarterModule
     public async Task<IResult> CreateIssue([FromServices] IMediator mediator, [FromBody] CreateIssueRequest request)
     {
         await mediator.Send(new CreateIssueCommand(request));
-        return Results.Ok("Issue created.");
+        return Results.Ok();
     }
 }

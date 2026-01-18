@@ -1,7 +1,7 @@
 ﻿@using DeviceRepairPortal.Models.Ticket
 @model CreateTicketViewModel
 
-<form asp-action="Create" method="post">
+<form method="post">
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
@@ -15,8 +15,8 @@
             <input asp-for="Brand" class="form-control" />
         </div>
         <div class="col">
-            <label asp-for="Model"></label>
-            <input asp-for="Model" class="form-control" />
+            <label asp-for="DeviceModel"></label>
+            <input asp-for="DeviceModel" class="form-control" />
         </div>
         <div class="col">
             <label asp-for="SerialNumber"></label>
