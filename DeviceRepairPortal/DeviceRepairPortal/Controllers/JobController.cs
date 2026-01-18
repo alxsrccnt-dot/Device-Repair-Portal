@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DeviceRepairPortal.Models.BillingInformation;
 using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
 using Infrastructure.ApisClients.Management;
@@ -40,6 +41,17 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
         // model.Conclusion
         // model.Description
         // model.IssueIds
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddBilling(CreateBillingInformationInputModel model)
+    {
+        // call API / service
+        // model.JobId
+        // model.Amount
+        // model.DiscountId
 
         return RedirectToAction(nameof(Index));
     }
