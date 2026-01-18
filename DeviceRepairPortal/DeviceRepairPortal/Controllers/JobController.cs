@@ -55,4 +55,38 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
 
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddRepairPhase(CreateBillingInformationInputModel model)
+    {
+        // call API / service
+        // model.JobId
+        // model.Amount
+        // model.DiscountId
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddReturnPhase(CreateBillingInformationInputModel model)
+    {
+        // call API / service
+        // model.JobId
+        // model.Amount
+        // model.DiscountId
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> AddComment(CreateBillingInformationInputModel model)
+    {
+        // call API / service
+        // model.JobId
+        // model.Amount
+        // model.DiscountId
+
+        return RedirectToAction(nameof(Index));
+    }
 }
