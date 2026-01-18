@@ -7,10 +7,11 @@ namespace DeviceRepairPortal.Models.Job;
 
 public record JobViewModel : CreatedInformationsViewModel
 {
-    public DateTime? EndDate { get; init; }
-    public JobTicketViewModel Ticket { get; init; }
-    public InvestigationViewModel? Investigation { get; init; }
-    public BillingInformationViewModel? BillingInformation { get; init; }
+    public Guid Id { get; set; }
+    public DateTime? EndDate { get; set; }
+    public JobTicketViewModel Ticket { get; set; }
+    public InvestigationViewModel? Investigation { get; set; }
+    public BillingInformationViewModel? BillingInformation { get; set; }
 
     public ICollection<CommentViewModel> Comments { get; set; } = [];
     public ICollection<PhaseViewModel> Phases { get; set; } = [];

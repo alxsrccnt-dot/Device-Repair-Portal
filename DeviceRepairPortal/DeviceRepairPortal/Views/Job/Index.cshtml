@@ -70,6 +70,63 @@ else
                             <p><strong>@job.Investigation.Conclusion</strong></p>
                             <p>@job.Investigation.Description</p>
                         }
+                        else
+                            {
+                            <div class="card mt-3 border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    <strong>Add Investigation</strong>
+                                </div>
+
+                                <div class="card-body">
+                                    <form asp-controller="Job"
+                                          asp-action="AddInvestigation"
+                                          method="post">
+
+                                        <input type="hidden" name="JobId" value="@job.Id" />
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Conclusion</label>
+                                            <input name="Conclusion"
+                                                   class="form-control"
+                                                   placeholder="e.g. Screen replacement required"
+                                                   required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea name="Description"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Detailed technical findings"
+                                          required></textarea>
+                                        </div>
+
+                                        <!-- Issues (checkbox list) -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Related Issues</label>
+
+                                            @foreach (var issue in job.Ticket.Issues)
+                                            {
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           name="IssueIds"
+                                                           value="@issue.Id" />
+
+                                                    <label class="form-check-label">
+                                                        @issue.DevicePiece (@issue.Price.ToString("C"))
+                                                    </label>
+                                                </div>
+                                            }
+                                    </div>
+
+                                    <button type="submit" class="btn btn-warning">
+                                        Save Investigation
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        }
 
                         @if (job.BillingInformation != null)
                         {

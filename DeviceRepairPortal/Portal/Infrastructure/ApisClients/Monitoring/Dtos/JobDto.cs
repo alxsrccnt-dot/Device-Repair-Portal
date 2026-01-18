@@ -4,6 +4,7 @@ namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
 public record JobDto : CreatedInformationsDto
 {
+    public Guid Id { get; set; }
     public DateTime? EndDate { get; init; }
     public JobTicketDto Ticket { get; init; }
     public InvestigationDto? Investigation { get; init; }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
 using Infrastructure.ApisClients.Management;
 using Infrastructure.ApisClients.Management.Requests.Jobs;
@@ -29,5 +30,17 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
     {
         await managementServicesClient.CreateJobAsync(new CreateJobRequest() { TicketId = ticketId});
         return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddInvestigation(CreateInvestigationInputModel model)
+    {
+        // call API / service here
+        // model.JobId
+        // model.Conclusion
+        // model.Description
+        // model.IssueIds
+
+        return RedirectToAction(nameof(Index));
     }
 }
