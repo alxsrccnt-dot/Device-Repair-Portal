@@ -31,6 +31,7 @@ else
                         <span class="ms-auto text-muted">
                             @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")
                         </span>
+                        <a asp-controller="job" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
                     </button>
                 </h2>
 
@@ -92,3 +93,40 @@ else
         }
     </div>
 }
+
+<!-- PAGINATION -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber - 1)"
+               asp-route-pageSize="@Model.PageSize">
+                Previous
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@i"
+                   asp-route-pageSize="@Model.PageSize">
+                    @i
+                </a>
+            </li>
+        }
+
+        <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber + 1)"
+               asp-route-pageSize="@Model.PageSize">
+                Next
+            </a>
+        </li>
+
+    </ul>
+</nav>

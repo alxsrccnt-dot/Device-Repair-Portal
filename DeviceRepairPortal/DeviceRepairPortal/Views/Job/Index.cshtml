@@ -1,0 +1,133 @@
+﻿@using DeviceRepairPortal.Models.Job
+@using Infrastructure.ApisClients.Monitoring.Dtos
+@model PaginatedResultViewModel<JobViewModel>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<h1 class="mb-4">Jobs</h1>
+
+@if (Model.IsEmpty())
+{
+    <p>No jobs found.</p>
+}
+else
+{
+    <div class="accordion" id="jobsAccordion">
+        @foreach (var jobItem in Model.Data.Select((value, index) => new { value, index }))
+        {
+            var job = jobItem.value;
+            var collapseId = $"collapse-{jobItem.index}";
+            var headingId = $"heading-{jobItem.index}";
+
+            <div class="accordion-item mb-3 shadow-sm">
+                <h2 class="accordion-header" id="@headingId">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#@collapseId"
+                            aria-expanded="false"
+                            aria-controls="@collapseId">
+
+                        <strong>@job.Ticket.Description</strong>
+                        <span class="ms-3 text-muted">@job.CreateAt.ToString("g")</span>
+                    </button>
+                </h2>
+
+                <div id="@collapseId"
+                     class="accordion-collapse collapse"
+                     aria-labelledby="@headingId"
+                     data-bs-parent="#jobsAccordion">
+
+                    <div class="accordion-body job-scroll-container">
+
+                        <h5>Device</h5>
+                        <p>@job.Ticket.Device.Brand @job.Ticket.Device.Model</p>
+                        <p>SN: @job.Ticket.Device.SerialNumber</p>
+
+                        <h5>Issues</h5>
+                        <ul>
+                            @foreach (var issue in job.Ticket.Issues)
+                            {
+                                <li>@issue.DevicePiece - @issue.Price.ToString("C")</li>
+                            }
+                        </ul>
+
+                        <h5>Phases</h5>
+                        <ul class="timeline mb-4">
+                            @foreach (var phase in job.Phases.OrderBy(p => p.CreateAt))
+                            {
+                                <li class="timeline-item">
+                                    <span class="timeline-date">@phase.CreateAt.ToString("g")</span>
+                                    <span class="timeline-state">@phase.State</span>
+                                </li>
+                            }
+                        </ul>
+
+                        @if (job.Investigation != null)
+                        {
+                            <h5>Investigation</h5>
+                            <p><strong>@job.Investigation.Conclusion</strong></p>
+                            <p>@job.Investigation.Description</p>
+                        }
+
+                        @if (job.BillingInformation != null)
+                        {
+                            <h5>Billing</h5>
+                            <p>Amount: @job.BillingInformation.Amount.ToString("C")</p>
+                        }
+
+                        @if (job.Comments.Any())
+                        {
+                            <h5>Comments</h5>
+                            <ul>
+                                @foreach (var comment in job.Comments)
+                                {
+                                    <li><strong>@comment.CreatedBy</strong>: @comment.Content</li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- PAGINATION -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber - 1)"
+                   asp-route-pageSize="@Model.PageSize">
+                    Previous
+                </a>
+            </li>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@Model.PageSize">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                   asp-route-pageSize="@Model.PageSize">
+                    Next
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+}

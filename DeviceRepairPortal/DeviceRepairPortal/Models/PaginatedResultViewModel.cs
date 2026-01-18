@@ -7,7 +7,7 @@ public class PaginatedResultViewModel<T>(IEnumerable<T> data,
 	public int PageNumber { get; set; } = pageNumber;
 	public int PageSize { get; set; } = pageSize;
 	public int TotalCount { get; set; } = totalCount;
-	public int TotalPages { get; set; } = totalCount / pageSize;
+	public int TotalPages { get; set; } = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-	public bool IsEmpty() => TotalCount == 0;
+    public bool IsEmpty() => TotalCount == 0;
 }

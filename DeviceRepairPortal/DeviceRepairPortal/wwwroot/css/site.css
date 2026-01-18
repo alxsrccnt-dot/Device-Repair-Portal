@@ -145,3 +145,91 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* ============================
+   JOBS – ACCORDION SCROLL
+   ============================ */
+
+.job-scroll-container {
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+    /* Smooth scrollbar */
+    .job-scroll-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .job-scroll-container::-webkit-scrollbar-thumb {
+        background-color: #adb5bd;
+        border-radius: 4px;
+    }
+
+/* ============================
+   TIMELINE
+   ============================ */
+
+.timeline {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 10px;
+    border-left: 3px solid #0d6efd;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+    .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -9px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        background-color: #0d6efd;
+        border-radius: 50%;
+    }
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+    display: block;
+}
+
+.timeline-state {
+    font-weight: 600;
+}
+
+/* ============================
+   ACCORDION IMPROVEMENTS
+   ============================ */
+
+.accordion-item {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-button {
+    font-weight: 600;
+}
+
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #0d6efd;
+    }
+
+/* ============================
+   TYPOGRAPHY HELPERS
+   ============================ */
+
+h5 {
+    margin-top: 1rem;
+}
+
+ul {
+    margin-bottom: 0.5rem;
+}

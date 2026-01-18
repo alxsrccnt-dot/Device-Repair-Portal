@@ -21,6 +21,7 @@ public class DtoToViewModelProfile : Profile
         CreateMap<DeviceDto, DeviceViewModel>();
         CreateMap<IssueDto, IssueViewModel>();
 
+        CreateMap<PaginatedResultDto<JobDto>, PaginatedResultViewModel<JobViewModel>>();
         CreateMap<JobDto, JobViewModel>()
             .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))
