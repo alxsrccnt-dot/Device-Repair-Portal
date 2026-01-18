@@ -1,32 +1,31 @@
-using System.Diagnostics;
+using AutoMapper;
 using DeviceRepairPortal.Models;
+using DeviceRepairPortal.Models.Home;
+using DeviceRepairPortal.Models.Issue;
+using Infrastructure.ApisClients.Monitoring;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
-namespace DeviceRepairPortal.Controllers
+namespace DeviceRepairPortal.Controllers;
+
+public class HomeController(IMonitoringServicesClient monitoringServicesClient, IMapper mapper) : Controller
 {
-    public class HomeController : Controller
+    public async Task<IActionResult> Index()
     {
-        private readonly ILogger<HomeController> _logger;
+        var issues = await monitoringServicesClient.GetIssuesAsync();
 
-        public HomeController(ILogger<HomeController> logger)
+        var vm = new HomePageViewModel
         {
-            _logger = logger;
-        }
+            Issues = mapper.Map<IEnumerable<IssueViewModel>>(issues)
+        };
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(vm);
     }
+
+    public IActionResult Privacy()
+        => View();
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+        => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 }

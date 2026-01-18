@@ -1,0 +1,32 @@
+﻿@{
+	Layout = "_EmptyLayout";
+	ViewData["Title"] = "Login";
+}
+@model DeviceRepairPortal.Models.Account.LoginViewModel
+
+<div class="d-flex h-100">
+	<div class="section m-auto">
+		<div class="content simple-page-body">
+			<div class="data">
+				<form method="post">
+					<h3 class="mb-3 fw-normal text-color">Sign in</h3>
+					<div class="form-floating mb-3">
+						<input asp-for="Email" class="form-control" id="floatingInput" placeholder="name@example.com">
+						<label for="floatingInput">@Html.DisplayNameFor(model => model.Email)</label>
+						<span asp-validation-for="Email" class="text-danger"></span>
+					</div>
+					<div class="form-floating mb-3">
+						<input asp-for="Password" class="form-control" id="floatingPassword" placeholder="Password">
+						<label for="floatingPassword">@Html.DisplayNameFor(model => model.Password)</label>
+						<span asp-validation-for="Password" class="text-danger"></span>
+					</div>
+					<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+				</form>
+				<div class="simple-page-body-footer">
+					<p>Don't have an account?</p>
+					<a class="nav-link text-white btn btn-lg btn-primary" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
