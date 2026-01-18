@@ -31,7 +31,6 @@ else
                         <span class="ms-auto text-muted">
                             @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")
                         </span>
-                        <a asp-controller="job" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
                     </button>
                 </h2>
 
@@ -41,7 +40,13 @@ else
                     <div class="accordion-body">
 
                         <!-- Device -->
-                        <h5>Device</h5>
+                        <div class="ticket-header">
+                            <h5>Device</h5>
+                            <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
+                                <input type="hidden" name="ticketId" value="@ticketId" />
+                                <button type="submit" class="btn btn-sm btn-primary ms-3">Repair this device</button>
+                            </form>
+                        </div>
                         <table class="table table-sm">
                             <tr>
                                 <th>Brand</th>

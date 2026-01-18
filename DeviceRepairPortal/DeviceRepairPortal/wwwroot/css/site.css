@@ -233,3 +233,8 @@ h5 {
 ul {
     margin-bottom: 0.5rem;
 }
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+}
