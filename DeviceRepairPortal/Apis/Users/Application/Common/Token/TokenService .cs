@@ -20,8 +20,9 @@ public class TokenService(UserManager<User> userManager, TokenSettings jwtSettin
 		{
 			new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 			new Claim(JwtRegisteredClaimNames.Email, user.Email!.ToString()),
-			new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!)
-		};
+			new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
+			new Claim(ClaimTypes.Name, user.UserName!)
+        };
 
 		if (await userManager.IsInRoleAsync(user, AppRoles.Admin))
 		{
