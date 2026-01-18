@@ -93,6 +93,14 @@ body {
     margin-left: 10px
 }
 
+.btn-outline-danger{
+    color:red !important;
+}
+
+.btn-outline-danger.btn:hover {
+    color: white !important;
+}
+
 .simple-page-body {
     width: 22vw;
     height: 40vh;

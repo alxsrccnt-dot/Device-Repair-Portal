@@ -42,14 +42,10 @@ public static class DependencyInjection
 
         services.AddHttpClient<IManagementServicesClient, ManagementServicesClient>((sp, c) =>
         {
-            var httpContext = sp.GetRequiredService<HttpContext>();
-            var token = httpContext.Request.Cookies["access_token"];
             var managementApiBaseUrl = config[ManagementApiBaseUrlKey];
             if (managementApiBaseUrl == null)
                 throw new NotFoundException("ManagementApiBaseUrl is missing.");
 
-            c.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token);
             c.BaseAddress = new Uri(config[ManagementApiBaseUrlKey]);
         })
         .AddHttpMessageHandler<BearerTokenHandler>();

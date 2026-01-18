@@ -1,6 +1,8 @@
-﻿namespace Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Dtos.Common;
 
-public class IssueDto
+namespace Application.Monitoring.Dtos;
+
+public class IssueDto : BaseDto<int>
 {
     public string DevicePiece { get; init; }
     public string Description { get; init; }

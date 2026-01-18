@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
+﻿using Infrastructure.ApisClients.Monitoring.Dtos.Common;
 
-public record IssueDto
+namespace Infrastructure.ApisClients.Monitoring.Dtos;
+
+public record IssueDto : BaseDto<int>
 {
     public string DevicePiece { get; init; }
     public string Description { get; init; }

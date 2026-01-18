@@ -5,6 +5,7 @@ using Infrastructure.ApisClients.User.Requests.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace DeviceRepairPortal.Controllers;
@@ -31,19 +32,12 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 SameSite = SameSiteMode.Strict
             });
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, model.Email),
-                new Claim(ClaimTypes.Email, model.Email)
-            };
-
-            await HttpContext.SignInAsync(
-                "Cookies",
-                new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies"))
-            );
+            await SignInWithJwtAsync(token);
+            return RedirectToAction("Index", "Ticket");
         }
 
-        return RedirectToAction("Index", "Ticket");
+        ModelState.AddModelError(string.Empty, "Invalid register attempt");
+        return View();
     }
 
     public IActionResult Register()
@@ -65,9 +59,12 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 Secure = true,
                 SameSite = SameSiteMode.Strict
             });
+            await SignInWithJwtAsync(token);
+            return RedirectToAction("Index", "Ticket");
         }
 
-        return RedirectToAction("Index", "Ticket");
+        ModelState.AddModelError(string.Empty, "Invalid register attempt");
+        return View();
     }
 
     [HttpPost]
@@ -80,4 +77,21 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
         => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+    private async Task SignInWithJwtAsync(string jwt)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(jwt);
+
+        var identity = new ClaimsIdentity(
+            token.Claims,
+            "Cookies",
+            ClaimTypes.Name,
+            ClaimTypes.Role
+        );
+
+        var principal = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignInAsync("Cookies", principal);
+    }
 }

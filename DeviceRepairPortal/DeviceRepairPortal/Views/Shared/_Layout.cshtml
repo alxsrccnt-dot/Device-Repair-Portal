@@ -10,22 +10,6 @@
 </head>
 <body>
     <header class="container-header">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <span class="text-success">Authenticated</span>
-        }
-        else
-        {
-            <span class="text-danger">Not Authenticated</span>
-        }
-        @if (User.Identity.IsAuthenticated)
-        {
-            <li class="nav-item">
-                <span class="nav-link text-muted">
-                    Hello, @User.Identity.Name
-                </span>
-            </li>
-        }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mobile repair</a>
@@ -41,13 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Index">Tickets</a>
                         </li>
+                        @if (User.IsInRole("Technician"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Index">Tickets</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="navbar-nav left-navbar">
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item left-nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                    <button type="submit" class="nav-link text-white btn btn-lg btn-outline-danger">
+                                    <button type="submit" class="nav-link btn btn-lg btn-outline-danger">
                                         Logout
                                     </button>
                                 </form>

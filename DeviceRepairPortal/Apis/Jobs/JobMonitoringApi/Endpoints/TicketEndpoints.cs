@@ -14,9 +14,18 @@ public class TicketEndpoints : ICarterModule
 
         group.MapGet("", GetUserTickets)
             .WithName(nameof(GetUserTickets));
+
+        var tehnicianGroup = app.MapGroup("/api/tehnician/tickets")
+            .RequireAuthorization("technicians.read");
+        tehnicianGroup.MapGet("", GetTickets)
+            .WithName(nameof(GetTickets));
     }
 
     public async Task<IResult> GetUserTickets([FromServices] IMediator mediator,
         [AsParameters] GetUserTicketsQuery query)
+        => Results.Ok(await mediator.Send(query));
+
+    public async Task<IResult> GetTickets([FromServices] IMediator mediator,
+        [AsParameters] GetTicketsQuery query)
         => Results.Ok(await mediator.Send(query));
 }

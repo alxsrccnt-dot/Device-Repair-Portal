@@ -5,5 +5,5 @@ namespace Infrastructure.ApisClients.Management;
 
 public interface IManagementServicesClient
 {
-    Task<IResult> CreateTicket(CreateTicketRequest requst);
+    Task<IResult> CreateTicketAsync(CreateTicketRequest requst);
 }

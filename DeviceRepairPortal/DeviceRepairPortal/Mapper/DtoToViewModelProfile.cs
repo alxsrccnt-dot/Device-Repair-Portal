@@ -12,9 +12,9 @@ using Infrastructure.ApisClients.Monitoring.Dtos;
 
 namespace DeviceRepairPortal.Mapper;
 
-public class ApiToVmProfile : Profile
+public class DtoToViewModelProfile : Profile
 {
-    public ApiToVmProfile()
+    public DtoToViewModelProfile()
     {
         CreateMap<PaginatedResultDto<TicketDto>, PaginatedResultViewModel<TicketViewModel>>();
         CreateMap<TicketDto, TicketViewModel>();
