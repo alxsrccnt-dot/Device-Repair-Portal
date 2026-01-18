@@ -5,5 +5,5 @@ namespace Infrastructure.Data.Repositories.Queries;
 
 public interface ITicketReadRepository
 {
-    Task<DataWithTotalCount<Ticket>> GetUserTicketsAsync(PaginatedRequest<string> request, CancellationToken cancellationToken = default);
+    Task<DataWithTotalCount<Ticket>> GetUserTicketsAsync(TicketsRequest request, CancellationToken cancellationToken = default);
 }

@@ -1,3 +1,16 @@
+:root {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    --title-font-size: 2.5rem;
+    --second-title-font-size: 2rem;
+    --section-title-font-size: 1.5rem;
+    --text-font-size: 13px;
+    --border-radius: 13px;
+    --main-color: #00bfa6;
+}
+
 html {
   font-size: 14px;
 }
@@ -18,5 +31,109 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url("/images/bg1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center 0px; /* stays while scrolling */
+}
+
+.container-body {
+    margin: 0 auto;
+    background: aliceblue;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px #0006;
+    height: 85vh;
+}
+
+.container-footer {
+    width: 75vw;
+    margin: 0 auto;
+    background: aliceblue;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.container-header {
+    width: 75vw !important;
+    margin: 0 auto;
+    background: aliceblue;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    max-width: 1320px;
+}
+
+.container-child{
+    width: 1200px;
+    margin-top: 30px;
+}
+
+.container-child .accordion-item {
+    box-shadow: 2px 4px 10px #0006;
+}
+
+.accordion-item:first-of-type {
+    border-top-left-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    box-shadow: 1px 2px 6px #0006;
+}
+
+.left-nav {
+    display: flex;
+}
+
+.left-nav-item {
+    width: 120px;
+    margin-left: 10px
+}
+
+.simple-page-body {
+    width: 22vw;
+    height: 40vh;
+    background: aliceblue;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px #0006;
+}
+
+.simple-page-body .data {
+    width: 340px;
+}
+
+.simple-page-body h3{
+    text-align: center
+}
+
+.simple-page-body-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.simple-page-body-footer > a{
+    width: 100%;
+}
+
+.container-footer-simple {
+    width: 22vw;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 22px;
+    background: aliceblue;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

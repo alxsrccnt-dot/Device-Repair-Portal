@@ -12,7 +12,7 @@ internal class GetTehnicianJobsHandler(ICurrentUser currentUser, IJobReadReposit
     public async Task<PaginatedResultDto<JobDto>> Handle(GetTehnicianJobsQuery request, CancellationToken cancellationToken)
     {
         var jobsWithTotalCount = await jobReadRepository.GetTehnicianJobsAsync(
-            new PaginatedRequest<string>(currentUser.Email!, request.PageNumber, request.PageSize), cancellationToken);
+            new JobsRequest(currentUser.Email!, null, request.PageNumber, request.PageSize), cancellationToken);
 
         var jobs = mapper.Map<List<JobDto>>(jobsWithTotalCount.Items);
 

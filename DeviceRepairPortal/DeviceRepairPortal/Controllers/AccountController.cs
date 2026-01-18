@@ -2,8 +2,10 @@
 using DeviceRepairPortal.Models.Account;
 using Infrastructure.ApisClients.User;
 using Infrastructure.ApisClients.User.Requests.Auth;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace DeviceRepairPortal.Controllers;
 
@@ -28,6 +30,17 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 Secure = true,
                 SameSite = SameSiteMode.Strict
             });
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.Email),
+                new Claim(ClaimTypes.Email, model.Email)
+            };
+
+            await HttpContext.SignInAsync(
+                "Cookies",
+                new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies"))
+            );
         }
 
         return RedirectToAction("Index", "Ticket");
@@ -55,6 +68,13 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
         }
 
         return RedirectToAction("Index", "Ticket");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync("Cookies");
+        return RedirectToAction("Index", "Home");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

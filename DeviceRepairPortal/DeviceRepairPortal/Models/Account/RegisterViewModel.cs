@@ -9,12 +9,12 @@ namespace DeviceRepairPortal.Models.Account
         [Required]
         public string Username { get; set; }
 
-        [DisplayName("E-mail")]
+        [DisplayName("Email")]
 		[Required]
 		[EmailAddress]
 		public string Email { get; set; }
 
-		[DisplayName("Parola")]
+		[DisplayName("Password")]
 		[Required]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }

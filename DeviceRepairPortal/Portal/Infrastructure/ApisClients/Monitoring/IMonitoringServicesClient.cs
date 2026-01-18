@@ -6,4 +6,5 @@ namespace Infrastructure.ApisClients.Monitoring;
 public interface IMonitoringServicesClient
 {
     Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request);
+    Task<PaginatedResultDto<JobDto>> GetTehnicianJobsAsync(PaginatedRequest request);
 }

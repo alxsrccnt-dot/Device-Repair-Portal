@@ -6,7 +6,7 @@ namespace Infrastructure.Data.Repositories.Queries;
 
 internal class JobReadRepository(ApplicationDbContext context) : IJobReadRepository
 {
-    public async Task<DataWithTotalCount<Job>> GetTehnicianJobsAsync(PaginatedRequest<string> request, CancellationToken cancellationToken = default)
+    public async Task<DataWithTotalCount<Job>> GetTehnicianJobsAsync(JobsRequest request, CancellationToken cancellationToken = default)
     {
         var query = context.Jobs
             .Include(j => j.Ticket)
@@ -19,8 +19,15 @@ internal class JobReadRepository(ApplicationDbContext context) : IJobReadReposit
             .Include(j => j.Phases)
             .AsNoTracking()
             .OrderByDescending(t => t.CreateAt)
-            .Where(t => t.CreatedBy == request.Value)
             .AsQueryable();
+
+        if (request.CreateBy is not null)
+            query = query.Where(t => t.CreatedBy == request.CreateBy);
+
+        if (request.InProgres is not null && request.InProgres == true)
+            query = query.Where(t => t.EndDate == null);
+        else if (request.InProgres is not null && request.InProgres == false)
+            query = query.Where(t => t.EndDate != null);
 
         var jobs = await query
             .Skip((request.PageNumber - 1) * request.PageSize)

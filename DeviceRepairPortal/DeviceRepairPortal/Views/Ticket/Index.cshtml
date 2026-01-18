@@ -1,7 +1,7 @@
 ﻿@using DeviceRepairPortal.Models.Ticket
 @using Infrastructure.ApisClients.Monitoring.Dtos
 
-@model PaginatedResultModel<TicketModel>
+@model PaginatedResultViewModel<TicketViewModel>
 
 @{
     ViewData["Title"] = "My Tickets";
@@ -24,7 +24,7 @@ else
 
             <div class="accordion-item mb-3">
                 <h2 class="accordion-header" id="heading-@ticketId">
-                    <button class="accordion-button mb-3 collapsed"
+                    <button class="accordion-button collapsed"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapse-@ticketId">
@@ -58,7 +58,7 @@ else
                         </table>
 
                         <!-- Issues -->
-                        <h5 class="mt-3">Issues</h5>
+                        <h5 class="mt-3 mb-1">Issues</h5>
 
                         @if (!ticket.Issues.Any())
                         {
