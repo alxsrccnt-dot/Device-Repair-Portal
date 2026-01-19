@@ -1,0 +1,17 @@
+INSERT INTO Issues (DevicePiece, Description, Price)
+VALUES
+('Screen / Display', 'Cracked screen, flickering display, dead pixels', 120.00),
+
+('Battery / Power', 'Battery drains fast, phone not powering on', 80.00),
+
+('Charging / Connectivity', 'Charging port issues, USB not detected, no signal', 70.00),
+
+('Audio / Camera', 'Microphone, speaker, or camera not working', 90.00),
+
+('Buttons / Sensors', 'Power button, volume buttons, fingerprint or sensors failing', 60.00),
+
+('Water / Physical Damage', 'Liquid damage or physical impact damage', 150.00),
+
+('Software / System', 'OS issues, boot loops, crashes, updates failing', 50.00),
+
+('Unknown / Diagnosis Required', 'Issue not identified, requires full diagnostics', 40.00);

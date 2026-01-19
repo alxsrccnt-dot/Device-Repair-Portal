@@ -42,10 +42,13 @@ else
                         <!-- Device -->
                         <div class="ticket-header">
                             <h5>Device</h5>
-                            <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
-                                <input type="hidden" name="ticketId" value="@ticketId" />
-                                <button type="submit" class="btn btn-sm btn-primary ms-3">Repair this device</button>
-                            </form>
+                            @if (User.IsInRole("Technician"))
+                            {
+                                <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
+                                    <input type="hidden" name="ticketId" value="@ticketId" />
+                                    <button type="submit" class="btn btn-sm btn-primary ms-3">Repair this device</button>
+                                </form>
+                            }
                         </div>
                         <table class="table table-sm">
                             <tr>
