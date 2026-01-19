@@ -93,6 +93,10 @@ Notifications are not yet implemented
 
 ✅ Add functional tests
 
+✅ Retry functionality for ApiCalls
+
+✅ Token lifecicle logic
+
 ✅ Add request validation
 
 🔔 Notify users after every state change
