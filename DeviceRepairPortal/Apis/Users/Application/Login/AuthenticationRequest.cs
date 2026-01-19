@@ -1,3 +1,3 @@
 ﻿namespace Application.Login;
 
-public record AuthenticationRequest(string Username, string Password);
+public record AuthenticationRequest(string Email, string Password);

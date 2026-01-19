@@ -1,6 +1,7 @@
 ﻿using Application.ChangeUserClaim;
 using Application.Login;
 using Application.Register;
+using Application.SeedDb;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,13 +26,21 @@ public class AccountController(IMediator mediator) : Controller
 	{
 		var token = await mediator.Send(new RegisterCommand(request));
 		return Ok(token);
-	}
+    }
 
-	[Authorize(Roles = "Admin")]
-	[HttpPut("change-user-claims")]
-	public async Task<IActionResult> ChangeUserClaims(ChangeUserClaimRequest request)
-	{
-		await mediator.Send(new ChangeUserClaimsCommand(request));
-		return Ok("New account created.");
-	}
+    [Authorize(Roles = "Admin")]
+    [HttpPut("change-user-claims")]
+    public async Task<IActionResult> ChangeUserClaims(ChangeUserClaimRequest request)
+    {
+        await mediator.Send(new ChangeUserClaimsCommand(request));
+        return Ok("New account created.");
+    }
+
+    [AllowAnonymous]
+    [HttpPost("seed-db")]
+    public async Task<IActionResult> SeedDb()
+    {
+        await mediator.Send(new SeedDbCommand());
+        return Ok("FakeUsers was created.");
+    }
 }

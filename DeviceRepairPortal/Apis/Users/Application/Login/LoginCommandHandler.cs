@@ -1,5 +1,5 @@
-﻿using Application.Common.Token;
-using Application.Exceptions;
+﻿using Application.Common.Exceptions;
+using Application.Common.Token;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +12,7 @@ public class LoginCommandHandler(UserManager<User> userManager,
 {
 	public async Task<string> Handle(LoginCommand command, CancellationToken cancellationToken)
 	{
-		var user = await userManager.FindByEmailAsync(command.request.Username);
+		var user = await userManager.FindByEmailAsync(command.request.Email);
 		if (user is null)
 			throw new UnauthorizedAccessException("Invalid credentials");
 

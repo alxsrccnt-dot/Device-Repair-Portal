@@ -1,0 +1,43 @@
+﻿@using DeviceRepairPortal.Models.Ticket
+@model CreateTicketViewModel
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="Brand"></label>
+            <input asp-for="Brand" class="form-control" />
+        </div>
+        <div class="col">
+            <label asp-for="DeviceModel"></label>
+            <input asp-for="DeviceModel" class="form-control" />
+        </div>
+        <div class="col">
+            <label asp-for="SerialNumber"></label>
+            <input asp-for="SerialNumber" class="form-control" />
+        </div>
+    </div>
+
+    <h5>Select Issues</h5>
+    @for (int i = 0; i < Model.AvailableIssues.Count; i++)
+    {
+        <div class="form-check">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="SelectedIssueIds"
+                   value="@Model.AvailableIssues[i].Id"
+                   id="issue_@i" />
+            <label class="form-check-label" for="issue_@i">
+                @Model.AvailableIssues[i].DevicePiece (@Model.AvailableIssues[i].Price.ToString("C"))
+            </label>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary mt-3">Create Ticket</button>
+</form>
