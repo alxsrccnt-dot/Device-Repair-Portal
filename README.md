@@ -69,6 +69,28 @@ This application is a role-based device repair management system designed to han
 
 ## 🧭 Job Lifecycle (Mermaid Diagram)
 
+flowchart LR
+    User -->|Create Ticket| Ticket
+    Admin -->|Assign Role| Technician
+    Technician -->|Accept Ticket| Job
+    Job --> Reception
+    Reception --> Investigation
+    Investigation --> Billing
+    Billing --> Repair
+    Repair --> Return
+
+🚧 Known Limitations
+Some features are not yet implemented in the frontend
+APIs already contain full business logic
+Notifications are not yet implemented
+
+📝 TODOs
+✅ Add functional tests
+✅ Add request validation
+🔔 Notify users after every state change
+📊 Improve job filtering & search
+📱 Responsive UI improvements
+
 ```mermaid
 stateDiagram-v2
     [*] --> Reception
@@ -78,15 +100,4 @@ stateDiagram-v2
     Repair --> Return
     Return --> [*]
 
-🚧 Known Limitations
 
-Some features are not yet implemented in the frontend
-APIs already contain full business logic
-Notifications are not yet implemented
-
-TODOs
-✅ Add functional tests
-✅ Add request validation
-🔔 Notify users after every state change
-📊 Improve job filtering & search
-📱 Responsive UI improvements
