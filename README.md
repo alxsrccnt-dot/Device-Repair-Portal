@@ -79,16 +79,26 @@ flowchart LR
     Billing --> Repair
     Repair --> Return
 
+
 🚧 Known Limitations
+
 Some features are not yet implemented in the frontend
+
 APIs already contain full business logic
+
 Notifications are not yet implemented
 
+
 📝 TODOs
+
 ✅ Add functional tests
+
 ✅ Add request validation
+
 🔔 Notify users after every state change
+
 📊 Improve job filtering & search
+
 📱 Responsive UI improvements
 
 ```mermaid
