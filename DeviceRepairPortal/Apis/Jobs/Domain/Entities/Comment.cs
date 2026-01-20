@@ -12,8 +12,8 @@ public class Comment : Entity<int>
         Content = content;
     }
 
-    public Comment(Guid jobId, string content, string createdBy, DateTime createdAt)
-        : base(content, createdBy, createdAt)
+    public Comment(Guid jobId, string content, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
+        : base(createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
     }

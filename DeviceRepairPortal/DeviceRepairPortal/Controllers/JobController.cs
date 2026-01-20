@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.BillingInformation;
 using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
 using Infrastructure.ApisClients.Management;
 using Infrastructure.ApisClients.Management.Requests.Jobs;
 using Infrastructure.ApisClients.Monitoring;
-using Infrastructure.ApisClients.Monitoring.Dtos;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

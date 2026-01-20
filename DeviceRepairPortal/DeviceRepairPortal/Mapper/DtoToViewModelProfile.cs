@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.BillingInformation;
 using DeviceRepairPortal.Models.Comment;
 using DeviceRepairPortal.Models.Device;

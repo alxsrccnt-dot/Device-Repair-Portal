@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
+﻿namespace DeviceRepairPortal.Models;
 
 public class PaginatedResultViewModel<T>(IEnumerable<T> data,
 	int pageNumber, int pageSize, int totalCount)
