@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.ApisClients.Management.Requests.Phases;
+﻿namespace Infrastructure.ApisClients.Common;
 
 public enum State
 {

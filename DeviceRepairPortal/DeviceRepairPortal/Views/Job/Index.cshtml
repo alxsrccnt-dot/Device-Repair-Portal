@@ -1,6 +1,6 @@
 ﻿@using DeviceRepairPortal.Models.Job
 @using Infrastructure.ApisClients.Monitoring.Dtos
-@model PaginatedResultViewModel<JobViewModel>
+@model PaginatedViewModel<JobViewModel>
 
 @{
     ViewData["Title"] = "Jobs";
@@ -71,7 +71,7 @@ else
                             <p>@job.Investigation.Description</p>
                         }
                         else
-                            {
+                        {
                             <div class="card mt-3 border-warning">
                                 <div class="card-header bg-warning text-dark">
                                     <strong>Add Investigation</strong>
@@ -133,7 +133,7 @@ else
                             <h5>Billing</h5>
                             <p>Amount: @job.BillingInformation.Amount.ToString("C")</p>
                         }
-                        else
+                        else if (job.CanAddBilling())
                         {
                             <div class="card mt-3 border-success">
                                 <div class="card-header bg-success text-white">
@@ -179,6 +179,25 @@ else
                             </div>
                         }
 
+                        @if (job.CanAddRepair())
+                        {
+
+                            <form asp-controller="Job" asp-action="AddRepairPhase" method="post" class="d-inline">
+                                <input type="hidden" name="jobId" value="@job.Id" />
+                                <button type="submit" class="btn btn-sm btn-primary ms-3">Beggin repair procces</button>
+                            </form>
+                        }
+
+                        @if (job.CanAddRepair())
+                        {
+
+                            <form asp-controller="Job" asp-action="AddReturnPhase" method="post" class="d-inline">
+                                <input type="hidden" name="tickejobIdtId" value="@job.Id" />
+                                <button type="submit" class="btn btn-sm btn-primary ms-3">Return this device</button>
+                            </form>
+                        }
+
+
                         @if (job.Comments.Any())
                         {
                             <h5>Comments</h5>
@@ -188,6 +207,10 @@ else
                                     <li><strong>@comment.CreatedBy</strong>: @comment.Content</li>
                                 }
                             </ul>
+                        } 
+                        else
+                        {
+                            
                         }
 
                     </div>

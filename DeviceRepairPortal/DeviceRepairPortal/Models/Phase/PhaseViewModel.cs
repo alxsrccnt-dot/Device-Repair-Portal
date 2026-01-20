@@ -1,4 +1,4 @@
-﻿using Infrastructure.ApisClients.Monitoring.Dtos.Enums;
+﻿using Infrastructure.ApisClients.Common;
 
 namespace DeviceRepairPortal.Models.Phase;
 

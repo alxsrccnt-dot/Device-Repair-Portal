@@ -17,12 +17,12 @@ public class DtoToViewModelProfile : Profile
 {
     public DtoToViewModelProfile()
     {
-        CreateMap<PaginatedResultDto<TicketDto>, PaginatedResultViewModel<TicketViewModel>>();
+        CreateMap<PaginatedResultDto<TicketDto>, PaginatedViewModel<TicketViewModel>>();
         CreateMap<TicketDto, TicketViewModel>();
         CreateMap<DeviceDto, DeviceViewModel>();
         CreateMap<IssueDto, IssueViewModel>();
 
-        CreateMap<PaginatedResultDto<JobDto>, PaginatedResultViewModel<JobViewModel>>();
+        CreateMap<PaginatedResultDto<JobDto>, PaginatedViewModel<JobViewModel>>();
         CreateMap<JobDto, JobViewModel>()
             .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))

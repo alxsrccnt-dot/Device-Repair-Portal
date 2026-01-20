@@ -3,8 +3,12 @@ using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.BillingInformation;
 using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
+using Infrastructure.ApisClients.Common;
 using Infrastructure.ApisClients.Management;
+using Infrastructure.ApisClients.Management.Requests.Billings;
+using Infrastructure.ApisClients.Management.Requests.Investigations;
 using Infrastructure.ApisClients.Management.Requests.Jobs;
+using Infrastructure.ApisClients.Management.Requests.Phases;
 using Infrastructure.ApisClients.Monitoring;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +25,7 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
         var dto = await monitoringServicesClient
             .GetTehnicianJobsAsync(new PaginatedRequest(pageNumber, pageSize));
 
-        var model = mapper.Map<PaginatedResultViewModel<JobViewModel>>(dto);
+        var model = mapper.Map<PaginatedViewModel<JobViewModel>>(dto);
 
         return View(model);
     }
@@ -30,50 +34,39 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
     public async Task<IActionResult> Create(Guid ticketId)
     {
         await managementServicesClient.CreateJobAsync(new CreateJobRequest() { TicketId = ticketId});
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddInvestigation(CreateInvestigationInputModel model)
     {
-        // call API / service here
-        // model.JobId
-        // model.Conclusion
-        // model.Description
-        // model.IssueIds
+        var request = mapper.Map<CreateInvestigationRequest>(model);
 
+        await managementServicesClient.CreateJobInvestigationAsync(request);
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
     public async Task<IActionResult> AddBilling(CreateBillingInformationInputModel model)
     {
-        // call API / service
-        // model.JobId
-        // model.Amount
-        // model.DiscountId
+        var request = mapper.Map<CreateBillingInformationRequest>(model);
+        await managementServicesClient.CreateJoBillingbAsync(request);
 
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddRepairPhase(CreateBillingInformationInputModel model)
+    public async Task<IActionResult> AddRepairPhase(Guid jobId)
     {
-        // call API / service
-        // model.JobId
-        // model.Amount
-        // model.DiscountId
+        await managementServicesClient.CreateJobPhaseAsync(new CreatePhaseRequest(jobId, State.Repair));
 
         return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddReturnPhase(CreateBillingInformationInputModel model)
+    public async Task<IActionResult> AddReturnPhase(Guid jobId)
     {
-        // call API / service
-        // model.JobId
-        // model.Amount
-        // model.DiscountId
+        await managementServicesClient.CreateJobPhaseAsync(new CreatePhaseRequest(jobId, State.Return));
 
         return RedirectToAction(nameof(Index));
     }

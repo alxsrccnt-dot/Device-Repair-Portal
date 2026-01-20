@@ -1,6 +1,6 @@
 ﻿namespace DeviceRepairPortal.Models;
 
-public class PaginatedResultViewModel<T>(IEnumerable<T> data,
+public class PaginatedViewModel<T>(IEnumerable<T> data,
 	int pageNumber, int pageSize, int totalCount)
 {
 	public IEnumerable<T> Data { get; set; } = data;

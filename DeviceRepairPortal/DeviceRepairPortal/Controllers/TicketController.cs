@@ -28,7 +28,7 @@ public class TicketController(IMonitoringServicesClient monitoringServicesClient
             paginatedResult = await monitoringServicesClient
                 .GetUserTicketsAsync(new PaginatedRequest(pageNumber, pageSize));
 
-        var model = mapper.Map<PaginatedResultViewModel<TicketViewModel>>(paginatedResult);
+        var model = mapper.Map<PaginatedViewModel<TicketViewModel>>(paginatedResult);
 
         return View(model);
     }
