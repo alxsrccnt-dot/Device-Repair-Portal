@@ -5,12 +5,15 @@
 @if (User.Identity.IsAuthenticated)
 {
     <h1 class="display-4">Hello, @User.Identity.Name</h1>
-    <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
+    if (User.IsInRole("User"))
+    {
+        <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
+    }
 }
 else
 {
     <div class="text-white btn btn-lg btn-primary">
-        Please <a asp-controller="Account" asp-action="Login">Sign in</a> to create a ticket.
+        Please <a asp-controller="Account" asp-action="Login" class="text-white">Sign in</a> to create a ticket.
     </div>
 }
 

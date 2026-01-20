@@ -42,7 +42,11 @@ else
                         <!-- Device -->
                         <div class="ticket-header">
                             <h5>Device</h5>
-                            @if (User.IsInRole("Technician"))
+                            @if (ticket.JobId is not null)
+                            {
+                                <a asp-controller="Job" asp-action="Details" class="btn btn-sm btn-primary ms-3">View job details</a>
+                            }
+                            else @if (User.IsInRole("Technician"))
                             {
                                 <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
                                     <input type="hidden" name="ticketId" value="@ticketId" />

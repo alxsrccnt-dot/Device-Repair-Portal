@@ -18,26 +18,34 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
-        if (ModelState.IsValid)
+        try
         {
-            var token = await authServicesClient.GetTokenAsync(
-                new AuthenticationRequest(model.Email, model.Password));
-            if (token is null)
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-
-            Response.Cookies.Append("access_token", token, new CookieOptions
+            if (ModelState.IsValid)
             {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            });
+                var token = await authServicesClient.GetTokenAsync(
+                    new AuthenticationRequest(model.Email, model.Password));
+                if (token is null)
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
-            await SignInWithJwtAsync(token);
-            return RedirectToAction("Index", "Ticket");
+                Response.Cookies.Append("access_token", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                });
+
+                await SignInWithJwtAsync(token);
+                return RedirectToAction("Index", "Ticket");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            return View();
         }
-
-        ModelState.AddModelError(string.Empty, "Invalid register attempt");
-        return View();
+        catch
+        {
+            ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            return View();
+        }
     }
 
     public IActionResult Register()

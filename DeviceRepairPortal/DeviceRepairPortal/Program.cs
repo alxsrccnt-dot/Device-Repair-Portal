@@ -1,4 +1,5 @@
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,21 @@ builder.Services
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
         options.AccessDeniedPath = "/Account/AccessDenied";
+        options.Events.OnValidatePrincipal = context =>
+        {
+            var exp = context.Principal?
+                .FindFirst("exp")?
+                .Value;
+
+            if (exp == null ||
+                DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp)) < DateTimeOffset.UtcNow)
+            {
+                context.RejectPrincipal();
+                return context.HttpContext.SignOutAsync("Cookies");
+            }
+
+            return Task.CompletedTask;
+        };
     });
 builder.Services.AddAuthorization();
 
