@@ -17,17 +17,25 @@ namespace DeviceRepairPortal.Controllers;
 public class TicketController(IMonitoringServicesClient monitoringServicesClient, IManagementServicesClient managementServicesClient, IMapper mapper) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string userEmail = null, bool? isActive = null, int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> Index(TicketFilterViewModel filteredmodel)
     {
         PaginatedResultDto<TicketDto> paginatedResult;
         if (User.IsInRole("Technician") || User.IsInRole("Admin"))
             paginatedResult = await monitoringServicesClient
-                .GetTicketsAsync(new GetTicketsRequest(userEmail, isActive, pageNumber, pageSize));
+                .GetTicketsAsync(new GetTicketsRequest(filteredmodel.UserEmail, filteredmodel.IsActive, filteredmodel.PageNumber, filteredmodel.PageSize));
         else
             paginatedResult = await monitoringServicesClient
-                .GetUserTicketsAsync(new PaginatedRequest(pageNumber, pageSize));
+                .GetUserTicketsAsync(new PaginatedRequest(filteredmodel.PageNumber, filteredmodel.PageSize));
 
-        var model = mapper.Map<PaginatedViewModel<TicketViewModel>>(paginatedResult);
+        var paginatedViewModel = mapper.Map<PaginatedViewModel<TicketViewModel>>(paginatedResult);
+
+        PaginatedTicketsViewModel model = new PaginatedTicketsViewModel(paginatedViewModel.Data, paginatedViewModel.PageNumber, paginatedViewModel.PageSize, paginatedViewModel.TotalCount)
+        {
+            UserEmail = filteredmodel.UserEmail,
+            IsActive = filteredmodel.IsActive,
+            StartDate = filteredmodel.StartDate,
+            EndDate = filteredmodel.EndDate
+        };
 
         return View(model);
     }

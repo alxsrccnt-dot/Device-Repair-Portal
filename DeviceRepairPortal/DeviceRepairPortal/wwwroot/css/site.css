@@ -391,3 +391,11 @@ ul {
     position: absolute;
     top: 30px;
 }
+
+button[data-bs-toggle="collapse"] i {
+    transition: transform 0.3s ease;
+}
+
+button[data-bs-toggle="collapse"][aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
