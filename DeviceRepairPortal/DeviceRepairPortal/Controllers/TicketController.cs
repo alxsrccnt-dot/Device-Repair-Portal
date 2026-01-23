@@ -28,8 +28,8 @@ public class TicketController(IMonitoringServicesClient monitoringServicesClient
                 .GetUserTicketsAsync(new PaginatedRequest(filteredmodel.PageNumber, filteredmodel.PageSize));
 
         var paginatedViewModel = mapper.Map<PaginatedViewModel<TicketViewModel>>(paginatedResult);
-
-        PaginatedTicketsViewModel model = new PaginatedTicketsViewModel(paginatedViewModel.Data, paginatedViewModel.PageNumber, paginatedViewModel.PageSize, paginatedViewModel.TotalCount)
+        PaginatedTicketsViewModel model = new PaginatedTicketsViewModel(paginatedViewModel.Data,
+            paginatedViewModel.PageNumber, paginatedViewModel.PageSize, paginatedViewModel.TotalCount)
         {
             UserEmail = filteredmodel.UserEmail,
             IsActive = filteredmodel.IsActive,
@@ -44,7 +44,6 @@ public class TicketController(IMonitoringServicesClient monitoringServicesClient
     public async Task<IActionResult> Create()
     {
         var issues = await monitoringServicesClient.GetIssuesAsync();
-
         var vm = new CreateTicketViewModel
         {
             AvailableIssues = mapper.Map<List<IssueViewModel>>(issues)

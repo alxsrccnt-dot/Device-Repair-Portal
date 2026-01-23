@@ -7,239 +7,250 @@
     ViewData["Title"] = "My Tickets";
 }
 
-<h2 class="mb-4">My Tickets</h2>
-<div class="collapse @(Model.IsActive != null ||
-                            !string.IsNullOrEmpty(Model.UserEmail)
-                            ? "show" : "")"
-     id="filtersPanel">
-    <div class="card card-body shadow-sm">
-<form asp-action="Index" method="get" class="card p-3 mb-4 shadow-sm">
+<div class="container-with-navigation-header">
+    @if (Model.UserEmail is null)
+    {
+        <h2 class="mb-4">My tickets</h2>
+    }
+    else
+    {
+        <h2 class="mb-4">Tickets</h2>
+    }
+    <div class="shadowed-card curved-card collapse show @* @(Model.IsActive != null || !string.IsNullOrEmpty(Model.UserEmail) ? "show" : "") *@" id="filtersPanel">
+        <div class="curved-card card card-body shadow-sm">
+            <form asp-action="Index" method="get">
 
-    <div class="row g-3 align-items-end">
+                <div class="row g-3 align-items-end">
 
-        @if(!User.IsInRole("User"))
-        {
-            <!-- User Email -->
-            <div class="col-md-4">
-                <label class="form-label">User Email</label>
-                <input type="text"
-                       name="UserEmail"
-                       value="@Model.UserEmail"
-                       class="form-control" />
-            </div>
-        }
-            
-        <!-- Date range -->
-        <div class="col-md-3">
-            <label class="form-label">Start Date</label>
-            <input type="date"
-                   name="StartDate"
-                   value="@Model.StartDate?.ToString("yyyy-MM-dd")"
-                   class="form-control" />
-        </div>
-
-        <div class="col-md-3">
-            <label class="form-label">End Date</label>
-            <input type="date"
-                   name="EndDate"
-                   value="@Model.EndDate?.ToString("yyyy-MM-dd")"
-                   class="form-control" />
-        </div>
-
-        <!-- IsActive toggle -->
-        <div class="col-md-2 text-center">
-            <label class="form-label d-block">Active</label>
-
-            @{
-                var isActiveState = Model.IsActive == null
-                ? ""
-                : Model.IsActive.Value ? "true" : "false";
-            }
-
-            <button type="button"
-                    id="isActiveToggle"
-                    class="btn w-100
-               @(Model.IsActive == null ? "btn-secondary"
-                                     : Model.IsActive.Value ? "btn-success"
-                                     : "btn-danger")"
-                    data-state="@isActiveState">
-                @(Model.IsActive == null
-                                ? "Any"
-                                : Model.IsActive.Value ? "Active" : "Inactive")
-            </button>
-
-            <input type="hidden"
-                   id="isActiveValue"
-                   name="IsActive"
-                   value="@isActiveState" />
-
-        </div>
-
-    </div>
-
-    <div class="mt-3 text-end">
-        <button type="submit" class="btn btn-primary">
-            Apply Filters
-        </button>
-    </div>
-
-</form>
-    </div>
-</div>
-<button class="btn btn-link p-0 mb-2 d-flex align-items-center"
-        data-bs-toggle="collapse"
-        data-bs-target="#filtersPanel"
-        aria-expanded="false"
-        aria-controls="filtersPanel">
-
-    <span class="me-2">Filters</span>
-    <i class="bi bi-chevron-down"></i>
-</button>
-
-@if (Model.IsEmpty())
-{
-    <div class="no-tickets-found-for-user">
-        <div class="alert alert-info">
-            No tickets found.
-        </div>
-        @if (User.IsInRole("User"))
-        {
-            <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
-        }
-    </div>
-}
-else
-{
-    <div class="accordion" id="ticketsAccordion">
-        @foreach (var ticket in Model.Data)
-        {
-            var ticketId = ticket.Id;
-
-            <div class="accordion-item mb-3">
-                <h2 class="accordion-header" id="heading-@ticketId">
-                    <button class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapse-@ticketId">
-                        <strong>@ticket.Description</strong>
-                        <span class="ms-auto text-muted">
-                            @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")
-                        </span>
-                    </button>
-                </h2>
-
-                <div id="collapse-@ticketId"
-                     class="accordion-collapse collapse"
-                     data-bs-parent="#ticketsAccordion">
-                    <div class="accordion-body">
-
-                        <!-- Device -->
-                        <div class="ticket-header">
-                            <h5>Device</h5>
-                            @if (ticket.JobId is not null)
-                            {
-                                <a asp-controller="Job" asp-action="Details" asp-route-jobId="@ticket.JobId" class="btn btn-sm btn-primary ms-3">View job details</a>
-                            }
-                            else @if (User.IsInRole("Technician"))
-                            {
-                                <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
-                                    <input type="hidden" name="ticketId" value="@ticketId" />
-                                    <button type="submit" class="btn btn-sm btn-primary ms-3">Repair this device</button>
-                                </form>
-                            }
+                    @if (!User.IsInRole("User"))
+                    {
+                        <!-- User Email -->
+                        <div class="col-md-4">
+                            <label class="form-label">User Email</label>
+                            <input type="text"
+                                   name="UserEmail"
+                                   value="@Model.UserEmail"
+                                   class="form-control" />
                         </div>
-                        <table class="table table-sm">
-                            <tr>
-                                <th>Brand</th>
-                                <td>@ticket.Device.Brand</td>
-                            </tr>
-                            <tr>
-                                <th>Model</th>
-                                <td>@ticket.Device.Model</td>
-                            </tr>
-                            <tr>
-                                <th>Serial Number</th>
-                                <td>@ticket.Device.SerialNumber</td>
-                            </tr>
-                        </table>
+                    }
 
-                        <!-- Issues -->
-                        <h5 class="mt-3 mb-1">Issues</h5>
+                    <!-- Date range -->
+                    <div class="col-md-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date"
+                               name="StartDate"
+                               value="@Model.StartDate?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
 
-                        @if (!ticket.Issues.Any())
-                        {
-                            <p class="text-muted">No issues registered.</p>
+                    <div class="col-md-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date"
+                               name="EndDate"
+                               value="@Model.EndDate?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                    <!-- IsActive toggle -->
+                    <div class="col-md-2 text-center">
+                        <label class="form-label d-block">Active</label>
+
+                        @{
+                            var isActiveState = Model.IsActive == null
+                            ? ""
+                            : Model.IsActive.Value ? "true" : "false";
                         }
-                        else
-                        {
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Component</th>
-                                        <th>Description</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var issue in ticket.Issues)
-                                    {
-                                        <tr>
-                                            <td>@issue.DevicePiece</td>
-                                            <td>@issue.Description</td>
-                                            <td>@issue.Price.ToString("C")</td>
-                                        </tr>
-                                    }
-                                </tbody>
+
+                        <button type="button"
+                                id="isActiveToggle"
+                                class="btn w-100
+                                                @(Model.IsActive == null ? "btn-secondary"
+                                                    : Model.IsActive.Value ? "btn-success"
+                                                    : "btn-danger")"
+                                data-state="@isActiveState">
+                            @(Model.IsActive == null
+                                                        ? "Any"
+                                                        : Model.IsActive.Value ? "Active" : "Inactive")
+                        </button>
+
+                        <input type="hidden"
+                               id="isActiveValue"
+                               name="IsActive"
+                               value="@isActiveState" />
+                    </div>
+
+                </div>
+
+                <div class="mt-3 text-end">
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    @* <button class="btn btn-link p-0 mb-2 d-flex align-items-center centred-card"
+            data-bs-toggle="collapse"
+            data-bs-target="#filtersPanel"
+            aria-expanded="false"
+            aria-controls="filtersPanel">
+
+        <i class="bi bi-chevron-down"></i>
+    </button> *@
+</div>
+
+<div id="containerWithNavigationBody" class="container-with-navigation-body">
+    @if (Model.IsEmpty())
+    {
+        <div class="no-tickets-found-for-user">
+            <div class="alert alert-info">
+                No tickets found.
+            </div>
+            @if (User.IsInRole("User"))
+            {
+                <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="accordion" id="ticketsAccordion">
+            @foreach (var ticket in Model.Data)
+            {
+                var ticketId = ticket.Id;
+
+                <div class="shadowed-card curved-card accordion-item mb-3">
+                    <h2 class="accordion-header" id="heading-@ticketId">
+                        <button class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse-@ticketId">
+                            <strong>@ticket.Description</strong>
+                            <span class="ms-auto text-muted">
+                                @ticket.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+                            </span>
+                        </button>
+                    </h2>
+
+                    <div id="collapse-@ticketId"
+                         class="accordion-collapse collapse"
+                         data-bs-parent="#ticketsAccordion">
+                        <div class="accordion-body">
+
+                            <!-- Device -->
+                            <div class="ticket-header">
+                                <h5>Device</h5>
+                                @if (ticket.JobId is not null)
+                                {
+                                    <a asp-controller="Job" asp-action="Details" asp-route-jobId="@ticket.JobId" class="btn btn-sm btn-primary ms-3">View job details</a>
+                                }
+                                else
+                                @if (User.IsInRole("Technician"))
+                                {
+                                    <form asp-controller="Job" asp-action="Create" method="post" class="d-inline">
+                                        <input type="hidden" name="ticketId" value="@ticketId" />
+                                        <button type="submit" class="btn btn-sm btn-primary ms-3">Repair this device</button>
+                                    </form>
+                                }
+                            </div>
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Brand</th>
+                                    <td>@ticket.Device.Brand</td>
+                                </tr>
+                                <tr>
+                                    <th>Model</th>
+                                    <td>@ticket.Device.Model</td>
+                                </tr>
+                                <tr>
+                                    <th>Serial Number</th>
+                                    <td>@ticket.Device.SerialNumber</td>
+                                </tr>
                             </table>
-                        }
 
+                            <!-- Issues -->
+                            <h5 class="mt-3 mb-1">Issues</h5>
+
+                            @if (!ticket.Issues.Any())
+                            {
+                                <p class="text-muted">No issues registered.</p>
+                            }
+                            else
+                            {
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Component</th>
+                                            <th>Description</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var issue in ticket.Issues)
+                                        {
+                                            <tr>
+                                                <td>@issue.DevicePiece</td>
+                                                <td>@issue.Description</td>
+                                                <td>@issue.Price.ToString("C")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-}
+            }
+        </div>
+    }
+
+</div>
 
 <!-- PAGINATION -->
-<nav class="mt-4">
-    <ul class="pagination justify-content-center">
+<div class="container-with-navigation-footer">
+    <nav class="container-navigation">
+        <ul class="pagination justify-content-center">
 
-        <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-pageNumber="@(Model.PageNumber - 1)"
-               asp-route-pageSize="@Model.PageSize">
-                Previous
-            </a>
-        </li>
-
-        @for (int i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+            <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
                 <a class="page-link"
                    asp-action="Index"
-                   asp-route-pageNumber="@i"
+                   asp-route-pageNumber="@(Model.PageNumber - 1)"
                    asp-route-pageSize="@Model.PageSize">
-                    @i
+                    Previous
                 </a>
             </li>
-        }
 
-        <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
-            <a class="page-link"
-               asp-action="Index"
-               asp-route-pageNumber="@(Model.PageNumber + 1)"
-               asp-route-pageSize="@Model.PageSize">
-                Next
-            </a>
-        </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@Model.PageSize">
+                        @i
+                    </a>
+                </li>
+            }
 
-    </ul>
-</nav>
+            <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                   asp-route-pageSize="@Model.PageSize">
+                    Next
+                </a>
+            </li>
 
-<script>
+        </ul>
+    </nav>
+</div>
+
+@* <script>
     const button = document.getElementById("isActiveToggle");
     const input = document.getElementById("isActiveValue");
+    const container = document.getElementById("containerWithNavigationBody");
 
     const states = [
         { value: "", text: "Any", class: "btn-secondary" },
@@ -258,6 +269,14 @@ else
         button.textContent = state.text;
         button.className = `btn w-100 ${state.class}`;
         input.value = state.value;
+
+        const searchOpen = document.getElementById("searchBox")?.classList.contains("show");
+
+        if (searchOpen) {
+            container.style.height = "500px";
+        } else {
+            container.style.height = "400px";
+        }
     });
-</script>
+</script> *@
 

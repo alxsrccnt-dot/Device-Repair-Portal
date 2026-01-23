@@ -2,41 +2,43 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <h1 class="display-4">Hello, @User.Identity.Name</h1>
-    if (User.IsInRole("User"))
+<div class="container-without-navigation">
+    @if (User.Identity.IsAuthenticated)
     {
-        <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
-    }
-}
-else
-{
-    <div class="text-white btn btn-lg btn-primary">
-        Please <a asp-controller="Account" asp-action="Login" class="text-white">Sign in</a> to create a ticket.
-    </div>
-}
-
-<hr />
-
-<h2>Repair Issues Catalog</h2>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Component</th>
-            <th>Description</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var issue in Model.Issues)
+        <h1 class="display-4">Hello, @User.Identity.Name</h1>
+        if (User.IsInRole("User"))
         {
-            <tr>
-                <td>@issue.DevicePiece</td>
-                <td>@issue.Description</td>
-                <td>@issue.Price.ToString("C")</td>
-            </tr>
+            <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
         }
-    </tbody>
-</table>
+    }
+    else
+    {
+        <div class="text-white btn btn-lg btn-primary">
+            Please <a asp-controller="Account" asp-action="Login" class="text-white">Sign in</a> to create a ticket.
+        </div>
+    }
+
+    <hr />
+
+    <h2>Repair Issues Catalog</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var issue in Model.Issues)
+            {
+                <tr>
+                    <td>@issue.DevicePiece</td>
+                    <td>@issue.Description</td>
+                    <td>@issue.Price.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

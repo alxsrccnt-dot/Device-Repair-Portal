@@ -31,7 +31,8 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
                 });
 
                 await SignInWithJwtAsync(token);
