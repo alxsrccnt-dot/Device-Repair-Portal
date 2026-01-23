@@ -30,6 +30,17 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid jobId)
+    {
+        var dto = await monitoringServicesClient
+            .GetJobByIdAsync(jobId);
+
+        var model = mapper.Map<JobViewModel>(dto);
+
+        return View(model);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(Guid ticketId)
     {

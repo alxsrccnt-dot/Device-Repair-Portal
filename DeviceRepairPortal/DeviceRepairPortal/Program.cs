@@ -1,4 +1,6 @@
+using DeviceRepairPortal.Services;
 using Infrastructure;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddWebsiteInfrastructure(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton<IIssueCatalog, IssueCatalog>();
 builder.Services
     .AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>

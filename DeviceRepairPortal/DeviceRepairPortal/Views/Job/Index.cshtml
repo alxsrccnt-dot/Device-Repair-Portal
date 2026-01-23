@@ -27,7 +27,7 @@ else
                             data-bs-toggle="collapse"
                             data-bs-target="#@collapseId"
                             aria-expanded="false"
-                            aria-controls="@collapseId">
+                            aria-controls="@collapseId">33
 
                         <strong>@job.Ticket.Description</strong>
                         <span class="ms-3 text-muted">@job.CreateAt.ToString("g")</span>
@@ -40,8 +40,10 @@ else
                      data-bs-parent="#jobsAccordion">
 
                     <div class="accordion-body job-scroll-container">
-
-                        <h5>Device</h5>
+                        <div class="ticket-header">
+                            <h5>Device</h5>
+                            <a asp-controller="Job" asp-action="Details" asp-route-jobId="@jobItem.value.Id" class="btn btn-sm btn-primary ms-3">View job details</a>
+                        </div>
                         <p>@job.Ticket.Device.Brand @job.Ticket.Device.Model</p>
                         <p>SN: @job.Ticket.Device.SerialNumber</p>
 
@@ -70,147 +72,11 @@ else
                             <p><strong>@job.Investigation.Conclusion</strong></p>
                             <p>@job.Investigation.Description</p>
                         }
-                        else
-                        {
-                            <div class="card mt-3 border-warning">
-                                <div class="card-header bg-warning text-dark">
-                                    <strong>Add Investigation</strong>
-                                </div>
-
-                                <div class="card-body">
-                                    <form asp-controller="Job"
-                                          asp-action="AddInvestigation"
-                                          method="post">
-
-                                        <input type="hidden" name="JobId" value="@job.Id" />
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Conclusion</label>
-                                            <input name="Conclusion"
-                                                   class="form-control"
-                                                   placeholder="e.g. Screen replacement required"
-                                                   required />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Description</label>
-                                            <textarea name="Description"
-                                          class="form-control"
-                                          rows="3"
-                                          placeholder="Detailed technical findings"
-                                          required></textarea>
-                                        </div>
-
-                                        <!-- Issues (checkbox list) -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Related Issues</label>
-
-                                            @foreach (var issue in job.Ticket.Issues)
-                                            {
-                                                <div class="form-check">
-                                                    <input class="form-check-input"
-                                                           type="checkbox"
-                                                           name="IssueIds"
-                                                           value="@issue.Id" />
-
-                                                    <label class="form-check-label">
-                                                        @issue.DevicePiece (@issue.Price.ToString("C"))
-                                                    </label>
-                                                </div>
-                                            }
-                                    </div>
-
-                                    <button type="submit" class="btn btn-warning">
-                                        Save Investigation
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        }
 
                         @if (job.BillingInformation != null)
                         {
                             <h5>Billing</h5>
                             <p>Amount: @job.BillingInformation.Amount.ToString("C")</p>
-                        }
-                        else if (job.CanAddBilling())
-                        {
-                            <div class="card mt-3 border-success">
-                                <div class="card-header bg-success text-white">
-                                    <strong>Add Billing Information</strong>
-                                </div>
-
-                                <div class="card-body">
-                                    <form asp-controller="Job"
-                                          asp-action="AddBilling"
-                                          method="post">
-
-                                        <input type="hidden" name="JobId" value="@job.Id" />
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Amount</label>
-                                            <input name="Amount"
-                                                   type="number"
-                                                   step="0.01"
-                                                   min="0"
-                                                   class="form-control"
-                                                   placeholder="Total repair cost"
-                                                   required />
-                                        </div>
-
-                                        <!-- Optional discount -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Discount (optional)</label>
-                                            <select name="DiscountId" class="form-select">
-                                                <option value="">No discount</option>
-
-                                                @* Example *@
-                                                @* Replace with real discounts *@
-                                                <option value="1">WELCOME10 (10%)</option>
-                                                <option value="2">VIP20 (20%)</option>
-                                            </select>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-success">
-                                            Save Billing
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-
-                        @if (job.CanAddRepair())
-                        {
-
-                            <form asp-controller="Job" asp-action="AddRepairPhase" method="post" class="d-inline">
-                                <input type="hidden" name="jobId" value="@job.Id" />
-                                <button type="submit" class="btn btn-sm btn-primary ms-3">Beggin repair procces</button>
-                            </form>
-                        }
-
-                        @if (job.CanAddRepair())
-                        {
-
-                            <form asp-controller="Job" asp-action="AddReturnPhase" method="post" class="d-inline">
-                                <input type="hidden" name="tickejobIdtId" value="@job.Id" />
-                                <button type="submit" class="btn btn-sm btn-primary ms-3">Return this device</button>
-                            </form>
-                        }
-
-
-                        @if (job.Comments.Any())
-                        {
-                            <h5>Comments</h5>
-                            <ul>
-                                @foreach (var comment in job.Comments)
-                                {
-                                    <li><strong>@comment.CreatedBy</strong>: @comment.Content</li>
-                                }
-                            </ul>
-                        } 
-                        else
-                        {
-                            
                         }
 
                     </div>
@@ -220,39 +86,41 @@ else
     </div>
 
     <!-- PAGINATION -->
-    <nav class="mt-4">
-        <ul class="pagination justify-content-center">
+    <div>
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
 
-            <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageNumber - 1)"
-                   asp-route-pageSize="@Model.PageSize">
-                    Previous
-                </a>
-            </li>
-
-            @for (int i = 1; i <= Model.TotalPages; i++)
-            {
-                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
                     <a class="page-link"
                        asp-action="Index"
-                       asp-route-pageNumber="@i"
+                       asp-route-pageNumber="@(Model.PageNumber - 1)"
                        asp-route-pageSize="@Model.PageSize">
-                        @i
+                        Previous
                     </a>
                 </li>
-            }
 
-            <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
-                <a class="page-link"
-                   asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageNumber + 1)"
-                   asp-route-pageSize="@Model.PageSize">
-                    Next
-                </a>
-            </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-pageNumber="@i"
+                           asp-route-pageSize="@Model.PageSize">
+                            @i
+                        </a>
+                    </li>
+                }
 
-        </ul>
-    </nav>
+                <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@(Model.PageNumber + 1)"
+                       asp-route-pageSize="@Model.PageSize">
+                        Next
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
 }

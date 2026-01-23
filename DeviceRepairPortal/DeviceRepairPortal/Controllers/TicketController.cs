@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DeviceRepairPortal.Models;
-using DeviceRepairPortal.Models.Home;
 using DeviceRepairPortal.Models.Issue;
 using DeviceRepairPortal.Models.Ticket;
 using Infrastructure.ApisClients.Management;

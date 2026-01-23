@@ -28,7 +28,7 @@ public class AccountController(IMediator mediator) : Controller
 		return Ok(token);
     }
 
-    [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [HttpPut("change-user-claims")]
     public async Task<IActionResult> ChangeUserClaims(ChangeUserClaimRequest request)
     {

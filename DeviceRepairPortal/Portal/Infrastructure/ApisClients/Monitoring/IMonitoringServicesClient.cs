@@ -9,5 +9,6 @@ public interface IMonitoringServicesClient
     Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request);
     Task<PaginatedResultDto<TicketDto>> GetTicketsAsync(GetTicketsRequest request);
     Task<PaginatedResultDto<JobDto>> GetTehnicianJobsAsync(PaginatedRequest request);
+    Task<JobDto> GetJobByIdAsync(Guid id);
     Task<IEnumerable<IssueDto>> GetIssuesAsync();
 }

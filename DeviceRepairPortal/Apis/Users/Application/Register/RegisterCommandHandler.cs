@@ -24,9 +24,8 @@ public class RegisterCommandHandler(UserManager<User> userManager, RoleManager<I
 		if (!result.Succeeded)
 			throw new ValidationException(
 				result.Errors.Select(e => e.Description));
-		
-		await userManager.AddToRoleAsync(user, AppRoles.User);
 
+		var result1 = await userManager.AddToRoleAsync(user, AppRoles.User);
 		return await jwtService.GenerateJwtToken(user);
 	}
 

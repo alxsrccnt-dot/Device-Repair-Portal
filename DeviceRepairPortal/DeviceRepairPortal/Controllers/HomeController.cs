@@ -1,22 +1,20 @@
-using AutoMapper;
 using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.Home;
-using DeviceRepairPortal.Models.Issue;
-using Infrastructure.ApisClients.Monitoring;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace DeviceRepairPortal.Controllers;
 
-public class HomeController(IMonitoringServicesClient monitoringServicesClient, IMapper mapper) : Controller
+[AllowAnonymous]
+public class HomeController(IIssueCatalog issueCatalog) : Controller
 {
     public async Task<IActionResult> Index()
     {
-        var issues = await monitoringServicesClient.GetIssuesAsync();
-
         var vm = new HomePageViewModel
         {
-            Issues = mapper.Map<IEnumerable<IssueViewModel>>(issues)
+            Issues = await issueCatalog.GetAllAsync()
         };
 
         return View(vm);

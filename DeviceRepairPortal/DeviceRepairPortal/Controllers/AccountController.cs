@@ -35,9 +35,16 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 });
 
                 await SignInWithJwtAsync(token);
-                return RedirectToAction("Index", "Ticket");
+
+                if (User.IsInRole("Technician"))
+                    return RedirectToAction("Index", "Job");
+
+                if (User.IsInRole("User"))
+                    return RedirectToAction("Index", "Ticket");
             }
 
+            //
+            
             ModelState.AddModelError(string.Empty, "Invalid login attempt");
             return View();
         }

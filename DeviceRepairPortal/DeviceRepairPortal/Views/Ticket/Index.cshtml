@@ -10,8 +10,14 @@
 <h2 class="mb-4">My Tickets</h2>
 @if (Model.IsEmpty())
 {
-    <div class="alert alert-info">
-        No tickets found.
+    <div class="no-tickets-found-for-user">
+        <div class="alert alert-info">
+            No tickets found.
+        </div>
+        @if (User.IsInRole("User"))
+        {
+            <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-lg btn-primary">Create a ticket</a>
+        }
     </div>
 }
 else
@@ -44,7 +50,7 @@ else
                             <h5>Device</h5>
                             @if (ticket.JobId is not null)
                             {
-                                <a asp-controller="Job" asp-action="Details" class="btn btn-sm btn-primary ms-3">View job details</a>
+                                <a asp-controller="Job" asp-action="Details" asp-route-jobId="@ticket.JobId" class="btn btn-sm btn-primary ms-3">View job details</a>
                             }
                             else @if (User.IsInRole("Technician"))
                             {
