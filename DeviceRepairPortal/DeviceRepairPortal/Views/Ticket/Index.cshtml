@@ -8,13 +8,13 @@
 }
 
 <div class="container-with-navigation-header">
-    @if (Model.UserEmail is null)
+    @if (User.IsInRole("Technician") || User.IsInRole("Admin"))
     {
-        <h2 class="mb-4">My tickets</h2>
+        <h2 class="mb-4">Tickets</h2>
     }
     else
     {
-        <h2 class="mb-4">Tickets</h2>
+        <h2 class="mb-4">My tickets</h2>
     }
     <div class="shadowed-card curved-card collapse show @* @(Model.IsActive != null || !string.IsNullOrEmpty(Model.UserEmail) ? "show" : "") *@" id="filtersPanel">
         <div class="curved-card card card-body shadow-sm">
@@ -22,7 +22,7 @@
 
                 <div class="row g-3 align-items-end">
 
-                    @if (!User.IsInRole("User"))
+                    @if (User.IsInRole("Technician") || User.IsInRole("Admin"))
                     {
                         <!-- User Email -->
                         <div class="col-md-4">

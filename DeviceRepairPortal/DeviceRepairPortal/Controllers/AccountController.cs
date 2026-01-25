@@ -37,11 +37,7 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
 
                 await SignInWithJwtAsync(token);
 
-                if (User.IsInRole("Technician"))
-                    return RedirectToAction("Index", "Job");
-
-                if (User.IsInRole("User"))
-                    return RedirectToAction("Index", "Ticket");
+                return RedirectToAction("Index", "Home");
             }
 
             //
