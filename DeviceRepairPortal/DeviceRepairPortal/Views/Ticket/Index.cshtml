@@ -16,7 +16,7 @@
     {
         <h2 class="mb-4">My tickets</h2>
     }
-    <div class="shadowed-card curved-card collapse show @* @(Model.IsActive != null || !string.IsNullOrEmpty(Model.UserEmail) ? "show" : "") *@" id="filtersPanel">
+    <div class="shadowed-card curved-card collapse show" id="filtersPanel">
         <div class="curved-card card card-body shadow-sm">
             <form asp-action="Index" method="get">
 
@@ -82,9 +82,12 @@
                 </div>
 
                 <div class="mt-3 text-end">
+
                     <button type="submit" class="btn btn-primary">
                         Search
                     </button>
+
+                    <a asp-controller="Ticket" asp-action="Create" class="text-white btn btn-primary">Create a ticket</a>
                 </div>
 
             </form>
@@ -120,7 +123,7 @@
             {
                 var ticketId = ticket.Id;
 
-                <div class="shadowed-card curved-card accordion-item mb-3">
+                <div class="shadowed-card curved-card accordion-item mb-2">
                     <h2 class="accordion-header" id="heading-@ticketId">
                         <button class="accordion-button collapsed"
                                 type="button"
@@ -247,7 +250,7 @@
     </nav>
 </div>
 
-@* <script>
+<script>
     const button = document.getElementById("isActiveToggle");
     const input = document.getElementById("isActiveValue");
     const container = document.getElementById("containerWithNavigationBody");
@@ -271,12 +274,6 @@
         input.value = state.value;
 
         const searchOpen = document.getElementById("searchBox")?.classList.contains("show");
-
-        if (searchOpen) {
-            container.style.height = "500px";
-        } else {
-            container.style.height = "400px";
-        }
     });
-</script> *@
+</script>
 

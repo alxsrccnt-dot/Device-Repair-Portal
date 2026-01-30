@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.BillingInformation;
+using DeviceRepairPortal.Models.Comment;
 using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
 using Infrastructure.ApisClients.Common;
@@ -11,23 +12,31 @@ using Infrastructure.ApisClients.Management.Requests.Jobs;
 using Infrastructure.ApisClients.Management.Requests.Phases;
 using Infrastructure.ApisClients.Monitoring;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeviceRepairPortal.Controllers;
 
 [Authorize(Roles = "Technician")]
-public class JobController(IMonitoringServicesClient monitoringServicesClient, IManagementServicesClient managementServicesClient, IMapper mapper) : Controller
+public class JobController(IMonitoringServicesClient monitoringServicesClient, IManagementServicesClient managementServicesClient, IIssueCatalog issueCatalog, IMapper mapper) : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> Index(JobFilterViewModel filteredmodel)
     {
         var dto = await monitoringServicesClient
-            .GetTehnicianJobsAsync(new PaginatedRequest(pageNumber, pageSize));
+            .GetTehnicianJobsAsync(new PaginatedRequest(filteredmodel.PageNumber, filteredmodel.PageSize));
 
         var model = mapper.Map<PaginatedViewModel<JobViewModel>>(dto);
-
-        return View(model);
+        PaginatedJobsViewModel paginatedViewModel = new PaginatedJobsViewModel(model.Data,
+            model.PageNumber, model.PageSize, model.TotalCount)
+        {
+            CreatedBy = filteredmodel.CreatedBy,
+            InProgres = filteredmodel.InProgres,
+            StartDate = filteredmodel.StartDate,
+            EndDate = filteredmodel.EndDate
+        };
+        return View(paginatedViewModel);
     }
 
     [HttpGet]
@@ -38,6 +47,7 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
 
         var model = mapper.Map<JobViewModel>(dto);
 
+        model.AvailableIssues = await issueCatalog.GetAllAsync();
         return View(model);
     }
 
@@ -84,7 +94,7 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> AddComment(CreateBillingInformationInputModel model)
+    public async Task<IActionResult> AddComment(CreateCommentViewModel model)
     {
         // call API / service
         // model.JobId

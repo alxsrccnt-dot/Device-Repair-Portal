@@ -6,62 +6,62 @@
     ViewData["Title"] = "Job Details";
 }
 
-<h2 class="mb-4">Job Details</h2>
+<div id="containerWithoutNavigationBody" class="container-without-navigation-body">
 
-<!-- TICKET INFO -->
-<div class="card mb-4">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Ticket.Description</h5>
-        <p class="mb-1"><strong>Device:</strong> @Model.Ticket.Device.Brand @Model.Ticket.Device.Model</p>
-        <p class="mb-1"><strong>Serial:</strong> @Model.Ticket.Device.SerialNumber</p>
-        <p class="text-muted">Created at @Model.CreateAt.ToString("yyyy-MM-dd HH:mm")</p>
-    </div>
-</div>
-
-<!-- TIMELINE -->
-<div class="timeline-block">
-    @foreach (var phase in Model.Phases
-        .OrderBy(p => p.CreateAt)
-        .Select((p, i) => new { Phase = p, Index = i }))
-    {
-        var isTop = phase.Index % 2 == 0;
-        var stateClass = phase.Phase.State.ToString().ToLower();
-
-        <div class="timeline-item @(isTop ? "top" : "bottom") animate"
-             style="animation-delay:@(phase.Index * 0.15)s">
-
-            <div class="timeline-dot @stateClass">
-                <i class="bi @GetPhaseIcon(phase.Phase.State)"></i>
-            </div>
-
-            <div class="timeline-content @stateClass">
-                <strong>@phase.Phase.State</strong>
-                <div class="small text-muted">
-                    by @phase.Phase.CreatedBy
-                </div>
-                <div class="small text-muted">
-                    @phase.Phase.CreateAt.ToString("yyyy-MM-dd HH:mm")
-                </div>
+    <!-- TICKET INFO -->
+    <div class="card shadowed-card curved-card mb-4">
+        <div class="card-body">
+            <h2 class="mb-2">Job Details</h2>
+            <h5 class="card-title">@Model.Ticket.Description</h5>
+            <div class="job-details-header">
+                <p class="text-muted">Created at @Model.CreateAt.ToString("yyyy-MM-dd HH:mm")</p>
+                <p class="ms-3"><strong>Device:</strong> @Model.Ticket.Device.Brand @Model.Ticket.Device.Model</p>
+                <p class="ms-2"><strong>Serial:</strong> @Model.Ticket.Device.SerialNumber</p>
             </div>
         </div>
-    }
-</div>
+    </div>
 
 <!-- INVESTIGATION -->
 @if (Model.Investigation != null)
 {
-    <div class="card mt-4">
+    <div class="card shadowed-card curved-card mb-4">
         <div class="card-body">
             <h5>Investigation</h5>
             <strong>@Model.Investigation.Conclusion</strong>
             <p>@Model.Investigation.Description</p>
+                @if (!Model.Investigation.Issues.Any())
+            {
+                <p class="text-muted">No issues registered.</p>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var issue in Model.Investigation.Issues)
+                        {
+                            <tr>
+                                <td>@issue.DevicePiece</td>
+                                <td>@issue.Description</td>
+                                <td>@issue.Price.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 }
 else if (User.IsInRole("Technician"))
 {
-    <div class="card mt-3 border-warning">
-        <div class="card-header bg-warning text-dark">
+    <div class="card border-warning shadowed-card curved-card">
+        <div class="card-header bg-warning text-dark curved-card" style="border-radius: var(--border-radius) var(--border-radius) 0 0 !important;">
             <strong>Add Investigation</strong>
         </div>
 
@@ -93,7 +93,7 @@ else if (User.IsInRole("Technician"))
                 <div class="mb-3">
                     <label class="form-label">Related Issues</label>
 
-                    @foreach (var issue in Model.Ticket.Issues)
+                    @foreach (var issue in Model.AvailableIssues)
                     {
                         <div class="form-check">
                             <input class="form-check-input"
@@ -116,10 +116,11 @@ else if (User.IsInRole("Technician"))
     </div>
 }
 
+
 <!-- BILLING -->
 @if (Model.BillingInformation != null)
 {
-    <div class="card mt-4">
+    <div class="card shadowed-card curved-card mb-4">
         <div class="card-body">
             <h5>Billing</h5>
             <p><strong>Amount:</strong> @Model.BillingInformation.Amount.ToString("C")</p>
@@ -128,8 +129,8 @@ else if (User.IsInRole("Technician"))
 }
 else if (Model.CanAddBilling())
 {
-    <div class="card mt-3 border-success">
-        <div class="card-header bg-success text-white">
+    <div class="card mt-3 border-success shadowed-card curved-card">
+        <div class="card-header bg-success text-white shadowed-card curved-card" style="border-radius: var(--border-radius) var(--border-radius) 0 0 !important;">
             <strong>Add Billing Information</strong>
         </div>
 
@@ -156,9 +157,6 @@ else if (Model.CanAddBilling())
                     <label class="form-label">Discount (optional)</label>
                     <select name="DiscountId" class="form-select">
                         <option value="">No discount</option>
-
-                        @* Example *@
-                        @* Replace with real discounts *@
                         <option value="1">WELCOME10 (10%)</option>
                         <option value="2">VIP20 (20%)</option>
                     </select>
@@ -174,7 +172,6 @@ else if (Model.CanAddBilling())
 
 @if (Model.CanAddRepair())
 {
-
     <form asp-controller="Job" asp-action="AddRepairPhase" method="post" class="d-inline">
         <input type="hidden" name="jobId" value="@Model.Id" />
         <button type="submit" class="btn btn-sm btn-primary ms-3">Beggin repair procces</button>
@@ -183,7 +180,6 @@ else if (Model.CanAddBilling())
 
 @if (Model.CanAddRepair())
 {
-
     <form asp-controller="Job" asp-action="AddReturnPhase" method="post" class="d-inline">
         <input type="hidden" name="jobId" value="@Model.Id" />
         <button type="submit" class="btn btn-sm btn-primary ms-3">Return this device</button>
@@ -201,11 +197,51 @@ else if (Model.CanAddBilling())
         }
     </ul>
 }
-else
-{
 
-}
+<div class="card shadowed-card curved-card mt-4">
+    <div class="card-header bg-info text-dark curved-card" style="border-radius: var(--border-radius) var(--border-radius) 0 0 !important;">
+        <strong>Add a comment</strong>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Job" asp-action="AddComment" method="post" class="d-inline">
+            <input type="hidden" name="jobId" value="@Model.Id" />
+            <textarea name="Content"
+                        class="form-control"
+                        rows="3"
+                        placeholder="Content"
+                        required></textarea>
+            <button type="submit" class="btn btn-sm btn-primary ms-3">Add comment</button>
+        </form>
+    </div>
+</div>
 
+<!-- TIMELINE -->
+<div class="timeline-block">
+    @foreach (var phase in Model.Phases.Select((p, i) => new { Phase = p, Index = i }))
+    {
+        var isTop = phase.Index % 2 == 0;
+        var stateClass = phase.Phase.State.ToString().ToLower();
+
+        <div class="timeline-item @(isTop ? "top" : "bottom") animate"
+                style="animation-delay:@(phase.Index * 0.15)s">
+
+            <div class="timeline-dot @stateClass">
+                <i class="bi @GetPhaseIcon(phase.Phase.State)"></i>
+            </div>
+
+                <div class="timeline-content shadowed-card curved-card @stateClass">
+                <strong>@phase.Phase.State</strong>
+                <div class="small text-muted">
+                    by @phase.Phase.CreatedBy
+                </div>
+                <div class="small text-muted">
+                    @phase.Phase.CreateAt.ToString("yyyy-MM-dd HH:mm")
+                </div>
+            </div>
+        </div>
+    }
+</div>
+</div>
 @functions {
     string GetPhaseIcon(State state) => state switch
     {

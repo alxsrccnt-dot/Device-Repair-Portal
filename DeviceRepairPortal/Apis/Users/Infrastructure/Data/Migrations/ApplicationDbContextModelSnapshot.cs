@@ -119,7 +119,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserChangeHistory");
+                    b.ToTable("UsersChangeHistory");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserDetails", b =>
@@ -161,7 +161,7 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserDetails");
+                    b.ToTable("UsersDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
