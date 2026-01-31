@@ -1,5 +1,5 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Services;
+﻿using Application.Exceptions;
+using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Data.Repositories.Commands;
@@ -18,9 +18,7 @@ public class CreateReturnPhaseCommandHandler(ICurrentUser currentUser,
     {
         var request = command.Request;
 
-        var job = await jobReadRepository.GetByIdAsync(request.JobId, cancellationToken);
-        if (job == null)
-            throw new NotFoundException("The job can not be found.");
+        var job = await jobReadRepository.GetByIdAsync(request.JobId, cancellationToken) ?? throw new NotFoundException("The job can not be found.");
 
         job.EndDate = DateTime.UtcNow;
         await jobUpdateRepository.UpdateAsync(job, cancellationToken);

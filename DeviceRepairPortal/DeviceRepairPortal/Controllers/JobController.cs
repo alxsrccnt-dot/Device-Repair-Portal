@@ -4,6 +4,7 @@ using DeviceRepairPortal.Models.BillingInformation;
 using DeviceRepairPortal.Models.Comment;
 using DeviceRepairPortal.Models.Investigation;
 using DeviceRepairPortal.Models.Job;
+using DeviceRepairPortal.Services;
 using Infrastructure.ApisClients.Common;
 using Infrastructure.ApisClients.Management;
 using Infrastructure.ApisClients.Management.Requests.Billings;
@@ -12,7 +13,6 @@ using Infrastructure.ApisClients.Management.Requests.Jobs;
 using Infrastructure.ApisClients.Management.Requests.Phases;
 using Infrastructure.ApisClients.Monitoring;
 using Infrastructure.ApisClients.Monitoring.Requests.Common;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

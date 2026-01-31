@@ -1,9 +1,10 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Services;
+﻿using Application.Exceptions;
+using Application.Services;
 using Domain.Entities;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Management.Tikets;
 
@@ -17,14 +18,14 @@ public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateReposit
         var ticket = new Ticket(request.Description, device, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow);
         if (request.IssuesIds.Any())
         {
-            var issues = await readIssuesRepositories.GetIssuesByIds(request.IssuesIds);
+            var issues = await readIssuesRepositories.GetIssuesByIds(request.IssuesIds, cancellationToken);
             ticket.Issues = issues;
         }
 
         await ticketCreateRepository.CreateAsync(ticket, cancellationToken);
     }
 
-    private CreateTicketRequest ValidateRequest(CreateTicketRequest request)
+    private static CreateTicketRequest ValidateRequest(CreateTicketRequest request)
     {
         var validationErros = new List<string>();
 
@@ -40,7 +41,7 @@ public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateReposit
         if (string.IsNullOrWhiteSpace(request.SerialNumber))
             validationErros.Add("SerialNumber can not be empty");
 
-        if (validationErros.Any())
+        if (!validationErros.IsNullOrEmpty())
             throw new ValidationException(validationErros);
 
         return request;

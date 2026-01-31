@@ -1,6 +1,5 @@
 using DeviceRepairPortal.Services;
 using Infrastructure;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);

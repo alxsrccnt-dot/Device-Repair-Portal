@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Application.Common.Services;
+namespace Application.Services;
 
 internal class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUser
 {

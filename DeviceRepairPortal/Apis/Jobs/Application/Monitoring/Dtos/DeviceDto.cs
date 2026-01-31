@@ -2,7 +2,7 @@
 
 public class DeviceDto
 {
-    public string Brand { get; init; }
-    public string Model { get; init; }
-    public string SerialNumber { get; init; }
+    public required string Brand { get; init; }
+    public required string Model { get; init; }
+    public required string SerialNumber { get; init; }
 }

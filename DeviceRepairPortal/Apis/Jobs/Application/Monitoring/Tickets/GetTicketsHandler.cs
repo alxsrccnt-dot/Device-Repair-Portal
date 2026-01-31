@@ -1,5 +1,5 @@
-﻿using Application.Common.Services;
-using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Dtos;
+using Application.Services;
 using AutoMapper;
 using Infrastructure.Data.Repositories.Queries;
 using Infrastructure.Data.Repositories.Queries.Models;

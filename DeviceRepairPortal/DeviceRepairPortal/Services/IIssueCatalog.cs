@@ -1,6 +1,6 @@
 ﻿using DeviceRepairPortal.Models.Issue;
 
-namespace Infrastructure.Services;
+namespace DeviceRepairPortal.Services;
 
 public interface IIssueCatalog
 {

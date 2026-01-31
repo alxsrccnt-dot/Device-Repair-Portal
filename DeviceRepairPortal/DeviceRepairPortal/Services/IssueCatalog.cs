@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DeviceRepairPortal.Models.Issue;
 using Infrastructure.ApisClients.Monitoring;
-using Infrastructure.Services;
 
 namespace DeviceRepairPortal.Services;
 

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Data;
+﻿using Azure.Identity;
+using Azure.Messaging.ServiceBus;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,12 +10,14 @@ namespace Infrastructure;
 public static class DependencyInjection
 {
 	private readonly static string _databaseConnectionString = "DatabaseContext";
+	private readonly static string _serviceBusConnectionString = "ServiceBusConnectionString";
 
-	public static IServiceCollection AddInfrastucture(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddInfrastucture(this IServiceCollection services, IConfiguration config)
 	{
 		services.AddDatabaseContext(config);
-		
-		return services;
+		services.AddServiceBus(config);
+
+        return services;
 	}
 
 	private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration config)
@@ -35,4 +39,15 @@ public static class DependencyInjection
 
 		return services;
 	}
+
+    private static void AddServiceBus(this IServiceCollection services, IConfiguration config)
+    {
+        string? connectionString = config.GetConnectionString(_serviceBusConnectionString);
+        //services.AddScoped<INotificationServiceBus, NotificationServiceBus>();
+        services.AddSingleton<ServiceBusClient>(serviceProvider =>
+        {
+            var config = serviceProvider.GetRequiredService<IConfiguration>();
+            return new ServiceBusClient(connectionString, new DefaultAzureCredential());
+        });
+    }
 }

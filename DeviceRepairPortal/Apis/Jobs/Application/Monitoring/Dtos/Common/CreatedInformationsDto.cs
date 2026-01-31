@@ -2,6 +2,6 @@
 
 public class CreatedInformationsDto
 {
-    public string CreatedBy { get; init; }
+    public required string CreatedBy { get; init; }
     public DateTime CreateAt { get; init; }
 }

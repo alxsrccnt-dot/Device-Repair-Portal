@@ -18,5 +18,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Monitoring\Issues\Dtos\" />
+    <Folder Include="Monitoring\Jobs\Dtos\" />
+    <Folder Include="Monitoring\Tickets\Dtos\" />
+  </ItemGroup>
 
 </Project>

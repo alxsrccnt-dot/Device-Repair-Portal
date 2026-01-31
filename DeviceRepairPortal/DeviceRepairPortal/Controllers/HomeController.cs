@@ -1,6 +1,6 @@
 using DeviceRepairPortal.Models;
 using DeviceRepairPortal.Models.Home;
-using Infrastructure.Services;
+using DeviceRepairPortal.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

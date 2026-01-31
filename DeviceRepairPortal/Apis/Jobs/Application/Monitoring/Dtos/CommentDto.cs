@@ -4,5 +4,5 @@ namespace Application.Monitoring.Dtos;
 
 public class CommentDto : CreatedInformationsDto
 {
-    public string Content { get; init; }
+    public required string Content { get; init; }
 }

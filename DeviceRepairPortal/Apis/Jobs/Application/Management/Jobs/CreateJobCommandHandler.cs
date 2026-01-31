@@ -1,5 +1,5 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Services;
+﻿using Application.Exceptions;
+using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Data.Repositories.Commands;
@@ -16,9 +16,7 @@ public class CreateJobCommandHandler(ICurrentUser currentUser,
     {
         var request = command.Request;
 
-        var ticket = await readRepository.GetByIdAsync(request.TicketId, cancellationToken);
-        if (ticket == null)
-            throw new NotFoundException("The ticket can not be found.");
+        _ = await readRepository.GetByIdAsync(request.TicketId, cancellationToken) ?? throw new NotFoundException("The ticket can not be found.");
 
         Job newJob = string.IsNullOrWhiteSpace(request.Comment)
             ? new Job(request.TicketId, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow)

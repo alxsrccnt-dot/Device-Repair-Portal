@@ -1,4 +1,4 @@
-﻿using Application.Common.Exceptions;
+﻿using Application.Exceptions;
 using Domain.Entities;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
@@ -13,7 +13,7 @@ public class CreateIssueCommandHandler(IReadIssuesRepositories readIssuesReposit
     {
         var request = command.Request;
 
-        var existingIssue = await readIssuesRepositories.GetByDevicePieceAsync(request.DevicePiece);
+        var existingIssue = await readIssuesRepositories.GetByDevicePieceAsync(request.DevicePiece, cancellationToken);
         if (existingIssue is not null)
             throw new ValidationException("The issue already exist.");
 
