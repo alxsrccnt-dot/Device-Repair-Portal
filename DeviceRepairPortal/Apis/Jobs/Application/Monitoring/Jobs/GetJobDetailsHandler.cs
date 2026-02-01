@@ -1,4 +1,4 @@
-﻿using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Jobs.Dtos;
 using Application.Services;
 using AutoMapper;
 using Domain.Entities;
@@ -7,12 +7,12 @@ using MediatR;
 
 namespace Application.Monitoring.Jobs;
 
-internal class GetJobDetailsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobDetailsQuery, JobDto>
+internal class GetJobDetailsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobDetailsQuery, JobDetailsDto>
 {
-    public async Task<JobDto> Handle(GetJobDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<JobDetailsDto> Handle(GetJobDetailsQuery request, CancellationToken cancellationToken)
     {
         var job = await jobReadRepository.GetJobDetailsAsync(request.JobId, cancellationToken);
 
-        return mapper.Map<JobDto>(job);
+        return mapper.Map<JobDetailsDto>(job);
     }
 }

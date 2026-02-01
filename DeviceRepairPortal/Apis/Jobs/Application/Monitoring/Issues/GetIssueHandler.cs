@@ -1,4 +1,4 @@
-﻿using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Issues.Dtos;
 using AutoMapper;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;

@@ -1,4 +1,5 @@
-﻿using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Common;
+using Application.Monitoring.Tickets.Dtos;
 using Application.Services;
 using AutoMapper;
 using Infrastructure.Data.Repositories.Queries;

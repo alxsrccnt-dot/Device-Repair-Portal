@@ -1,6 +1,6 @@
-﻿using Application.Monitoring.Dtos.Common;
+﻿using Application.Monitoring.Common;
 
-namespace Application.Monitoring.Dtos;
+namespace Application.Monitoring.Issues.Dtos;
 
 public class IssueDto : BaseDto<int>
 {

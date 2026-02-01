@@ -1,4 +1,4 @@
-﻿namespace Application.Monitoring.Dtos.Common;
+﻿namespace Application.Monitoring.Common;
 
 public class BaseDto<T>
 {

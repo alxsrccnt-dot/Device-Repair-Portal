@@ -1,4 +1,5 @@
-﻿using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Common;
+using Application.Monitoring.Jobs.Dtos;
 using Application.Services;
 using AutoMapper;
 using Infrastructure.Data.Repositories.Queries;
@@ -7,9 +8,9 @@ using MediatR;
 
 namespace Application.Monitoring.Jobs;
 
-internal class GetTehnicianJobsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetTehnicianJobsQuery, PaginatedResultDto<JobDto>>
+internal class GetJobsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobsQuery, PaginatedResultDto<JobDto>>
 {
-    public async Task<PaginatedResultDto<JobDto>> Handle(GetTehnicianJobsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResultDto<JobDto>> Handle(GetJobsQuery request, CancellationToken cancellationToken)
     {
         var jobsWithTotalCount = await jobReadRepository.GetTehnicianJobsAsync(
             new JobsRequest(currentUser.Email!, null, request.PageNumber, request.PageSize), cancellationToken);

@@ -1,23 +1,13 @@
-﻿using AutoMapper;
+﻿using Application.Monitoring.Common;
+using Application.Monitoring.Jobs.Dtos;
+using AutoMapper;
 using Domain.Entities;
-using Application.Monitoring.Dtos;
 
-public class MonitoringProfiles : Profile
+public class JobProfiles : Profile
 {
-    public MonitoringProfiles()
+    public JobProfiles()
     {
-        CreateMap<Ticket, TicketDto>()
-            .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(d => d.Device, opt => opt.MapFrom(src => src.Device))
-            .ForMember(d => d.Issues, opt => opt.MapFrom(src => src.Issues))
-            .ForMember(d => d.TehnicianUsername, opt => opt.MapFrom(src => src.Job.UsernameOfCreatedBy))
-            .ForMember(d => d.JobStartedAt, opt => opt.MapFrom(src => src.Job.CreateAt))
-            .ForMember(d => d.JobId, opt => opt.MapFrom(src => src.Job.Id))
-            .ForMember(d => d.CreatedAt, opt => opt.MapFrom(src => src.CreateAt));
-        CreateMap<Device, DeviceDto>();
-        CreateMap<Issue, IssueDto>();
-
-        CreateMap<Job, JobDto>()
+        CreateMap<Job, JobDetailsDto>()
             .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))
             .ForMember(d => d.Investigation, opt => opt.MapFrom(src => src.Investigation))
@@ -25,10 +15,17 @@ public class MonitoringProfiles : Profile
             .ForMember(d => d.Comments, opt => opt.MapFrom(src => src.Comments))
             .ForMember(d => d.Phases, opt => opt.MapFrom(src => src.Phases))
             .ForMember(d => d.CreateAt, opt => opt.MapFrom(src => src.CreateAt));
-        CreateMap<Ticket, JobTicketDto>()
+        CreateMap<Job, JobDto>()
+            .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
+            .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))
+            .ForMember(d => d.InvestigationConclusion, opt => opt.MapFrom(src => src.Investigation.Conclusion))
+            .ForMember(d => d.BillingInformationAmount, opt => opt.MapFrom(src => src.BillingInformation.Amount))
+            .ForMember(d => d.CurrentPhase, opt => opt.MapFrom(src => src.Phases.OrderByDescending(p => p.CreateAt).First().State.ToString()))
+            .ForMember(d => d.CurrentPhasesStartedAt, opt => opt.MapFrom(src => src.Phases.OrderByDescending(p => p.CreateAt).First().CreateAt));
+        CreateMap<Ticket, JobDetailsTicketDto>()
             .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(d => d.Device, opt => opt.MapFrom(src => src.Device))
-            .ForMember(d => d.Issues, opt => opt.MapFrom(src => src.Issues))
+            .ForMember(d => d.UserDeclaredIssues, opt => opt.MapFrom(src => src.Issues))
             .ForMember(d => d.CreatedBy, opt => opt.MapFrom(src => src.UsernameOfCreatedBy))
             .ForMember(d => d.CreateAt, opt => opt.MapFrom(src => src.CreateAt));
         CreateMap<BillingInformation, BillingInformationDto>()

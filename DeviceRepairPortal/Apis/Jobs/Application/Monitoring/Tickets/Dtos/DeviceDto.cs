@@ -1,4 +1,4 @@
-﻿namespace Application.Monitoring.Dtos;
+﻿namespace Application.Monitoring.Tickets.Dtos;
 
 public class DeviceDto
 {

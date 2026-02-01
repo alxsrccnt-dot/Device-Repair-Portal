@@ -99,7 +99,6 @@
                             aria-controls="@collapseId">
 
                         <strong>@job.Ticket.Description</strong>
-                        <span class="ms-3 text-muted">@job.CreateAt.ToString("g")</span>
                     </button>
                 </h2>
 
@@ -116,36 +115,20 @@
                         <p>@job.Ticket.Device.Brand @job.Ticket.Device.Model</p>
                         <p>SN: @job.Ticket.Device.SerialNumber</p>
 
-                        <h5>Issues</h5>
-                        <ul>
-                            @foreach (var issue in job.Ticket.Issues)
-                            {
-                                <li>@issue.DevicePiece - @issue.Price.ToString("C")</li>
-                            }
-                        </ul>
+                        <h5>Current Phases</h5>
+                        <span class="timeline-state">@job.CurrentPhase started at</span>
+                        <span class="timeline-date">@job.CurrentPhasesStartedAt.ToString("g")</span>
 
-                        <h5>Phases</h5>
-                        <ul class="timeline mb-4">
-                            @foreach (var phase in job.Phases.OrderBy(p => p.CreateAt))
-                            {
-                                <li class="timeline-item">
-                                    <span class="timeline-date">@phase.CreateAt.ToString("g")</span>
-                                    <span class="timeline-state">@phase.State</span>
-                                </li>
-                            }
-                        </ul>
-
-                        @if (job.Investigation != null)
+                        @if (job.InvestigationConclusion != null)
                         {
                             <h5>Investigation</h5>
-                            <p><strong>@job.Investigation.Conclusion</strong></p>
-                            <p>@job.Investigation.Description</p>
+                                <p><strong>@job.InvestigationConclusion</strong></p>
                         }
 
-                        @if (job.BillingInformation != null)
+                        @if (job.BillingInformationAmount != null)
                         {
                             <h5>Billing</h5>
-                            <p>Amount: @job.BillingInformation.Amount.ToString("C")</p>
+                            <p>Amount: @job.BillingInformationAmount.Value.ToString("C")</p>
                         }
 
                     </div>

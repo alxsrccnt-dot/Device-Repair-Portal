@@ -45,7 +45,7 @@ public class JobController(IMonitoringServicesClient monitoringServicesClient, I
         var dto = await monitoringServicesClient
             .GetJobByIdAsync(jobId);
 
-        var model = mapper.Map<JobViewModel>(dto);
+        var model = mapper.Map<JobDetailsViewModel>(dto);
 
         model.AvailableIssues = await issueCatalog.GetAllAsync();
         return View(model);

@@ -1,6 +1,6 @@
-﻿using Application.Monitoring.Dtos.Common;
+﻿using Application.Monitoring.Common;
 
-namespace Application.Monitoring.Dtos;
+namespace Application.Monitoring.Jobs.Dtos;
 
 public class CommentDto : CreatedInformationsDto
 {

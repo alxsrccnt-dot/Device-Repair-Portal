@@ -23,7 +23,7 @@ public class DtoToViewModelProfile : Profile
         CreateMap<IssueDto, IssueViewModel>();
 
         CreateMap<PaginatedResultDto<JobDto>, PaginatedViewModel<JobViewModel>>();
-        CreateMap<JobDto, JobViewModel>()
+        CreateMap<JobDetailsDto, JobDetailsViewModel>()
             .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
             .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))
             .ForMember(d => d.Investigation, opt => opt.MapFrom(src => src.Investigation))
@@ -31,6 +31,13 @@ public class DtoToViewModelProfile : Profile
             .ForMember(d => d.Comments, opt => opt.MapFrom(src => src.Comments))
             .ForMember(d => d.Phases, opt => opt.MapFrom(src => src.Phases))
             .ForMember(d => d.CreateAt, opt => opt.MapFrom(src => src.CreateAt));
+        CreateMap<JobDto, JobViewModel>()
+            .ForMember(d => d.EndDate, opt => opt.MapFrom(src => src.EndDate))
+            .ForMember(d => d.Ticket, opt => opt.MapFrom(src => src.Ticket))
+            .ForMember(d => d.InvestigationConclusion, opt => opt.MapFrom(src => src.InvestigationConclusion))
+            .ForMember(d => d.BillingInformationAmount, opt => opt.MapFrom(src => src.BillingInformationAmount))
+            .ForMember(d => d.CurrentPhase, opt => opt.MapFrom(src => src.CurrentPhase))
+            .ForMember(d => d.CurrentPhasesStartedAt, opt => opt.MapFrom(src => src.CurrentPhasesStartedAt));
         CreateMap<JobTicketDto, JobTicketViewModel>()
             .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(d => d.Device, opt => opt.MapFrom(src => src.Device))

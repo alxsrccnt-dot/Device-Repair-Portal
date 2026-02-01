@@ -1,4 +1,4 @@
-﻿namespace Application.Monitoring;
+﻿namespace Application.Monitoring.Common;
 
 public class PaginatedResultDto<T>(IEnumerable<T> data,
 	int pageNumber, int pageSize, int totalCount)

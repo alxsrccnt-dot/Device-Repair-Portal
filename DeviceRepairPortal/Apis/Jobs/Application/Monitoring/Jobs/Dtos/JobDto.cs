@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
+﻿namespace Application.Monitoring.Jobs.Dtos;
 
 public class JobDto
 {

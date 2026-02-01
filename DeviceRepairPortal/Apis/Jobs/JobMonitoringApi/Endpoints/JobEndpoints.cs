@@ -22,7 +22,7 @@ public class JobEndpoints : ICarterModule
     }
 
     public async Task<IResult> GetTehnicianJobs([FromServices] IMediator mediator,
-        [AsParameters] GetTehnicianJobsQuery query)
+        [AsParameters] GetJobsQuery query)
         => Results.Ok(await mediator.Send(query));
 
     public async Task<IResult> GetJob([FromServices] IMediator mediator,

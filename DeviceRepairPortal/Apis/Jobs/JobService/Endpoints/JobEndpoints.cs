@@ -19,10 +19,10 @@ public class JobEndpoints : ICarterModule
         techniciansGroup.MapPost("", CreateJob)
             .WithName(nameof(CreateJob));
 
-        techniciansGroup.MapPost("/phases/repair", CreateRepairPhase)
+        techniciansGroup.MapPost("/repair", CreateRepairPhase)
             .WithName(nameof(CreateRepairPhase));
 
-        techniciansGroup.MapPost("/phases/return", CreateReturnPhase)
+        techniciansGroup.MapPost("/return", CreateReturnPhase)
             .WithName(nameof(CreateReturnPhase));
 
         techniciansGroup.MapGet("", GetTehnicianJobs)
@@ -31,7 +31,7 @@ public class JobEndpoints : ICarterModule
         var group = app.MapGroup("/api/jobs")
             .RequireAuthorization();
 
-        group.MapGet("details", GetJob)
+        group.MapGet("{id:guid}", GetJob)
             .WithName(nameof(GetJob));
     }
 
@@ -54,10 +54,10 @@ public class JobEndpoints : ICarterModule
     }
 
     public async Task<IResult> GetTehnicianJobs([FromServices] IMediator mediator,
-        [AsParameters] GetTehnicianJobsQuery query)
+        [AsParameters] GetJobsQuery query)
         => Results.Ok(await mediator.Send(query));
 
     public async Task<IResult> GetJob([FromServices] IMediator mediator,
-        [AsParameters] GetJobDetailsQuery query)
-        => Results.Ok(await mediator.Send(query));
+        [AsParameters] Guid id)
+        => Results.Ok(await mediator.Send(new GetJobDetailsQuery(id)));
 }

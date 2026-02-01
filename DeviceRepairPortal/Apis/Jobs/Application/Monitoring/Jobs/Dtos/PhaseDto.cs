@@ -1,7 +1,7 @@
-﻿using Application.Monitoring.Dtos.Common;
+﻿using Application.Monitoring.Common;
 using Domain.Enums;
 
-namespace Application.Monitoring.Dtos;
+namespace Application.Monitoring.Jobs.Dtos;
 
 public class PhaseDto : CreatedInformationsDto
 {
