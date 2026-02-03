@@ -7,6 +7,6 @@ public class ManagementApiRoutesConstants
     public const string CreateJobCommentEndpointRoute = "api/comments";
     public const string CreateJobInvestigationEndpointRoute = "api/investigations";
     public const string CreateJobBillingEndpointRoute = "api/billings";
-    public const string CreateJobRepairEndpointRoute = "api/jobs/phases/repair";
-    public const string CreateJobReturnRoute = "api/jobs/phases/return";
+    public const string CreateJobRepairEndpointRoute = "api/jobs/repair";
+    public const string CreateJobReturnRoute = "api/jobs/return";
 }

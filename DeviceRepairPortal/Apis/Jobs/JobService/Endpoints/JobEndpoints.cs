@@ -1,4 +1,5 @@
-﻿using Application.Management.Jobs;
+﻿using Application.Management.Common;
+using Application.Management.Jobs;
 using Application.Management.Phases.Common;
 using Application.Management.Phases.Repair;
 using Application.Management.Phases.Return;
@@ -17,13 +18,16 @@ public class JobEndpoints : ICarterModule
             .RequireAuthorization("technicians.manage");
 
         techniciansGroup.MapPost("", CreateJob)
-            .WithName(nameof(CreateJob));
+            .WithName(nameof(CreateJob))
+            .AddEndpointFilter<ValidationFilter<CreateJobRequest>>();
 
         techniciansGroup.MapPost("/repair", CreateRepairPhase)
-            .WithName(nameof(CreateRepairPhase));
+            .WithName(nameof(CreateRepairPhase))
+            .AddEndpointFilter<ValidationFilter<CreatePhaseRequest>>();
 
         techniciansGroup.MapPost("/return", CreateReturnPhase)
-            .WithName(nameof(CreateReturnPhase));
+            .WithName(nameof(CreateReturnPhase))
+            .AddEndpointFilter<ValidationFilter<CreatePhaseRequest>>();
 
         techniciansGroup.MapGet("", GetTehnicianJobs)
             .WithName(nameof(GetTehnicianJobs));

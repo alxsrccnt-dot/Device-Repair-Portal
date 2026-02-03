@@ -18,9 +18,7 @@ public class CreateJobCommandHandler(ICurrentUser currentUser,
 
         _ = await readRepository.GetByIdAsync(request.TicketId, cancellationToken) ?? throw new NotFoundException("The ticket can not be found.");
 
-        Job newJob = string.IsNullOrWhiteSpace(request.Comment)
-            ? new Job(request.TicketId, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow)
-            : new Job(request.TicketId, request.Comment, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow);
+        var newJob = new Job(request.TicketId, currentUser.Email!, currentUser.UserName!, DateTime.UtcNow);
 
         await jobCreateRepository.CreateAsync(newJob, cancellationToken);
 

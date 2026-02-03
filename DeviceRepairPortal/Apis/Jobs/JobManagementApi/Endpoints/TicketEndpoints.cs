@@ -1,4 +1,5 @@
-﻿using Application.Management.Tikets;
+﻿using Application.Management.Common;
+using Application.Management.Tikets;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,8 @@ public class TicketEndpoints : ICarterModule
             .RequireAuthorization();
 
         group.MapPost("", CreateTicket)
-            .WithName(nameof(CreateTicket));
+            .WithName(nameof(CreateTicket))
+            .AddEndpointFilter<ValidationFilter<CreateTicketRequest>>();
     }
 
     public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)

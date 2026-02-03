@@ -1,5 +1,4 @@
-﻿using Application.Management.Tikets;
-using Application.Monitoring.Tickets;
+﻿using Application.Monitoring.Tickets;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,22 +12,14 @@ public class TicketEndpoints : ICarterModule
         var group = app.MapGroup("/api/tickets")
             .RequireAuthorization();
 
-        group.MapPost("", CreateTicket)
-            .WithName(nameof(CreateTicket));
-
         group.MapGet("", GetUserTickets)
             .WithName(nameof(GetUserTickets));
 
-        var tehnicianGroup = app.MapGroup("/api/tehnician/tickets")
+        var tehnicianGroup = app.MapGroup("/api/tickets")
             .RequireAuthorization("technicians.read");
+
         tehnicianGroup.MapGet("", GetTickets)
             .WithName(nameof(GetTickets));
-    }
-
-    public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)
-    {
-        await mediator.Send(new CreateTicketCommand(request));
-        return Results.Ok();
     }
 
     public async Task<IResult> GetUserTickets([FromServices] IMediator mediator,

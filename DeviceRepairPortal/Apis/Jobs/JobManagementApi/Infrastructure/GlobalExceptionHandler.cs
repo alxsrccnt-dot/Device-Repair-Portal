@@ -1,4 +1,4 @@
-﻿using Application.Exceptions;
+﻿using Application.Management.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;

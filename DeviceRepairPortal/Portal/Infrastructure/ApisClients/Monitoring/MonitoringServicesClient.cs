@@ -10,7 +10,11 @@ public class MonitoringServicesClient(HttpClient httpClient) : BaseApiClient(htt
         => await GetAsync<PaginatedResultDto<JobDto>>(GetTehnicianJobsUrl(request));
 
     public async Task<JobDetailsDto> GetJobByIdAsync(Guid id)
-        => await GetAsync<JobDetailsDto>(GetJobByIdUrl(id));
+    {
+        var test = GetJobByIdUrl(id);
+        return await GetAsync<JobDetailsDto>(GetJobByIdUrl(id));
+    }
+        //=> await GetAsync<JobDetailsDto>(GetJobByIdUrl(id));
 
     public async Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request)
         => await GetAsync<PaginatedResultDto<TicketDto>>(GetUserTicketsUrl(request));

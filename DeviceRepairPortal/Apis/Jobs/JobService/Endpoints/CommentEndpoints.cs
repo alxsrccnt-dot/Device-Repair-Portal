@@ -1,4 +1,5 @@
 ﻿using Application.Management.Comments;
+using Application.Management.Common;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,8 @@ public class CommentEndpoints : ICarterModule
             .RequireAuthorization(); ;
 
         group.MapPost("", CreateComment)
-            .WithName(nameof(CreateComment));
+            .WithName(nameof(CreateComment))
+            .AddEndpointFilter<ValidationFilter<CreateCommentRequest>>();
     }
 
     public async Task<IResult> CreateComment([FromServices] IMediator mediator, [FromBody] CreateCommentRequest request)

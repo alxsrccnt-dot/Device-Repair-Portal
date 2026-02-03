@@ -1,4 +1,5 @@
-﻿using Application.Management.Issues;
+﻿using Application.Management.Common;
+using Application.Management.Issues;
 using Application.Monitoring.Issues;
 using Carter;
 using MediatR;
@@ -14,8 +15,8 @@ public class IssueEndpoints : ICarterModule
             .RequireAuthorization("admins.manage"); ;
 
         adminGroup.MapPost("", CreateIssue)
-            .WithName(nameof(CreateIssue));
-
+            .WithName(nameof(CreateIssue))
+            .AddEndpointFilter<ValidationFilter<CreateIssueRequest>>();
 
         var group = app.MapGroup("/api/issues")
             .AllowAnonymous();

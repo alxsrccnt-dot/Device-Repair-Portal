@@ -1,4 +1,6 @@
-﻿using Application.Services;
+﻿using Application.Management.Jobs;
+using Application.Services;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -15,14 +17,15 @@ public static class DependencyInjection
 		});
 		services.AddServicesCollection();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.AddValidatorsFromAssembly(typeof(CreateJobRequestValidator).Assembly);
 
         return services;
-	}
+    }
 
-	private static IServiceCollection AddServicesCollection(this IServiceCollection services)
-	{
-		services.AddHttpContextAccessor();
-		services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
-		return services;
-	}
+    private static IServiceCollection AddServicesCollection(this IServiceCollection services)
+    {
+        services.AddHttpContextAccessor();
+        services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
+        return services;
+    }
 }

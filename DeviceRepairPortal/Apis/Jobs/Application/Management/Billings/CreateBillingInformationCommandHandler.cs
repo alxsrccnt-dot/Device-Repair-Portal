@@ -1,4 +1,4 @@
-﻿using Application.Exceptions;
+﻿using Application.Management.Common.Exceptions;
 using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
