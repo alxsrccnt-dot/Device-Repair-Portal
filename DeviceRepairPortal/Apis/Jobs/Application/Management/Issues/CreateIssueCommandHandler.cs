@@ -1,8 +1,8 @@
-﻿using Application.Exceptions;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Management.Issues;
 

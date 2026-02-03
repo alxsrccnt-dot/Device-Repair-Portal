@@ -1,7 +1,6 @@
-﻿using Application.Management.Tikets;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Application.Management.Tiket;
+namespace Application.Management.Tikets;
 
 internal class CreateTicketRequestValidator : AbstractValidator<CreateTicketRequest>
 {

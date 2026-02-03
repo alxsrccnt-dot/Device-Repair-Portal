@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Application.Management.Common.Exceptions;
+namespace Application.Exceptions;
 
 public class ValidationException : Exception
 {

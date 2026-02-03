@@ -1,4 +1,4 @@
-﻿using Application.Management.Common.Exceptions;
+﻿using Application.Exceptions;
 using Application.Services;
 using Domain.Entities;
 using Domain.Enums;
@@ -6,7 +6,7 @@ using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;
 
-namespace Application.Management.Billings;
+namespace Application.Billings;
 
 public class CreateBillingInformationCommandHandler(ICurrentUser currentUser,
     IReadRepository<Job> jobReadRepository,

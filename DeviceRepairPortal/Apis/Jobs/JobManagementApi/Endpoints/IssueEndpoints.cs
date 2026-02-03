@@ -1,5 +1,4 @@
-﻿using Application.Management.Comments;
-using Application.Management.Common;
+﻿using Application.Management.Common;
 using Application.Management.Issues;
 using Carter;
 using MediatR;

@@ -2,7 +2,7 @@
 using FluentValidation;
 using Infrastructure.Data.Repositories.Queries;
 
-namespace Application.Management.Billings;
+namespace Application.Billings;
 
 internal class CreateBillingInformationRequestValidator : AbstractValidator<CreateBillingInformationRequest>
 {
