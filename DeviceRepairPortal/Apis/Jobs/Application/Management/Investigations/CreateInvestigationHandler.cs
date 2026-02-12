@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Management.Investigations;
 
-public class CreateInvestigationCommandHandler(ICurrentUser currentUser,
+public class CreateInvestigationHandler(ICurrentUser currentUser,
     ICreateRepository<Investigation> investigationCreateRepository, ICreateRepository<Phase> phaseCreateRepository,
     IReadRepository<Job> jobReadRepository,
     IReadIssuesRepositories readIssuesRepositories)

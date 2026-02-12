@@ -17,9 +17,9 @@ public static class DependencyInjection
 		});
 		services.AddServicesCollection();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        services.AddValidatorsFromAssembly(typeof(CreateJobRequestValidator).Assembly);
+		services.AddValidatorsFromAssemblyContaining<CreateJobValidator>();
 
-        return services;
+		return services;
     }
 
     private static IServiceCollection AddServicesCollection(this IServiceCollection services)

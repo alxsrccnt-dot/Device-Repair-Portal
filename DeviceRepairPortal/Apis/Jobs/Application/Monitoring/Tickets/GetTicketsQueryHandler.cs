@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Monitoring.Tickets;
 
-public class GetTicketsHandler(ICurrentUser currentUser, ITicketReadRepository ticketReadRepository, IMapper mapper) : IRequestHandler<GetTicketsQuery, PaginatedResultDto<TicketDto>>
+public class GetTicketsQueryHandler(ICurrentUser currentUser, ITicketReadRepository ticketReadRepository, IMapper mapper) : IRequestHandler<GetTicketsQuery, PaginatedResultDto<TicketDto>>
 {
     public async Task<PaginatedResultDto<TicketDto>> Handle(GetTicketsQuery query, CancellationToken cancellationToken)
     {

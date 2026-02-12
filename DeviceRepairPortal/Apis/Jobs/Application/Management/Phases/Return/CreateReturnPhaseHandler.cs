@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Management.Phases.Return;
 
-public class CreateReturnPhaseCommandHandler(ICurrentUser currentUser,
+public class CreateReturnPhaseHandler(ICurrentUser currentUser,
     ICreateRepository<Phase> phaseCreateRepository,
     IUpdateRepository<Job> jobUpdateRepository,
     IReadRepository<Job> jobReadRepository)

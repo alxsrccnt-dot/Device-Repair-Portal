@@ -2,24 +2,28 @@
 
 namespace Application.Management.Tikets;
 
-internal class CreateTicketRequestValidator : AbstractValidator<CreateTicketRequest>
+public class CreateTicketValidator : AbstractValidator<CreateTicketRequest>
 {
-    public CreateTicketRequestValidator()
+    public CreateTicketValidator()
     {
         RuleFor(x => x.Description)
-            .MinimumLength(1)
+			.NotNull()
+			.MinimumLength(1)
             .WithMessage("Must provide a description.");
 
         RuleFor(x => x.Model)
-            .MinimumLength(1)
+			.NotNull()
+			.MinimumLength(1)
             .WithMessage("Must provide a model.");
 
         RuleFor(x => x.Brand)
-            .MinimumLength(1)
+			.NotNull()
+			.MinimumLength(1)
             .WithMessage("Must provide a brand.");
-        RuleFor(x => x.SerialNumber)
 
-            .MinimumLength(1)
+        RuleFor(x => x.SerialNumber)
+			.NotNull()
+			.MinimumLength(1)
             .WithMessage("Must provide a serial number.");
     }
 }

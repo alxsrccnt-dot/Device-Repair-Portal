@@ -1,5 +1,4 @@
 ﻿using Application.Common.Token;
-using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -76,7 +75,6 @@ public static class ServiceCollectionExtensions
 			options.FallbackPolicy = options.DefaultPolicy;
 		});
 
-		services.AddValidatorsFromAssemblyContaining<Program>();
 		return services;
 	}
 }

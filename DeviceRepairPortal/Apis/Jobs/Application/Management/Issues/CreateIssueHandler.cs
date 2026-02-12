@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Management.Issues;
 
-public class CreateIssueCommandHandler(IReadIssuesRepositories readIssuesRepositories, ICreateRepository<Issue> createRepository)
+public class CreateIssueHandler(IReadIssuesRepositories readIssuesRepositories, ICreateRepository<Issue> createRepository)
     : IRequestHandler<CreateIssueCommand>
 {
     public async Task Handle(CreateIssueCommand command, CancellationToken cancellationToken)

@@ -7,9 +7,8 @@ public class AuthenticationValidator : AbstractValidator<AuthenticationRequest>
 	public AuthenticationValidator()
 	{
 		RuleFor(x => x.Email)
-			.NotNull()
-			.MinimumLength(1)
-			.WithMessage("Must provide a email.");
+			.EmailAddress()
+			.WithMessage("Must provide a valid email adress.");
 
 		RuleFor(x => x.Password)
 			.MinimumLength(1)

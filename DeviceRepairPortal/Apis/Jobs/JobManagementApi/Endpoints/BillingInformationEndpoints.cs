@@ -1,4 +1,4 @@
-﻿using Application.Billings;
+﻿using Application.Management.Billings;
 using Application.Management.Common;
 using Carter;
 using MediatR;

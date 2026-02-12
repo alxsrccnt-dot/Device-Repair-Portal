@@ -1,6 +1,6 @@
 ﻿using Application.Management.Comments;
-using Application.Management.Common;
 using Carter;
+using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +11,12 @@ public class CommentEndpoints : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/comments")
-            .RequireAuthorization(); ;
+            .RequireAuthorization();
 
         group.MapPost("", CreateComment)
             .WithName(nameof(CreateComment))
-            .AddEndpointFilter<ValidationFilter<CreateCommentRequest>>();
-    }
+			.WithRequestValidation<CreateCommentRequest>();
+	}
 
     public async Task<IResult> CreateComment([FromServices] IMediator mediator, [FromBody] CreateCommentRequest request)
     {

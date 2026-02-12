@@ -1,6 +1,6 @@
-﻿using Application.Billings;
-using Application.Management.Common;
+﻿using Application.Management.Billings;
 using Carter;
+using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +15,9 @@ public class BillingInformationEndpoints : ICarterModule
 
         group.MapPost("", CreateBillingInformation)
             .WithName(nameof(CreateBillingInformation))
-            .AddEndpointFilter<ValidationFilter<CreateBillingInformationRequest>>();
-    }
+			.WithSummary("Add billing to current job.")
+			.WithRequestValidation<CreateBillingInformationRequest>();
+	}
 
     public async Task<IResult> CreateBillingInformation([FromServices] IMediator mediator, [FromBody] CreateBillingInformationRequest request)
     {

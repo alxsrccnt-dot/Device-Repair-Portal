@@ -6,9 +6,9 @@ using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
 using MediatR;
 
-namespace Application.Billings;
+namespace Application.Management.Billings;
 
-public class CreateBillingInformationCommandHandler(ICurrentUser currentUser,
+public class CreateBillingInformationHandler(ICurrentUser currentUser,
     IReadRepository<Job> jobReadRepository,
     ICreateRepository<BillingInformation> billingInformationCreateRepository, ICreateRepository<Phase> phaseCreateRepository) : IRequestHandler<CreateBillingInformationCommand>
 {

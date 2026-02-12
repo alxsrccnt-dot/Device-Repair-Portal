@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Login;
 
-public class LoginCommandHandler(UserManager<User> userManager,
+public class LoginHandler(UserManager<User> userManager,
 	SignInManager<User> signInManager,
 	ITokenService jwtService) : IRequestHandler<LoginCommand, string>
 {
