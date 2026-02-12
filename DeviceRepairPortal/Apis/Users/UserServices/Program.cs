@@ -7,8 +7,8 @@ using UserServices.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddCarter();
 builder.Services.AddCustomAuthentification(builder.Configuration);
+builder.Services.AddCarter();
 builder.Services.AddWebServices();
 
 builder.Services.AddApplication(builder.Configuration);
