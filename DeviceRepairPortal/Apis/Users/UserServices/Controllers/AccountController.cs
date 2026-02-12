@@ -1,4 +1,5 @@
 ﻿using Application.ChangeUserClaim;
+using Application.Common;
 using Application.Login;
 using Application.Register;
 using Application.SeedDb;
@@ -12,22 +13,6 @@ namespace UserServices.Controllers;
 [Route("api/auth")]
 public class AccountController(IMediator mediator) : Controller
 {
-	[AllowAnonymous]
-	[HttpPost("login")]
-	public async Task<IActionResult> Login(AuthenticationRequest request)
-	{
-		var token = await mediator.Send(new LoginCommand(request));
-		return Ok(token);
-	}
-
-	[AllowAnonymous]
-	[HttpPost("register")]
-	public async Task<IActionResult> Register(RegisterRequest request)
-	{
-		var token = await mediator.Send(new RegisterCommand(request));
-		return Ok(token);
-    }
-
     [AllowAnonymous]
     [HttpPut("change-user-claims")]
     public async Task<IActionResult> ChangeUserClaims(ChangeUserClaimRequest request)

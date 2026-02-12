@@ -1,6 +1,9 @@
-﻿using Application.Common.Exceptions;
+﻿using Application.Common;
+using Application.Common.Exceptions;
 using Application.Common.Token;
+using Application.Login;
 using Domain.Entities;
+using FluentValidation;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -39,8 +42,10 @@ public static class DependencyInjection
 
 		services.AddMediatR(cfg =>
 		{
-			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+			cfg .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 		});
+
+		services.AddValidatorsFromAssemblyContaining<AuthenticationValidator>();
 
 		return services;
 	}
