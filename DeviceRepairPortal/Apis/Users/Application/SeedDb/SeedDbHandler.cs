@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.SeedDb;
 
-public class SeedDbCommandHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : IRequestHandler<SeedDbCommand>
+public class SeedDbHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : IRequestHandler<SeedDbCommand>
 {
     public async Task Handle(SeedDbCommand command, CancellationToken cancellationToken)
     {

@@ -1,7 +1,7 @@
-﻿using Application.Management.Common;
-using Application.Management.Tikets;
+﻿using Application.Management.Tikets;
 using Application.Monitoring.Tickets;
 using Carter;
+using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +16,9 @@ public class TicketEndpoints : ICarterModule
 
         group.MapPost("", CreateTicket)
             .WithName(nameof(CreateTicket))
-            .AddEndpointFilter<ValidationFilter<CreateTicketRequest>>();
+			.WithRequestValidation<CreateTicketRequest>();
 
-        group.MapGet("", GetUserTickets)
+		group.MapGet("", GetUserTickets)
             .WithName(nameof(GetUserTickets));
 
         var tehnicianGroup = app.MapGroup("/api/technician-tickets")
@@ -29,10 +29,11 @@ public class TicketEndpoints : ICarterModule
 
     }
 
-    public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)
+    public async Task<IResult> CreateTicket([FromServices] IMediator mediator,
+        [FromBody] CreateTicketRequest request)
     {
         await mediator.Send(new CreateTicketCommand(request));
-        return Results.Ok();
+        return Results.Created();
     }
 
     public async Task<IResult> GetUserTickets([FromServices] IMediator mediator,

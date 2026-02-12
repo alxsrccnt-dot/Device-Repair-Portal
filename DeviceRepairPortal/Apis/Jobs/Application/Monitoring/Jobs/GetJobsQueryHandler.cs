@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Monitoring.Jobs;
 
-internal class GetJobsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobsQuery, PaginatedResultDto<JobDto>>
+internal class GetJobsQueryHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobsQuery, PaginatedResultDto<JobDto>>
 {
     public async Task<PaginatedResultDto<JobDto>> Handle(GetJobsQuery request, CancellationToken cancellationToken)
     {

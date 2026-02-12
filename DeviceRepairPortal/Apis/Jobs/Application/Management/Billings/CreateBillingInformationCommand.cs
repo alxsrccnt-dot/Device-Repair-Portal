@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace Application.Billings;
+namespace Application.Management.Billings;
 
 public record CreateBillingInformationCommand(CreateBillingInformationRequest Request) : IRequest;

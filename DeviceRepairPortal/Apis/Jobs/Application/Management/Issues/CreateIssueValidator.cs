@@ -2,9 +2,9 @@
 
 namespace Application.Management.Issues;
 
-internal class CreateIssueRequestValidator : AbstractValidator<CreateIssueRequest>
+public class CreateIssueValidator : AbstractValidator<CreateIssueRequest>
 {
-    public CreateIssueRequestValidator()
+    public CreateIssueValidator()
     {
         RuleFor(x => x.DevicePiece)
             .MinimumLength(1)

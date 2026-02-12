@@ -1,7 +1,7 @@
-﻿using Application.Management.Common;
-using Application.Management.Issues;
+﻿using Application.Management.Issues;
 using Application.Monitoring.Issues;
 using Carter;
+using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +16,9 @@ public class IssueEndpoints : ICarterModule
 
         adminGroup.MapPost("", CreateIssue)
             .WithName(nameof(CreateIssue))
-            .AddEndpointFilter<ValidationFilter<CreateIssueRequest>>();
+			.WithRequestValidation<CreateIssueRequest>();
 
-        var group = app.MapGroup("/api/issues")
+		var group = app.MapGroup("/api/issues")
             .AllowAnonymous();
 
         group.MapGet("", GetIssues)

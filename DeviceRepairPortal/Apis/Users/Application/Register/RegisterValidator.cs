@@ -9,12 +9,11 @@ public class RegisterValidator : AbstractValidator<RegisterRequest>
 		RuleFor(x => x.UserName)
 			.NotNull()
 			.MinimumLength(1)
-			.WithMessage("Must provide a email.");
+			.WithMessage("Must provide a username.");
 
 		RuleFor(x => x.Email)
-			.NotNull()
-			.MinimumLength(1)
-			.WithMessage("Must provide a email.");
+			.EmailAddress()
+			.WithMessage("Must provide a valid email adress.");
 
 		RuleFor(x => x.Password)
 			.MinimumLength(1)

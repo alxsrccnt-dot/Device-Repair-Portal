@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.ChangeUserClaim;
 
-public class ChangeUserClaimsCommandHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : IRequestHandler<ChangeUserClaimsCommand>
+public class ChangeUserClaimsHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : IRequestHandler<ChangeUserClaimsCommand>
 {
 	public async Task Handle(ChangeUserClaimsCommand command, CancellationToken cancellationToken)
 	{

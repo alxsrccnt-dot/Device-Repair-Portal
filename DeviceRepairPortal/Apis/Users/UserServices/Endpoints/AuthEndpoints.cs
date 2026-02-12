@@ -3,7 +3,6 @@ using Application.Register;
 using Carter;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserServices.Infrastructure;
 

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Management.Phases.Repair;
 
-public class CreateRepairPhaseCommandHandler(ICurrentUser currentUser,
+public class CreateRepairPhaseHandler(ICurrentUser currentUser,
     ICreateRepository<Phase> phaseCreateRepository,
     IReadRepository<Job> jobReadRepository)
     : IRequestHandler<CreateRepairPhaseCommand>

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Management.Jobs;
 
-public class CreateJobCommandHandler(ICurrentUser currentUser,
+public class CreateJobHandler(ICurrentUser currentUser,
     ICreateRepository<Job> jobCreateRepository, ICreateRepository<Phase> phaseCreateRepository,
     IReadRepository<Ticket> readRepository) : IRequestHandler<CreateJobCommand>
 {

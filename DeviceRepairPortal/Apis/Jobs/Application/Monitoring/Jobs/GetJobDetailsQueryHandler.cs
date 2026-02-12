@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.Monitoring.Jobs;
 
-internal class GetJobDetailsHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobDetailsQuery, JobDetailsDto>
+internal class GetJobDetailsQueryHandler(ICurrentUser currentUser, IJobReadRepository jobReadRepository, IMapper mapper) : IRequestHandler<GetJobDetailsQuery, JobDetailsDto>
 {
     public async Task<JobDetailsDto> Handle(GetJobDetailsQuery request, CancellationToken cancellationToken)
     {

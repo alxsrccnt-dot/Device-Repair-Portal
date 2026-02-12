@@ -1,10 +1,10 @@
-﻿using Application.Management.Common;
-using Application.Management.Jobs;
+﻿using Application.Management.Jobs;
 using Application.Management.Phases.Common;
 using Application.Management.Phases.Repair;
 using Application.Management.Phases.Return;
 using Application.Monitoring.Jobs;
 using Carter;
+using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,15 +19,15 @@ public class JobEndpoints : ICarterModule
 
         techniciansGroup.MapPost("", CreateJob)
             .WithName(nameof(CreateJob))
-            .AddEndpointFilter<ValidationFilter<CreateJobRequest>>();
+			.WithRequestValidation<CreateJobRequest>();
 
         techniciansGroup.MapPost("/repair", CreateRepairPhase)
             .WithName(nameof(CreateRepairPhase))
-            .AddEndpointFilter<ValidationFilter<CreatePhaseRequest>>();
+			.WithRequestValidation<CreatePhaseRequest>();
 
         techniciansGroup.MapPost("/return", CreateReturnPhase)
             .WithName(nameof(CreateReturnPhase))
-            .AddEndpointFilter<ValidationFilter<CreatePhaseRequest>>();
+			.WithRequestValidation<CreatePhaseRequest>();
 
         techniciansGroup.MapGet("", GetTehnicianJobs)
             .WithName(nameof(GetTehnicianJobs));

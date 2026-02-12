@@ -2,9 +2,9 @@
 
 namespace Application.Management.Investigations;
 
-internal class CreateInvestigationRequestValidator : AbstractValidator<CreateInvestigationRequest>
+public class CreateInvestigationValidator : AbstractValidator<CreateInvestigationRequest>
 {
-    public CreateInvestigationRequestValidator()
+    public CreateInvestigationValidator()
 	{
 		RuleFor(x => x.JobId).NotEmpty()
 			.WithMessage("Must provide a JobId.");

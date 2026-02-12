@@ -2,9 +2,9 @@
 
 namespace Application.Management.Comments;
 
-internal class CreateCommentRequestValidator : AbstractValidator<CreateCommentRequest>
+public class CreateCommentValidator : AbstractValidator<CreateCommentRequest>
 {
-    public CreateCommentRequestValidator()
+    public CreateCommentValidator()
     {
         RuleFor(x => x.JobId).NotEmpty()
 			.WithMessage("Must provide a JobId.");

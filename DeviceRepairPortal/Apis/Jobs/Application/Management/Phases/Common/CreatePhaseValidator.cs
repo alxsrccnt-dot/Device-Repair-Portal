@@ -2,9 +2,9 @@
 
 namespace Application.Management.Phases.Common;
 
-internal class CreatePhaseRequestValidator : AbstractValidator<CreatePhaseRequest>
+public class CreatePhaseValidator : AbstractValidator<CreatePhaseRequest>
 {
-    public CreatePhaseRequestValidator()
+    public CreatePhaseValidator()
 	{
 		RuleFor(x => x.JobId).NotEmpty()
 			.WithMessage("Must provide a JobId.");

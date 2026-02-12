@@ -1,6 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace UserServices.Infrastructure;
 
@@ -11,6 +12,7 @@ public class GlobalExceptionHandler : IExceptionHandler
 		{
 			{ typeof(UnauthorizedAccessException), HandleUnauthorizedAccessExceptionAsync },
 			{ typeof(ForbiddenException), HandleForbiddenAccessExceptionAsync },
+			{ typeof(ValidationException), HandleInvalidExceptionAsync },
 			{ typeof(NotFoundException), HandleNotFoundExceptionAsync }
 		};
 
@@ -57,6 +59,23 @@ public class GlobalExceptionHandler : IExceptionHandler
 			Title = "The specified resourses was not found.",
 			Status = StatusCodes.Status404NotFound,
 			Detail = exceptionDetails!.Message
+		});
+	}
+
+	private static async Task HandleInvalidExceptionAsync(HttpContext httpContext, Exception exception)
+	{
+		var exceptionDetails = exception as ValidationException;
+
+		var exceptionMessageBuilder = new StringBuilder();
+		foreach (var error in exceptionDetails!.Errors)
+			exceptionMessageBuilder.AppendLine(error);
+
+		httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+		await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+		{
+			Title = exceptionDetails.Message,
+			Status = StatusCodes.Status400BadRequest,
+			Detail = exceptionMessageBuilder.ToString()
 		});
 	}
 

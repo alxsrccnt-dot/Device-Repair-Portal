@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Management.Tikets;
 
-public class CreateTicketCommandHandler(ICurrentUser currentUser, ICreateRepository<Ticket> ticketCreateRepository, IReadIssuesRepositories readIssuesRepositories) : IRequestHandler<CreateTicketCommand>
+public class CreateTicketHandler(ICurrentUser currentUser, ICreateRepository<Ticket> ticketCreateRepository, IReadIssuesRepositories readIssuesRepositories) : IRequestHandler<CreateTicketCommand>
 {
     public async Task Handle(CreateTicketCommand command, CancellationToken cancellationToken)
     {
