@@ -1,6 +1,6 @@
 ﻿using Application.Management.Comments;
-using Application.Management.Common;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ public class CommentEndpoints : ICarterModule
 
         group.MapPost("", CreateComment)
             .WithName(nameof(CreateComment))
-            .AddEndpointFilter<ValidationFilter<CreateCommentRequest>>();
+            .WithRequestValidation<CreateCommentRequest>();
     }
 
     public async Task<IResult> CreateComment([FromServices] IMediator mediator, [FromBody] CreateCommentRequest request)

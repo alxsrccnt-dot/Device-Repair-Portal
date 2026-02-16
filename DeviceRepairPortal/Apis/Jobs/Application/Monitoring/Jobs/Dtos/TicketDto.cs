@@ -4,7 +4,7 @@ using Application.Monitoring.Tickets.Dtos;
 
 namespace Application.Monitoring.Jobs.Dtos;
 
-public class JobDetailsTicketDto : CreatedInformationsDto
+public class TicketDto : CreatedInformationsDto
 {
     public string Description { get; init; }
     public DeviceDto Device { get; init; }

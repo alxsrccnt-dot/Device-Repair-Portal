@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Monitoring.Jobs;
 
-public record GetJobDetailsQuery(Guid JobId) : IRequest<JobDetailsDto>;
+public record GetJobDetailsQuery(Guid JobId) : IRequest<JobDetailsDto?>;

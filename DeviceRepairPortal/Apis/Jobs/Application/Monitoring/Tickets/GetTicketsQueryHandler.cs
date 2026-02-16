@@ -8,15 +8,17 @@ using MediatR;
 
 namespace Application.Monitoring.Tickets;
 
-public class GetTicketsQueryHandler(ICurrentUser currentUser, ITicketReadRepository ticketReadRepository, IMapper mapper) : IRequestHandler<GetTicketsQuery, PaginatedResultDto<TicketDto>>
+public class GetTicketsQueryHandler(ICurrentUser currentUser, ITicketReadRepository ticketReadRepository, IMapper mapper)
+	: GetTicketsBaseHandler(currentUser, ticketReadRepository, mapper), IRequestHandler<GetTicketsQuery, PaginatedResultDto<TicketDto>>
 {
     public async Task<PaginatedResultDto<TicketDto>> Handle(GetTicketsQuery query, CancellationToken cancellationToken)
-    {
-        var ticketsWithTotalCount = await ticketReadRepository.GetUserTicketsAsync(
-            new TicketsRequest(query.UserEmail, query.IsActive, query.PageNumber, query.PageSize), cancellationToken);
-
-        var tickets = mapper.Map<List<TicketDto>>(ticketsWithTotalCount.Items);
-
-        return new PaginatedResultDto<TicketDto>(tickets, query.PageNumber, query.PageSize, ticketsWithTotalCount.TotalCount);
-    }
+        => await base.Handle(new PaginatedRequest
+		{
+			PageNumber = query.PageNumber,
+			PageSize = query.PageSize,
+			CreateBy = query.UserEmail,
+			IsActive = query.IsActive,
+			StartDate = query.StartDate,
+			EndDate = query.EndDate,
+		}, cancellationToken);
 }

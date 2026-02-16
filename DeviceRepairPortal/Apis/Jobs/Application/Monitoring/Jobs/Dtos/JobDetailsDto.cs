@@ -6,7 +6,7 @@ public class JobDetailsDto : CreatedInformationsDto
 {
     public Guid Id { get; set; }
     public DateTime? EndDate { get; init; }
-    public JobDetailsTicketDto Ticket { get; init; }
+    public TicketDto Ticket { get; init; }
     public InvestigationDto? Investigation { get; init; }
     public BillingInformationDto? BillingInformation { get; init; }
 

@@ -16,6 +16,6 @@ public class Ticket : Entity<Guid>
     public string Description { get; set; }
     public int DeviceId { get; set; }
     public Device Device { get; set; }
-    public Job Job { get; set; } = null!;
+    public Job? Job { get; set; }
     public ICollection<Issue> Issues { get; set; } = [];
 }

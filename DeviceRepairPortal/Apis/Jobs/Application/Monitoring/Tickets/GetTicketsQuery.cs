@@ -4,4 +4,6 @@ using MediatR;
 
 namespace Application.Monitoring.Tickets;
 
-public record GetTicketsQuery(string? UserEmail, bool? IsActive, int PageNumber, int PageSize) : IRequest<PaginatedResultDto<TicketDto>>;
+public record GetTicketsQuery(int PageNumber, int PageSize,
+	string? UserEmail = null, bool? IsActive = null,
+	DateTime? StartDate = null, DateTime? EndDate = null) : IRequest<PaginatedResultDto<TicketDto>>;

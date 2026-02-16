@@ -1,6 +1,6 @@
-﻿using Application.Management.Common;
-using Application.Management.Tikets;
+﻿using Application.Management.Tikets;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ public class TicketEndpoints : ICarterModule
 
         group.MapPost("", CreateTicket)
             .WithName(nameof(CreateTicket))
-            .AddEndpointFilter<ValidationFilter<CreateTicketRequest>>();
+            .WithRequestValidation<CreateTicketRequest>();
     }
 
     public async Task<IResult> CreateTicket([FromServices] IMediator mediator, [FromBody] CreateTicketRequest request)
