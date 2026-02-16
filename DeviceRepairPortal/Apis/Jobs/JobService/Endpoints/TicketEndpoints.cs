@@ -16,17 +16,17 @@ public class TicketEndpoints : ICarterModule
 
         group.MapPost("", CreateTicket)
             .WithName(nameof(CreateTicket))
+			.WithSummary("Create a new tickets .")
 			.WithRequestValidation<CreateTicketRequest>();
 
 		group.MapGet("", GetUserTickets)
             .WithName(nameof(GetUserTickets));
 
-        var tehnicianGroup = app.MapGroup("/api/technician-tickets")
+        var technicianGroup = app.MapGroup("/api/technician-tickets")
             .RequireAuthorization("technicians.read");
 
-        tehnicianGroup.MapGet("", GetTickets)
+        technicianGroup.MapGet("", GetTickets)
             .WithName(nameof(GetTickets));
-
     }
 
     public async Task<IResult> CreateTicket([FromServices] IMediator mediator,
@@ -35,7 +35,7 @@ public class TicketEndpoints : ICarterModule
         await mediator.Send(new CreateTicketCommand(request));
         return Results.Created();
     }
-
+         
     public async Task<IResult> GetUserTickets([FromServices] IMediator mediator,
         [AsParameters] GetUserTicketsQuery query)
         => Results.Ok(await mediator.Send(query));

@@ -62,6 +62,6 @@ public class JobEndpoints : ICarterModule
         => Results.Ok(await mediator.Send(query));
 
     public async Task<IResult> GetJob([FromServices] IMediator mediator,
-        [AsParameters] Guid id)
-        => Results.Ok(await mediator.Send(new GetJobDetailsQuery(id)));
+        Guid Id)
+        => Results.Ok(await mediator.Send(new GetJobDetailsQuery(Id)));
 }

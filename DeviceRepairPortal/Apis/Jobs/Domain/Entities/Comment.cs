@@ -13,7 +13,7 @@ public class Comment : Entity<int>
     }
 
     public Comment(Guid jobId, string content, string createdBy, string usernameOfCreatedBy, DateTime createdAt)
-        : base(createdBy, usernameOfCreatedBy, createdAt)
+        : this(content, createdBy, usernameOfCreatedBy, createdAt)
     {
         JobId = jobId;
     }

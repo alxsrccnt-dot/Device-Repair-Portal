@@ -11,7 +11,9 @@ internal class JobReadRepository(ApplicationDbContext context) : IJobReadReposit
         => await context.Jobs
             .Include(j => j.Ticket)
             .ThenInclude(t => t.Device)
-            .Include(j => j.Investigation)
+			.Include(j => j.Ticket)
+			.ThenInclude(t => t.Issues)
+			.Include(j => j.Investigation )
             .ThenInclude(i => i.Issues)
             .Include(j => j.BillingInformation)
             .ThenInclude(bi => bi.Discount)
@@ -20,31 +22,33 @@ internal class JobReadRepository(ApplicationDbContext context) : IJobReadReposit
             .AsNoTracking()
             .FirstAsync(j => j.Id == id, cancellationToken);
 
-    public async Task<DataWithTotalCount<Job>> GetTehnicianJobsAsync(JobsRequest request, CancellationToken cancellationToken = default)
+    public async Task<DataWithTotalCount<Job>> GetJobsAsync(PaginatedRequest request, CancellationToken cancellationToken = default)
     {
         var query = context.Jobs
             .Include(j => j.Ticket)
             .ThenInclude(t => t.Device)
             .Include(j => j.Investigation)
-            .ThenInclude(i => i.Issues)
             .Include(j => j.BillingInformation)
-            .ThenInclude(bi => bi.Discount)
-            .Include(j => j.Comments)
-            .Include(j => j.Phases)
+			.Include(j => j.Phases)
             .AsNoTracking()
             .OrderByDescending(t => t.CreateAt)
             .AsQueryable();
 
-        if (request.CreateBy is not null)
-            query = query.Where(t => t.CreatedBy == request.CreateBy);
+		if (request.CreateBy is not null)
+			query = query.Where(t => t.CreatedBy == request.CreateBy);
 
-        if (request.InProgres is not null && request.InProgres == true)
-            query = query.Where(t => t.EndDate == null);
-        else if (request.InProgres is not null && request.InProgres == false)
-            query = query.Where(t => t.EndDate != null);
+		if (request.IsActive is not null && request.IsActive == true)
+			query = query.Where(t => t.EndDate == null);
+		else if (request.IsActive is not null && request.IsActive == false)
+			query = query.Where(t => t.EndDate != null);
 
-        var jobs = await query
-            .Skip((request.PageNumber - 1) * request.PageSize)
+		if (request.StartDate is not null && request.EndDate is null)
+			query = query.Where(t => t.CreateAt.Date == request.StartDate.Value.Date);
+
+		if (request.StartDate is not null && request.EndDate is not null)
+			query = query.Where(t => t.CreateAt.Date == request.StartDate.Value.Date);
+
+		var jobs = await query
             .Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var total = await query.CountAsync(cancellationToken);
