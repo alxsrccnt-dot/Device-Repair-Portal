@@ -6,22 +6,27 @@ namespace Infrastructure.Data.EntityTypeConfigurations;
 
 internal class UserChangeHistoryProfileConfiguration : IEntityTypeConfiguration<UserChangeHistory>
 {
-	public void Configure(EntityTypeBuilder<UserChangeHistory> builder)
-	{
-		builder.HasKey(x => x.Id);
+    public void Configure(EntityTypeBuilder<UserChangeHistory> builder)
+    {
+        builder.HasKey(x => x.Id);
 
-		builder.Property(x => x.ChangedFieldOldValue)
-			.IsRequired();
+        builder.Property(x => x.ChangedFieldOldValue)
+            .HasMaxLength(100)
+            .IsRequired();
 
-		builder.Property(x => x.ChangedFieldName)
-			.IsRequired();
+        builder.Property(x => x.ChangedFieldName)
+            .HasMaxLength(100)
+            .IsRequired();
 
-		builder.Property(x => x.ChangetAt)
-			.IsRequired();
+        builder.Property(x => x.ChangedAt)
+            .IsRequired();
 
-		builder.HasOne(x => x.User)
-			   .WithMany(x => x.UserChangeHistories)
-			   .HasForeignKey(x => x.UserId)
-			   .OnDelete(DeleteBehavior.Restrict);
-	}
+        builder.Property(x => x.UserId)
+            .HasMaxLength(38);
+
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.UserChangeHistories)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }

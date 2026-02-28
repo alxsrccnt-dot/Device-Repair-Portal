@@ -2,4 +2,4 @@
 
 namespace Application.Login;
 
-public record LoginCommand(AuthenticationRequest request) : IRequest<string>;
+public record LoginCommand(AuthenticationRequest request) : IRequest<AuthResponse>;

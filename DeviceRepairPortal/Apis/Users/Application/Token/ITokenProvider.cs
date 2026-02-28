@@ -2,7 +2,7 @@
 
 namespace Application.Common.Token;
 
-public interface ITokenService
+public interface ITokenProvider
 {
 	Task<string> GenerateJwtToken(User user);
 }

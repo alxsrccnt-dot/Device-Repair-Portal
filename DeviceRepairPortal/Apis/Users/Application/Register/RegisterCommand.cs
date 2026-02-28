@@ -2,4 +2,4 @@
 using MediatR;
 
 namespace Application.Register;
-public record RegisterCommand(RegisterRequest request) : IRequest<string>;
+public record RegisterCommand(RegisterRequest request) : IRequest<AuthResponse>;

@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 using UserServices.Infrastructure;
 
 namespace UserServices;
 
-public static class DependencyInjection
+internal static class DependencyInjection
 {
-	public static IServiceCollection AddWebServices(this IServiceCollection services)
+	internal static IServiceCollection AddWebServices(this IServiceCollection services)
 	{
 		services.AddExceptionHandler();
 		services.AddValidatorsFromAssemblyContaining<Program>();
@@ -17,5 +19,44 @@ public static class DependencyInjection
 	{
 		services.AddExceptionHandler<GlobalExceptionHandler>();
 		services.AddProblemDetails();
+	}
+	
+	internal static IServiceCollection AddSwaggerGenWithAuth(this IServiceCollection services)
+	{
+		services.AddSwaggerGen(o =>
+		{
+			o.CustomSchemaIds(id => id.FullName!.Replace('+', '-'));
+
+			var securityScheme = new OpenApiSecurityScheme
+			{
+				Name = "JWT Authentication",
+				Description = "Enter your JWT token in this field",
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.Http,
+				Scheme = JwtBearerDefaults.AuthenticationScheme,
+				BearerFormat = "JWT"
+			};
+
+			o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
+
+			var securityRequirement = new OpenApiSecurityRequirement
+			{
+				{
+					new OpenApiSecurityScheme
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.SecurityScheme,
+							Id = JwtBearerDefaults.AuthenticationScheme
+						}
+					},
+					[]
+				}
+			};
+
+			o.AddSecurityRequirement(securityRequirement);
+		});
+
+		return services;
 	}
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Application.Common.Token;
 
-public class TokenService(UserManager<User> userManager, TokenSettings jwtSettings) : ITokenService
+public class TokenProvider(UserManager<User> userManager, TokenSettings jwtSettings) : ITokenProvider
 {
 	public async Task<string> GenerateJwtToken(User user)
 	{
@@ -16,30 +16,28 @@ public class TokenService(UserManager<User> userManager, TokenSettings jwtSettin
 
 		var roles = await userManager.GetRolesAsync(user);
 
-		var claims = new List<Claim>
-		{
-			new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-			new Claim(JwtRegisteredClaimNames.Email, user.Email!.ToString()),
-			new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
-			new Claim(ClaimTypes.Name, user.UserName!),
-			new Claim(ClaimTypes.Country, "Country")
-        };
+		var claims = new List<Claim>();
+		claims.Add(new(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
+		claims.Add(new(JwtRegisteredClaimNames.Email, user.Email!.ToString()));
+		claims.Add(new(JwtRegisteredClaimNames.UniqueName, user.UserName!));
+		claims.Add(new(ClaimTypes.Name, user.UserName!));
+		claims.Add(new(ClaimTypes.Country, "Country"));
 
 		if (await userManager.IsInRoleAsync(user, AppRoles.Admin))
 		{
-			claims.Add(new Claim("scope", "admins.read"));
-			claims.Add(new Claim("scope", "admins.manage"));
+			claims.Add(new("scope", "admins.read"));
+			claims.Add(new("scope", "admins.manage")); 
         }
 
         if (await userManager.IsInRoleAsync(user, AppRoles.Technician))
 		{
-            claims.Add(new Claim("scope", "technicians.read"));
-            claims.Add(new Claim("scope", "technicians.manage"));
+            claims.Add(new("scope", "technicians.read"));
+            claims.Add(new("scope", "technicians.manage"));
         }
 
         foreach (var role in roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new(ClaimTypes.Role, role));
         }
 
         var token = new JwtSecurityToken(

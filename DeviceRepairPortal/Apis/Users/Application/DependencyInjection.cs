@@ -1,14 +1,16 @@
-﻿using Application.Common;
+﻿using System.Reflection;
 using Application.Common.Exceptions;
 using Application.Common.Token;
 using Application.Login;
+using Application.Services;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories.Commands;
+using Infrastructure.Data.Repositories.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Application;
 
@@ -16,14 +18,29 @@ public static class DependencyInjection
 {
 	public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
 	{
-		services.AddTransient<ITokenService, TokenService>(sp =>
+		services.AddTransient<ITokenProvider, TokenProvider>(sp =>
 		{
 			var userManager = sp.GetRequiredService<UserManager<User>>();
+			
 			var jwtSettings = config.GetSection("TokenSettings").Get<TokenSettings>();
 			if (jwtSettings is null)
 				throw new NotFoundException("TokenSettings are missing.");
 
-			return new TokenService(userManager, jwtSettings);
+			return new TokenProvider(userManager, jwtSettings);
+		});
+		
+		services.AddTransient<IRefreshTokenService, RefreshTokenService>(sp =>
+		{
+			var readRepository = sp.GetRequiredService<IRefreshTokenReadRepository>();
+			var createRepository = sp.GetRequiredService<ICreateRepository<RefreshToken>>();
+			var updateRepository = sp.GetRequiredService<IUpdateRepository<RefreshToken> >();
+			var currentUser = sp.GetRequiredService<ICurrentUser>();
+			
+			var jwtSettings = config.GetSection("TokenSettings").Get<TokenSettings>();
+			if (jwtSettings is null)
+				throw new NotFoundException("TokenSettings are missing.");
+
+			return new RefreshTokenService(readRepository, currentUser, createRepository, updateRepository, jwtSettings.RefreshTokenExpirationInDays);
 		});
 
 		services.AddIdentity<User, IdentityRole>(options =>
@@ -46,6 +63,7 @@ public static class DependencyInjection
 		});
 
 		services.AddValidatorsFromAssemblyContaining<AuthenticationValidator>();
+		services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
 
 		return services;
 	}

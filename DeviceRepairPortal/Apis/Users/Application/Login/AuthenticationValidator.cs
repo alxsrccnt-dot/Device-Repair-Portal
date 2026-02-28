@@ -14,4 +14,4 @@ public class AuthenticationValidator : AbstractValidator<AuthenticationRequest>
 			.MinimumLength(1)
 			.WithMessage("Must provide a password.");
 	}
-}
+} 
