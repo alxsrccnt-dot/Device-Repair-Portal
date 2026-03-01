@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace UserServices.Controllers;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/account")]
 public class AccountController(IMediator mediator) : Controller
 {
     [AllowAnonymous]

@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using System.Text;
+using Application.Services;
 using Domain.Entities;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
@@ -11,15 +12,15 @@ public class RefreshTokenService(IRefreshTokenReadRepository readRepository, ICu
 {
     public async Task<string> GenerateAsync(string userId)
     {
+        var generatedToken = GenerateToken(userId);
         var refreshToken = new RefreshToken
         {
+            Token = generatedToken,
             UserId = userId,
             CreatedAt = DateTime.UtcNow,
             ExpiresAt = DateTime.UtcNow.AddDays(expiresInDays)
         };
         
-        var generatedToken = GenerateToken(refreshToken.Id);
-        refreshToken.Token = generatedToken;
         await createRepository.CreateAsync(refreshToken);
 
         return generatedToken;
@@ -58,8 +59,8 @@ public class RefreshTokenService(IRefreshTokenReadRepository readRepository, ICu
     private bool IsTokenExpired(DateTime expiresAt)
         => expiresAt < DateTime.UtcNow;
     
-    private string GenerateToken(Guid tokenId)
-        => Convert.ToBase64String(tokenId.ToByteArray())
+    private string GenerateToken(string tokenId)
+        => Convert.ToBase64String( Encoding.ASCII.GetBytes(tokenId))
             .Replace("/", "_")
             .Replace("+", "-")
             .TrimEnd();

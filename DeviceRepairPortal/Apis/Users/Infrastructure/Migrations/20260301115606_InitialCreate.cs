@@ -158,29 +158,50 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserChangeHistory",
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RevokedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersChangeHistory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChangedFieldOldValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChangedFieldName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ChangetAt = table.Column<DateOnly>(type: "date", nullable: false),
+                    ChangedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChangeHistory", x => x.Id);
+                    table.PrimaryKey("PK_UsersChangeHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserChangeHistory_AspNetUsers_UserId",
+                        name: "FK_UsersChangeHistory_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserDetails",
+                name: "UsersDetails",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -193,9 +214,9 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserDetails", x => x.Id);
+                    table.PrimaryKey("PK_UsersDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserDetails_AspNetUsers_UserId",
+                        name: "FK_UsersDetails_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -242,13 +263,25 @@ namespace Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserChangeHistory_UserId",
-                table: "UserChangeHistory",
+                name: "IX_RefreshTokens_Token",
+                table: "RefreshTokens",
+                column: "Token",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersChangeHistory_UserId",
+                table: "UsersChangeHistory",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserDetails_UserId",
-                table: "UserDetails",
+                name: "IX_UsersDetails_UserId",
+                table: "UsersDetails",
                 column: "UserId",
                 unique: true);
         }
@@ -272,10 +305,13 @@ namespace Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserChangeHistory");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
-                name: "UserDetails");
+                name: "UsersChangeHistory");
+
+            migrationBuilder.DropTable(
+                name: "UsersDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
