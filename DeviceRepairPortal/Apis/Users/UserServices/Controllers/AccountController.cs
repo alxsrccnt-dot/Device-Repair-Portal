@@ -1,7 +1,4 @@
 ﻿using Application.ChangeUserClaim;
-using Application.Common;
-using Application.Login;
-using Application.Register;
 using Application.SeedDb;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

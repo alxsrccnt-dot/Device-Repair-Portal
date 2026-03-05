@@ -1,4 +1,4 @@
-﻿using Application.Common;
+﻿using Application.Identity.Shared.Token;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

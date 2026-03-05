@@ -1,5 +1,6 @@
-﻿using Application.Login;
-using Application.Register;
+﻿using Application.Identity.Login;
+using Application.Identity.LoginWithRefreshToken;
+using Application.Identity.Register;
 using Carter;
 using FluentValidation;
 using MediatR;
@@ -20,6 +21,11 @@ public class AuthEndpoints : ICarterModule
 			.WithSummary("Login to receive a token.")
 			.WithRequestValidation<AuthenticationRequest>();
 
+		group.MapPatch("login", LoginWithRefreshToken)
+			.WithName(nameof(LoginWithRefreshToken))
+			.WithSummary("Login to receive a token.")
+			.WithRequestValidation<AuthenticationWithRefreshTokenRequest>();
+		
 		group.MapPost("register", Register)
 			.WithName(nameof(Register))
 			.WithSummary("Create an account to receive a token.")
@@ -29,6 +35,12 @@ public class AuthEndpoints : ICarterModule
 	public async Task<IResult> Login([FromServices] IMediator mediator, [FromBody] AuthenticationRequest request)
 	{
 		var token = await mediator.Send(new LoginCommand(request));
+		return Results.Ok(token);
+	}
+
+	public async Task<IResult> LoginWithRefreshToken([FromServices] IMediator mediator, [FromBody] AuthenticationWithRefreshTokenRequest request)
+	{
+		var token = await mediator.Send(new LoginWithRefreshTokenCommand(request));
 		return Results.Ok(token);
 	}
 

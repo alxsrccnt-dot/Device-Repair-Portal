@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using Application.Common.Exceptions;
-using Application.Common.Token;
-using Application.Login;
-using Application.Services;
+using Application.Identity.Login;
+using Application.Identity.Shared.Token;
+using Application.Shared;
+using Application.Shared.Exceptions;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Data;

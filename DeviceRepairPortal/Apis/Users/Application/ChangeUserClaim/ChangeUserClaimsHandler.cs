@@ -1,4 +1,4 @@
-﻿using Application.Common.Exceptions;
+﻿using Application.Shared.Exceptions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

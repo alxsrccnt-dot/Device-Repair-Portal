@@ -10,5 +10,8 @@ internal class UserProfileConfiguration : IEntityTypeConfiguration<User>
     {
         builder.Property(x => x.IsActive)
             .HasDefaultValue(true);
+        
+        builder.Property(x => x.IsRestricted)
+            .HasDefaultValue(false);
     }
 }

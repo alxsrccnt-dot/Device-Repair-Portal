@@ -1,5 +1,4 @@
-﻿using Application.Login;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace UserServices.Infrastructure;
 
