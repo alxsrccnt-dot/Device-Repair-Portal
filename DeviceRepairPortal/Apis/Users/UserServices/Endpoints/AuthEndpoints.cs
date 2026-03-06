@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Login;
 using Application.Identity.LoginWithRefreshToken;
+using Application.Identity.Logout;
 using Application.Identity.Register;
 using Carter;
 using FluentValidation;
@@ -30,6 +31,11 @@ public class AuthEndpoints : ICarterModule
 			.WithName(nameof(Register))
 			.WithSummary("Create an account to receive a token.")
 			.WithRequestValidation<RegisterRequest>();
+		
+		group.MapDelete("logout", Logout)
+			.WithName(nameof(Logout))
+			.WithSummary("Logout by revoking the refresh token.")
+			.WithRequestValidation<LogoutRequest>();
 	}
 
 	public async Task<IResult> Login([FromServices] IMediator mediator, [FromBody] AuthenticationRequest request)
@@ -48,5 +54,11 @@ public class AuthEndpoints : ICarterModule
 	{
 		var token = await mediator.Send(new RegisterCommand(request));
 		return Results.Ok(token);
+	}
+
+	public async Task<IResult> Logout([FromServices] IMediator mediator, [FromBody] LogoutRequest request)
+	{
+		await mediator.Send(new LogoutCommand(request));
+		return Results.Ok();
 	}
 }
