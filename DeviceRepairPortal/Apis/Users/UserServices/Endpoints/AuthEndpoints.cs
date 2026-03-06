@@ -16,6 +16,11 @@ public class AuthEndpoints : ICarterModule
 	{
 		var group = app.MapGroup("/api/auth")
 			.AllowAnonymous();
+		
+		group.MapPost("register", Register)
+			.WithName(nameof(Register))
+			.WithSummary("Create an account to receive a token.")
+			.WithRequestValidation<RegisterRequest>();
 
 		group.MapPost("login", Login)
 			.WithName(nameof(Login))
@@ -26,11 +31,6 @@ public class AuthEndpoints : ICarterModule
 			.WithName(nameof(LoginWithRefreshToken))
 			.WithSummary("Login to receive a token.")
 			.WithRequestValidation<AuthenticationWithRefreshTokenRequest>();
-		
-		group.MapPost("register", Register)
-			.WithName(nameof(Register))
-			.WithSummary("Create an account to receive a token.")
-			.WithRequestValidation<RegisterRequest>();
 		
 		group.MapDelete("logout", Logout)
 			.WithName(nameof(Logout))
