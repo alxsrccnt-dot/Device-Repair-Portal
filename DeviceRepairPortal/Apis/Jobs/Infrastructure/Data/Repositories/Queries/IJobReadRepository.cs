@@ -5,5 +5,6 @@ namespace Infrastructure.Data.Repositories.Queries;
 
 public interface IJobReadRepository
 {
-    Task<DataWithTotalCount<Job>> GetTehnicianJobsAsync(JobsRequest request, CancellationToken cancellationToken = default);
+    Task<Job> GetJobDetailsAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<DataWithTotalCount<Job>> GetJobsAsync(PaginatedRequest request, CancellationToken cancellationToken = default);
 }

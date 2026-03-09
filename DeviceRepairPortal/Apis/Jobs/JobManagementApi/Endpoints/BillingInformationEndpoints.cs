@@ -1,5 +1,6 @@
 ﻿using Application.Management.Billings;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,11 @@ public class BillingInformationEndpoints : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/billings")
-            .RequireAuthorization("technicians.manage"); ;
+            .RequireAuthorization("technicians.manage");
 
         group.MapPost("", CreateBillingInformation)
-            .WithName(nameof(CreateBillingInformation));
+            .WithName(nameof(CreateBillingInformation))
+            .WithRequestValidation<CreateBillingInformationRequest>();
     }
 
     public async Task<IResult> CreateBillingInformation([FromServices] IMediator mediator, [FromBody] CreateBillingInformationRequest request)

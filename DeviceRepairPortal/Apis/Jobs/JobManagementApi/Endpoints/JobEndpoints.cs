@@ -3,6 +3,7 @@ using Application.Management.Phases.Common;
 using Application.Management.Phases.Repair;
 using Application.Management.Phases.Return;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,16 @@ public class JobEndpoints : ICarterModule
             .RequireAuthorization("technicians.manage");
 
         group.MapPost("", CreateJob)
-            .WithName(nameof(CreateJob));
+            .WithName(nameof(CreateJob))
+            .WithRequestValidation<CreateJobRequest>();
 
-        group.MapPost("/phases/repair", CreateRepairPhase)
-            .WithName(nameof(CreateRepairPhase));
+        group.MapPost("/repair", CreateRepairPhase)
+            .WithName(nameof(CreateRepairPhase))
+            .WithRequestValidation<CreatePhaseRequest>();
 
-        group.MapPost("/phases/return", CreateReturnPhase)
-            .WithName(nameof(CreateReturnPhase));
+        group.MapPost("/return", CreateReturnPhase)
+            .WithName(nameof(CreateReturnPhase))
+            .WithRequestValidation<CreatePhaseRequest>();
     }
 
     public async Task<IResult> CreateJob([FromServices] IMediator mediator, [FromBody] CreateJobRequest request)

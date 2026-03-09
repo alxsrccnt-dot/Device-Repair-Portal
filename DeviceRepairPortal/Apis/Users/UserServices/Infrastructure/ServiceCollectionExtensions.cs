@@ -1,7 +1,7 @@
-﻿using Application.Common.Token;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Application.Shared.Identity.Token;
 
 namespace UserServices.Infrastructure;
 
@@ -10,7 +10,12 @@ public static class ServiceCollectionExtensions
 	public static IServiceCollection AddCustomAuthentification(this IServiceCollection services, IConfiguration config)
 	{
 		var tokenSettings = config.GetSection("TokenSettings").Get<TokenSettings>();
-		services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+		// services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+		services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 			.AddJwtBearer(options =>
 			{
 				options.TokenValidationParameters = new TokenValidationParameters
@@ -70,9 +75,15 @@ public static class ServiceCollectionExtensions
 					}
 				};
 			});
+		
 		services.AddAuthorization(options =>
 		{
 			options.FallbackPolicy = options.DefaultPolicy;
+			options.AddPolicy("admins.manage", policy =>
+				policy.RequireClaim("scope", "admins.manage"));
+
+			options.AddPolicy("technicians.manage", policy =>
+				policy.RequireClaim("scope", "technicians.manage"));
 		});
 
 		return services;

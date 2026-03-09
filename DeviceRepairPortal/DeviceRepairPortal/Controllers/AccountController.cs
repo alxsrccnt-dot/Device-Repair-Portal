@@ -31,13 +31,17 @@ public class AccountController(IAuthServicesClient authServicesClient) : Control
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.Strict
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
                 });
 
                 await SignInWithJwtAsync(token);
-                return RedirectToAction("Index", "Ticket");
+
+                return RedirectToAction("Index", "Home");
             }
 
+            //
+            
             ModelState.AddModelError(string.Empty, "Invalid login attempt");
             return View();
         }

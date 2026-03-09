@@ -1,5 +1,6 @@
 ﻿using Application.Management.Issues;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,8 @@ public class IssueEndpoints : ICarterModule
             .RequireAuthorization("admins.manage"); ;
 
         adminGroup.MapPost("", CreateIssue)
-            .WithName(nameof(CreateIssue));
+            .WithName(nameof(CreateIssue))
+            .WithRequestValidation<CreateIssueRequest>();
     }
 
     public async Task<IResult> CreateIssue([FromServices] IMediator mediator, [FromBody] CreateIssueRequest request)

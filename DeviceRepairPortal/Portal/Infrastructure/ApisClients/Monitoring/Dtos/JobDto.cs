@@ -1,15 +1,12 @@
-﻿using Infrastructure.ApisClients.Monitoring.Dtos.Common;
+﻿namespace Infrastructure.ApisClients.Monitoring.Dtos;
 
-namespace Infrastructure.ApisClients.Monitoring.Dtos;
-
-public record JobDto : CreatedInformationsDto
+public class JobDto
 {
     public Guid Id { get; set; }
     public DateTime? EndDate { get; init; }
-    public JobTicketDto Ticket { get; init; }
-    public InvestigationDto? Investigation { get; init; }
-    public BillingInformationDto? BillingInformation { get; init; }
-
-    public ICollection<CommentDto> Comments { get; set; } = [];
-    public ICollection<PhaseDto> Phases { get; set; } = [];
+    public required JobDetailsTicketDto Ticket { get; init; }
+    public string? InvestigationConclusion { get; init; }
+    public decimal? BillingInformationAmount { get; init; }
+    public required string CurrentPhase { get; set; }
+    public required DateTime CurrentPhasesStartedAt { get; set; }
 }

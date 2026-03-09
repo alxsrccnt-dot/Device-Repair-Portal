@@ -1,0 +1,4 @@
+CQRS db set 
+CQRS implementation
+
+un shared cu contracte

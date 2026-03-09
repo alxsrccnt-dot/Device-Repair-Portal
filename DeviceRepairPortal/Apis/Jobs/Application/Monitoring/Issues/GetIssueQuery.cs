@@ -1,4 +1,4 @@
-﻿using Application.Monitoring.Dtos;
+﻿using Application.Monitoring.Issues.Dtos;
 using MediatR;
 
 namespace Application.Monitoring.Issues;

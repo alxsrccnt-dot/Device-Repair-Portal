@@ -3,7 +3,7 @@
 public class CreateInvestigationInputModel
 {
     public Guid JobId { get; set; }
-    public string Conclusion { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string Conclusion { get; set; }
+    public string Description { get; set; }
     public List<int> IssueIds { get; set; } = [];
 }

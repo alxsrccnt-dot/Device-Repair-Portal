@@ -6,9 +6,12 @@ namespace Infrastructure.Data.EntityTypeConfigurations;
 
 internal class UserProfileConfiguration : IEntityTypeConfiguration<User>
 {
-	public void Configure(EntityTypeBuilder<User> builder)
-	{
-		builder.Property(x => x.IsActive)
-			.HasDefaultValue(true);
-	}
+    public void Configure(EntityTypeBuilder<User> builder)
+    {
+        builder.Property(x => x.IsActive)
+            .HasDefaultValue(true);
+        
+        builder.Property(x => x.IsRestricted)
+            .HasDefaultValue(false);
+    }
 }

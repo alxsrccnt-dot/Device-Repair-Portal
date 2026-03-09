@@ -1,5 +1,6 @@
 ﻿using Application.Management.Investigations;
 using Carter;
+using JobManagementApi.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,8 @@ public class InvestigationEndpoints : ICarterModule
             .RequireAuthorization("technicians.manage"); ;
 
         group.MapPost("", CreateInvestigation)
-            .WithName(nameof(CreateInvestigation));
+            .WithName(nameof(CreateInvestigation))
+            .WithRequestValidation<CreateInvestigationRequest>();
     }
 
     public async Task<IResult> CreateInvestigation([FromServices] IMediator mediator, [FromBody] CreateInvestigationRequest request)

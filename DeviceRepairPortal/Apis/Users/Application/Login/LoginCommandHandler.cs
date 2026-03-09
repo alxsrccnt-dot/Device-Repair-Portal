@@ -1,29 +1,33 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Token;
+﻿using Application.Shared.Exceptions;
+using Application.Shared.Identity;
+using Application.Shared.Identity.Token;
 using Domain.Entities;
+using Infrastructure.Data.Repositories.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Login;
 
-public class LoginCommandHandler(UserManager<User> userManager,
-	SignInManager<User> signInManager,
-	ITokenService jwtService) : IRequestHandler<LoginCommand, string>
+public class LoginCommandHandler(IUserReadRepository readRepository, SignInManager<User> signInManager,
+	ITokenProvider jwtProvider, IRefreshTokenService refreshTokenService) : IRequestHandler<LoginCommand, AuthResponse>
 {
-	public async Task<string> Handle(LoginCommand command, CancellationToken cancellationToken)
+	public async Task<AuthResponse> Handle(LoginCommand command, CancellationToken cancellationToken)
 	{
-		var user = await userManager.FindByEmailAsync(command.request.Email);
+		var user = await readRepository.GetByEmailAsync(command.Request.Email, cancellationToken);
 		if (user is null)
 			throw new UnauthorizedAccessException("Invalid credentials");
 
 		if (!user.IsActive)
 			throw new InactiveException("Invalid credentials");
 
-		var result = await signInManager.CheckPasswordSignInAsync(user, command.request.Password, lockoutOnFailure: false);
-
+		var result = await signInManager.CheckPasswordSignInAsync(user, command.Request.Password, lockoutOnFailure: false);
 		if (!result.Succeeded)
 			throw new UnauthorizedAccessException("Invalid credentials");
 
-		return await jwtService.GenerateJwtToken(user);
+		var refreshToken = user.RefreshToken;
+		await refreshTokenService.ValidateAsync(refreshToken, cancellationToken);
+		var accessToken = await jwtProvider.GenerateJwtToken(user);
+		
+		return new AuthResponse(accessToken, refreshToken.Token);
 	}
 }

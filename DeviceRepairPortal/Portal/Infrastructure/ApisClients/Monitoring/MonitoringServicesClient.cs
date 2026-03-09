@@ -9,6 +9,13 @@ public class MonitoringServicesClient(HttpClient httpClient) : BaseApiClient(htt
     public async Task<PaginatedResultDto<JobDto>> GetTehnicianJobsAsync(PaginatedRequest request)
         => await GetAsync<PaginatedResultDto<JobDto>>(GetTehnicianJobsUrl(request));
 
+    public async Task<JobDetailsDto> GetJobByIdAsync(Guid id)
+    {
+        var test = GetJobByIdUrl(id);
+        return await GetAsync<JobDetailsDto>(GetJobByIdUrl(id));
+    }
+        //=> await GetAsync<JobDetailsDto>(GetJobByIdUrl(id));
+
     public async Task<PaginatedResultDto<TicketDto>> GetUserTicketsAsync(PaginatedRequest request)
         => await GetAsync<PaginatedResultDto<TicketDto>>(GetUserTicketsUrl(request));
 
@@ -26,4 +33,8 @@ public class MonitoringServicesClient(HttpClient httpClient) : BaseApiClient(htt
 
     private string GetTehnicianJobsUrl(PaginatedRequest request)
         => string.Format(MonitoringApiRoutesConstants.GetTehnicianJobsEndpointRoute, request.PageNumber, request.PageSize);
+
+    private string GetJobByIdUrl(Guid id)
+        => string.Format(MonitoringApiRoutesConstants.GetJobByIdEndpointRoute, id);
+
 }

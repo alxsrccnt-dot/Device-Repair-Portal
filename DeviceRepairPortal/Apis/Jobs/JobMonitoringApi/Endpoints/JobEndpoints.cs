@@ -9,14 +9,24 @@ public class JobEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/jobs")
+        var techniciansGroup = app.MapGroup("/api/jobs")
             .RequireAuthorization("technicians.read");
 
-        group.MapGet("", GetTehnicianJobs)
+        techniciansGroup.MapGet("", GetTehnicianJobs)
             .WithName(nameof(GetTehnicianJobs));
+
+        var group = app.MapGroup("/api/jobs")
+            .RequireAuthorization();
+
+        group.MapGet("{id:Guid}", GetJob)
+            .WithName(nameof(GetJob));
     }
 
     public async Task<IResult> GetTehnicianJobs([FromServices] IMediator mediator,
-        [AsParameters] GetTehnicianJobsQuery query)
+        [AsParameters] GetJobsQuery query)
         => Results.Ok(await mediator.Send(query));
+
+    public async Task<IResult> GetJob([FromServices] IMediator mediator,
+        [AsParameters] Guid id)
+        => Results.Ok(await mediator.Send(new GetJobDetailsQuery(id)));
 }

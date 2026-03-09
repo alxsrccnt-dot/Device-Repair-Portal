@@ -97,7 +97,7 @@ Notifications are not yet implemented
 
 ✅ Token lifecicle logic
 
-✅ Add request validation
+✅ Add request validation ( Done )
 
 🔔 Notify users after every state change
 

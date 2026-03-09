@@ -1,11 +1,17 @@
-﻿using Application.Common.Exceptions;
-using Application.Common.Token;
+﻿using System.Reflection;
+using Application.Login;
+using Application.Shared;
+using Application.Shared.Exceptions;
+using Application.Shared.Identity.Token;
 using Domain.Entities;
+using FluentValidation;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories.Commands;
+using Infrastructure.Data.Repositories.Queries;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Application;
 
@@ -13,17 +19,38 @@ public static class DependencyInjection
 {
 	public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
 	{
-		services.AddTransient<ITokenService, TokenService>(sp =>
+		services.AddMediatR(cfg =>
+		{
+			cfg .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+		});
+
+		services.AddValidatorsFromAssemblyContaining<AuthenticationValidator>();
+		
+		services.AddTransient<ITokenProvider, TokenProvider>(sp =>
 		{
 			var userManager = sp.GetRequiredService<UserManager<User>>();
+			
 			var jwtSettings = config.GetSection("TokenSettings").Get<TokenSettings>();
 			if (jwtSettings is null)
 				throw new NotFoundException("TokenSettings are missing.");
 
-			return new TokenService(userManager, jwtSettings);
+			return new TokenProvider(userManager, jwtSettings);
+		});
+		services.AddTransient<IRefreshTokenService, RefreshTokenService>(sp =>
+		{
+			var readRepository = sp.GetRequiredService<IRefreshTokenReadRepository>();
+			var createRepository = sp.GetRequiredService<ICreateRepository<RefreshToken>>();
+			var updateRepository = sp.GetRequiredService<IUpdateRepository<RefreshToken> >();
+			var currentUser = sp.GetRequiredService<ICurrentUser>();
+			
+			var jwtSettings = config.GetSection("TokenSettings").Get<TokenSettings>();
+			if (jwtSettings is null)
+				throw new NotFoundException("TokenSettings are missing.");
+
+			return new RefreshTokenService(readRepository, currentUser, createRepository, updateRepository, jwtSettings.RefreshTokenExpirationInDays);
 		});
 
-		services.AddIdentity<User, IdentityRole>(options =>
+		services.AddIdentityCore<User>(options =>
 		{
 			options.User.RequireUniqueEmail = true;
 			options.Password.RequiredLength = 8;
@@ -34,13 +61,11 @@ public static class DependencyInjection
 			options.User.AllowedUserNameCharacters =
 				"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 		})
+		.AddRoles<IdentityRole>()
 		.AddEntityFrameworkStores<ApplicationDbContext>()
-		.AddDefaultTokenProviders();
-
-		services.AddMediatR(cfg =>
-		{
-			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-		});
+		.AddSignInManager();
+		
+		services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
 
 		return services;
 	}

@@ -15,8 +15,9 @@ public class TicketEndpoints : ICarterModule
         group.MapGet("", GetUserTickets)
             .WithName(nameof(GetUserTickets));
 
-        var tehnicianGroup = app.MapGroup("/api/tehnician/tickets")
+        var tehnicianGroup = app.MapGroup("/api/tickets")
             .RequireAuthorization("technicians.read");
+
         tehnicianGroup.MapGet("", GetTickets)
             .WithName(nameof(GetTickets));
     }

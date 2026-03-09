@@ -1,5 +1,5 @@
-﻿using Infrastructure.ApisClients.Monitoring.Dtos.Common;
-using Infrastructure.ApisClients.Monitoring.Dtos.Enums;
+﻿using Infrastructure.ApisClients.Common;
+using Infrastructure.ApisClients.Monitoring.Dtos.Common;
 
 namespace Infrastructure.ApisClients.Monitoring.Dtos;
 

@@ -1,0 +1,22 @@
+Flows:
+User -> register or login -> Create a new Ticket
+Technician -> register or login -> Admin give permisions
+With the "Technician" role, he can list all created tasks, filter and accept them by assigning a task to himself, and create a new job
+With this role, he can seethe  Jobs tab in navigation, where he can access his accepted tasks
+On this page, he can edit his jobs.
+Once he is assigned a task, a new job is created, and a phase is created called Reception.
+If the job has no investigation, he can add that this will also create a new phase called Investigation.
+If the job has no Billing, he can add this, which will also create a new phase called Billing.
+After work is done, he can add a new phase called Repair.
+At the end, he can add a new phase called Return and EndDate is populated(Job has a CreatedAt DateTime with reprezent StartDate for the job and an EndDate to know when a job starts and is completed)
+
+Some functionality is not created in FE, but logic exists in APIs
+ToDos
+- Add functional tests
+- Validation for request
+- After every change to notify the user
+- Add Docker to run all services for local development
+- Add a service bus To send Notification
+- add etag for request for payments
+
+camille.souchal@ipsos.com

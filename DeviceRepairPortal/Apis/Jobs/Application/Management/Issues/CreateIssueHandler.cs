@@ -1,0 +1,23 @@
+﻿using Domain.Entities;
+using Infrastructure.Data.Repositories.Commands;
+using Infrastructure.Data.Repositories.Queries;
+using MediatR;
+using System.ComponentModel.DataAnnotations;
+
+namespace Application.Management.Issues;
+
+public class CreateIssueHandler(IReadIssuesRepositories readIssuesRepositories, ICreateRepository<Issue> createRepository)
+    : IRequestHandler<CreateIssueCommand>
+{
+    public async Task Handle(CreateIssueCommand command, CancellationToken cancellationToken)
+    {
+        var request = command.Request;
+
+        var existingIssue = await readIssuesRepositories.GetByDevicePieceAsync(request.DevicePiece, cancellationToken);
+        if (existingIssue is not null)
+            throw new ValidationException("The issue already exist.");
+
+        var issue = new Issue(request.DevicePiece, request.Description, request.Price);
+        await createRepository.CreateAsync(issue, cancellationToken);
+    }
+}

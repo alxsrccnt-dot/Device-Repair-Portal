@@ -1,5 +1,6 @@
-﻿using MediatR;
+﻿using Application.Shared.Identity;
+using MediatR;
 
 namespace Application.Login;
 
-public record LoginCommand(AuthenticationRequest request) : IRequest<string>;
+public record LoginCommand(AuthenticationRequest Request) : IRequest<AuthResponse>;

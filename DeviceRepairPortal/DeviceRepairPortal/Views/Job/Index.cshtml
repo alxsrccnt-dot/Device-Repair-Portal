@@ -1,19 +1,88 @@
 ﻿@using DeviceRepairPortal.Models.Job
 @using Infrastructure.ApisClients.Monitoring.Dtos
-@model PaginatedResultViewModel<JobViewModel>
+@model PaginatedJobsViewModel
 
 @{
     ViewData["Title"] = "Jobs";
 }
 
-<h1 class="mb-4">Jobs</h1>
+<div class="container-with-navigation-header">
+    <h2 class="mb-4">Jobs</h2>
+    <div class="shadowed-card curved-card collapse show" id="filtersPanel">
+        <div class="curved-card card card-body shadow-sm">
+            <form asp-action="Index" method="get">
 
-@if (Model.IsEmpty())
-{
-    <p>No jobs found.</p>
-}
-else
-{
+                <div class="row g-3 align-items-end">
+                    
+                    <!-- User Email -->
+                    <div class="col-md-4">
+                        <label class="form-label">Created by</label>
+                        <input type="text"
+                               name="CreatedBy"
+                               value="@Model.CreatedBy"
+                                class="form-control" />
+                    </div>
+
+                    <!-- Date range -->
+                    <div class="col-md-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date"
+                               name="StartDate"
+                               value="@Model.StartDate?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date"
+                               name="EndDate"
+                               value="@Model.EndDate?.ToString("yyyy-MM-dd")"
+                               class="form-control" />
+                    </div>
+
+                    <!-- IsActive toggle -->
+                    <div class="col-md-2 text-center">
+                        <label class="form-label d-block">Active</label>
+
+                        @{
+                            var inProgresState = Model.InProgres == null
+                            ? ""
+                            : Model.InProgres.Value ? "true" : "false";
+                        }
+
+                        <button type="button"
+                                id="inProgresToggle"
+                                class="btn w-100 @(Model.InProgres == null ? "btn-secondary" : Model.InProgres.Value ? "btn-success" : "btn-danger")"
+                                data-state="@inProgresState">
+                            @(Model.InProgres == null ? "Any" : Model.InProgres.Value ? "Active" : "Completed")
+                        </button>
+
+                        <input type="hidden"
+                               id="inProgresValue"
+                               name="InProgres"
+                               value="@inProgresState" />
+                    </div>
+
+                </div>
+
+                <div class="mt-3 text-end">
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="containerWithNavigationBody" class="container-with-navigation-body">
+    @if (Model.IsEmpty())
+    {
+        <p>No jobs found.</p>
+    }
+    else
+    {
     <div class="accordion" id="jobsAccordion">
         @foreach (var jobItem in Model.Data.Select((value, index) => new { value, index }))
         {
@@ -21,7 +90,7 @@ else
             var collapseId = $"collapse-{jobItem.index}";
             var headingId = $"heading-{jobItem.index}";
 
-            <div class="accordion-item mb-3 shadow-sm">
+            <div class="accordion-item shadowed-card curved-card mb-2">
                 <h2 class="accordion-header" id="@headingId">
                     <button class="accordion-button collapsed" type="button"
                             data-bs-toggle="collapse"
@@ -30,7 +99,6 @@ else
                             aria-controls="@collapseId">
 
                         <strong>@job.Ticket.Description</strong>
-                        <span class="ms-3 text-muted">@job.CreateAt.ToString("g")</span>
                     </button>
                 </h2>
 
@@ -40,164 +108,40 @@ else
                      data-bs-parent="#jobsAccordion">
 
                     <div class="accordion-body job-scroll-container">
-
-                        <h5>Device</h5>
+                        <div class="ticket-header">
+                            <h5>Device</h5>
+                            <a asp-controller="Job" asp-action="Details" asp-route-jobId="@jobItem.value.Id" class="btn btn-sm btn-primary ms-3">View job details</a>
+                        </div>
                         <p>@job.Ticket.Device.Brand @job.Ticket.Device.Model</p>
                         <p>SN: @job.Ticket.Device.SerialNumber</p>
 
-                        <h5>Issues</h5>
-                        <ul>
-                            @foreach (var issue in job.Ticket.Issues)
-                            {
-                                <li>@issue.DevicePiece - @issue.Price.ToString("C")</li>
-                            }
-                        </ul>
+                        <h5>Current Phases</h5>
+                        <span class="timeline-state">@job.CurrentPhase started at</span>
+                        <span class="timeline-date">@job.CurrentPhasesStartedAt.ToString("g")</span>
 
-                        <h5>Phases</h5>
-                        <ul class="timeline mb-4">
-                            @foreach (var phase in job.Phases.OrderBy(p => p.CreateAt))
-                            {
-                                <li class="timeline-item">
-                                    <span class="timeline-date">@phase.CreateAt.ToString("g")</span>
-                                    <span class="timeline-state">@phase.State</span>
-                                </li>
-                            }
-                        </ul>
-
-                        @if (job.Investigation != null)
+                        @if (job.InvestigationConclusion != null)
                         {
                             <h5>Investigation</h5>
-                            <p><strong>@job.Investigation.Conclusion</strong></p>
-                            <p>@job.Investigation.Description</p>
-                        }
-                        else
-                            {
-                            <div class="card mt-3 border-warning">
-                                <div class="card-header bg-warning text-dark">
-                                    <strong>Add Investigation</strong>
-                                </div>
-
-                                <div class="card-body">
-                                    <form asp-controller="Job"
-                                          asp-action="AddInvestigation"
-                                          method="post">
-
-                                        <input type="hidden" name="JobId" value="@job.Id" />
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Conclusion</label>
-                                            <input name="Conclusion"
-                                                   class="form-control"
-                                                   placeholder="e.g. Screen replacement required"
-                                                   required />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Description</label>
-                                            <textarea name="Description"
-                                          class="form-control"
-                                          rows="3"
-                                          placeholder="Detailed technical findings"
-                                          required></textarea>
-                                        </div>
-
-                                        <!-- Issues (checkbox list) -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Related Issues</label>
-
-                                            @foreach (var issue in job.Ticket.Issues)
-                                            {
-                                                <div class="form-check">
-                                                    <input class="form-check-input"
-                                                           type="checkbox"
-                                                           name="IssueIds"
-                                                           value="@issue.Id" />
-
-                                                    <label class="form-check-label">
-                                                        @issue.DevicePiece (@issue.Price.ToString("C"))
-                                                    </label>
-                                                </div>
-                                            }
-                                    </div>
-
-                                    <button type="submit" class="btn btn-warning">
-                                        Save Investigation
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                                <p><strong>@job.InvestigationConclusion</strong></p>
                         }
 
-                        @if (job.BillingInformation != null)
+                        @if (job.BillingInformationAmount != null)
                         {
                             <h5>Billing</h5>
-                            <p>Amount: @job.BillingInformation.Amount.ToString("C")</p>
-                        }
-                        else
-                        {
-                            <div class="card mt-3 border-success">
-                                <div class="card-header bg-success text-white">
-                                    <strong>Add Billing Information</strong>
-                                </div>
-
-                                <div class="card-body">
-                                    <form asp-controller="Job"
-                                          asp-action="AddBilling"
-                                          method="post">
-
-                                        <input type="hidden" name="JobId" value="@job.Id" />
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Amount</label>
-                                            <input name="Amount"
-                                                   type="number"
-                                                   step="0.01"
-                                                   min="0"
-                                                   class="form-control"
-                                                   placeholder="Total repair cost"
-                                                   required />
-                                        </div>
-
-                                        <!-- Optional discount -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Discount (optional)</label>
-                                            <select name="DiscountId" class="form-select">
-                                                <option value="">No discount</option>
-
-                                                @* Example *@
-                                                @* Replace with real discounts *@
-                                                <option value="1">WELCOME10 (10%)</option>
-                                                <option value="2">VIP20 (20%)</option>
-                                            </select>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-success">
-                                            Save Billing
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        }
-
-                        @if (job.Comments.Any())
-                        {
-                            <h5>Comments</h5>
-                            <ul>
-                                @foreach (var comment in job.Comments)
-                                {
-                                    <li><strong>@comment.CreatedBy</strong>: @comment.Content</li>
-                                }
-                            </ul>
+                            <p>Amount: @job.BillingInformationAmount.Value.ToString("C")</p>
                         }
 
                     </div>
                 </div>
             </div>
         }
-    </div>
+        </div>
+    }
+</div>
 
-    <!-- PAGINATION -->
-    <nav class="mt-4">
+<!-- PAGINATION -->
+<div class="container-with-navigation-footer">
+    <nav class="container-navigation">
         <ul class="pagination justify-content-center">
 
             <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
@@ -232,4 +176,32 @@ else
 
         </ul>
     </nav>
-}
+</div>
+
+                       
+<script>
+    const button = document.getElementById("inProgresToggle");
+    const input = document.getElementById("inProgresValue");
+    const container = document.getElementById("containerWithNavigationBody");
+
+    const states = [
+        { value: "", text: "Any", class: "btn-secondary" },
+        { value: "true", text: "InProgres", class: "btn-success" },
+        { value: "false", text: "Completed", class: "btn-danger" }
+    ];
+
+    let index = states.findIndex(s => s.value === input.value);
+    if (index === -1) index = 0;
+
+    button.addEventListener("click", () => {
+        index = (index + 1) % states.length;
+
+        const state = states[index];
+
+        button.textContent = state.text;
+        button.className = `btn w-100 ${state.class}`;
+        input.value = state.value;
+
+        const searchOpen = document.getElementById("searchBox")?.classList.contains("show");
+    });
+</script>
