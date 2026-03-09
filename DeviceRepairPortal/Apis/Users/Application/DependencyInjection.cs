@@ -8,6 +8,7 @@ using FluentValidation;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories.Commands;
 using Infrastructure.Data.Repositories.Queries;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,7 +50,7 @@ public static class DependencyInjection
 			return new RefreshTokenService(readRepository, currentUser, createRepository, updateRepository, jwtSettings.RefreshTokenExpirationInDays);
 		});
 
-		services.AddIdentity<User, IdentityRole>(options =>
+		services.AddIdentityCore<User>(options =>
 		{
 			options.User.RequireUniqueEmail = true;
 			options.Password.RequiredLength = 8;
@@ -60,8 +61,9 @@ public static class DependencyInjection
 			options.User.AllowedUserNameCharacters =
 				"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 		})
+		.AddRoles<IdentityRole>()
 		.AddEntityFrameworkStores<ApplicationDbContext>()
-		.AddDefaultTokenProviders();
+		.AddSignInManager();
 		
 		services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
 
