@@ -31,7 +31,7 @@ public class AuthEndpoints : ICarterModule
 			.WithSummary("Login to receive a token.")
 			.WithRequestValidation<AuthenticationWithRefreshTokenRequest>();
 		
-		var authGroup = app.MapGroup("/api/claims")
+		var authGroup = app.MapGroup("/api/auth")
 			.RequireAuthorization();
 		
 		authGroup.MapDelete("logout", Logout)
