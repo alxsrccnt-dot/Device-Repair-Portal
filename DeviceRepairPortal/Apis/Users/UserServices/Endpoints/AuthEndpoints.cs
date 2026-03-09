@@ -1,9 +1,8 @@
-﻿using Application.Identity.Login;
-using Application.Identity.LoginWithRefreshToken;
-using Application.Identity.Logout;
-using Application.Identity.Register;
+﻿using Application.Login;
+using Application.LoginWithRefreshToken;
+using Application.Logout;
+using Application.Register;
 using Carter;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserServices.Infrastructure;
@@ -32,7 +31,10 @@ public class AuthEndpoints : ICarterModule
 			.WithSummary("Login to receive a token.")
 			.WithRequestValidation<AuthenticationWithRefreshTokenRequest>();
 		
-		group.MapDelete("logout", Logout)
+		var authGroup = app.MapGroup("/api/claims")
+			.RequireAuthorization();
+		
+		authGroup.MapDelete("logout", Logout)
 			.WithName(nameof(Logout))
 			.WithSummary("Logout by revoking the refresh token.")
 			.WithRequestValidation<LogoutRequest>();

@@ -1,3 +1,0 @@
-﻿namespace Application.Identity.LoginWithRefreshToken;
-
-public record AuthenticationWithRefreshTokenRequest(string RefreshToken);

@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using Application.Identity.Login;
-using Application.Identity.Shared.Token;
+using Application.Login;
 using Application.Shared;
 using Application.Shared.Exceptions;
+using Application.Shared.Identity.Token;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Data;
@@ -18,6 +18,13 @@ public static class DependencyInjection
 {
 	public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
 	{
+		services.AddMediatR(cfg =>
+		{
+			cfg .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+		});
+
+		services.AddValidatorsFromAssemblyContaining<AuthenticationValidator>();
+		
 		services.AddTransient<ITokenProvider, TokenProvider>(sp =>
 		{
 			var userManager = sp.GetRequiredService<UserManager<User>>();
@@ -28,7 +35,6 @@ public static class DependencyInjection
 
 			return new TokenProvider(userManager, jwtSettings);
 		});
-		
 		services.AddTransient<IRefreshTokenService, RefreshTokenService>(sp =>
 		{
 			var readRepository = sp.GetRequiredService<IRefreshTokenReadRepository>();
@@ -56,13 +62,7 @@ public static class DependencyInjection
 		})
 		.AddEntityFrameworkStores<ApplicationDbContext>()
 		.AddDefaultTokenProviders();
-
-		services.AddMediatR(cfg =>
-		{
-			cfg .RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-		});
-
-		services.AddValidatorsFromAssemblyContaining<AuthenticationValidator>();
+		
 		services.AddScoped(typeof(ICurrentUser), typeof(CurrentUser));
 
 		return services;

@@ -70,6 +70,7 @@ public static class ServiceCollectionExtensions
 					}
 				};
 			});
+		
 		services.AddAuthorization(options =>
 		{
 			options.FallbackPolicy = options.DefaultPolicy;

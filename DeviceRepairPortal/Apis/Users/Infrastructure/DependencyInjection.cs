@@ -54,7 +54,6 @@ public static class DependencyInjection
         });
     }
     
-
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));

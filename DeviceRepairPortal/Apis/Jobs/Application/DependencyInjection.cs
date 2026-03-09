@@ -16,8 +16,8 @@ public static class DependencyInjection
 			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 		});
 		services.AddServicesCollection();
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 		services.AddValidatorsFromAssemblyContaining<CreateJobValidator>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 		return services;
     }
