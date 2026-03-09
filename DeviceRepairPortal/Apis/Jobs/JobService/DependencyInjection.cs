@@ -1,13 +1,17 @@
-﻿using FluentValidation;
+﻿using Application;
+using FluentValidation;
+using Infrastructure;
 using JobService.Infrastructure;
 
 namespace JobService;
 
 public static class DependencyInjection
 {
-	public static IServiceCollection AddWebServices(this IServiceCollection services)
+	public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
 	{
-		AddExceptionHandler(services);
+		services.AddApplication(configuration);
+		services.AddInfrastucture(configuration);
+		services.AddExceptionHandler();
 		services.AddValidatorsFromAssemblyContaining<Program>();
 
 		return services;

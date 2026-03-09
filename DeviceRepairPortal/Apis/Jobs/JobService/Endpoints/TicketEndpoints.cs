@@ -1,9 +1,9 @@
 ﻿using Application.Management.Tikets;
 using Application.Monitoring.Tickets;
 using Carter;
-using JobService.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using JobService.Infrastructure;
 
 namespace JobService.Endpoints;
 

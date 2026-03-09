@@ -1,8 +1,4 @@
-﻿using Application.ChangeUserClaim;
-using Application.Common;
-using Application.Login;
-using Application.Register;
-using Application.SeedDb;
+﻿using Application.SeedDb;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,17 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace UserServices.Controllers;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/account")]
 public class AccountController(IMediator mediator) : Controller
 {
-    [AllowAnonymous]
-    [HttpPut("change-user-claims")]
-    public async Task<IActionResult> ChangeUserClaims(ChangeUserClaimRequest request)
-    {
-        await mediator.Send(new ChangeUserClaimsCommand(request));
-        return Ok("New account created.");
-    }
-
     [AllowAnonymous]
     [HttpPost("seed-db")]
     public async Task<IActionResult> SeedDb()

@@ -1,17 +1,17 @@
-﻿using Azure.Messaging.ServiceBus;
+﻿using System.Text;
+using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Infrastructure.Bus;
 
 public class BaseServiceBus : IAsyncDisposable
 {
-    private readonly ILogger<BaseServiceBus> _logger;
     private readonly ServiceBusClient _client;
-    private readonly ServiceBusSender _sender;
+    private readonly ILogger<BaseServiceBus> _logger;
     private readonly string _queueName;
-    private readonly object _reconnectLock = new object();
+    private readonly object _reconnectLock = new();
+    private readonly ServiceBusSender _sender;
 
     protected BaseServiceBus(ServiceBusClient client, string queueName, ILogger<BaseServiceBus> logger)
     {
@@ -19,6 +19,11 @@ public class BaseServiceBus : IAsyncDisposable
         _logger = logger;
         _queueName = queueName;
         _sender = _client.CreateSender(_queueName);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _sender.DisposeAsync().ConfigureAwait(false);
     }
 
     public async Task SendAsync<T>(T message, DateTime? enqueueTimeUtc = null)
@@ -66,14 +71,12 @@ public class BaseServiceBus : IAsyncDisposable
     {
         lock (_reconnectLock)
         {
-            if (_sender.IsClosed)
-            {
-                CreateSender();
-            }
+            if (_sender.IsClosed) CreateSender();
         }
     }
 
-    private ServiceBusSender CreateSender() => _client.CreateSender(_queueName);
-
-    public async ValueTask DisposeAsync() => await _sender.DisposeAsync().ConfigureAwait(false);
+    private ServiceBusSender CreateSender()
+    {
+        return _client.CreateSender(_queueName);
+    }
 }
