@@ -17,8 +17,8 @@ public class LoginCommandHandler(IUserReadRepository readRepository, SignInManag
 		if (user is null)
 			throw new UnauthorizedAccessException("Invalid credentials");
 
-		if (!user.IsActive)
-			throw new InactiveException("Invalid credentials");
+		if (user.AccountDeleted)
+			throw new InactiveException("User account has been deleted");
 
 		var result = await signInManager.CheckPasswordSignInAsync(user, command.Request.Password, lockoutOnFailure: false);
 		if (!result.Succeeded)

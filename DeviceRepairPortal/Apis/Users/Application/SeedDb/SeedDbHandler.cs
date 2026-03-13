@@ -35,7 +35,7 @@ public class SeedDbHandler(UserManager<User> userManager, RoleManager<IdentityRo
         {
             UserName = "Admin",
             Email = adminEmail,
-            IsActive = true
+            AccountDeleted = false
         };
         var result1 = await userManager.CreateAsync(admin, password);
         await userManager.AddToRoleAsync(admin, AppRoles.Admin);
@@ -44,7 +44,7 @@ public class SeedDbHandler(UserManager<User> userManager, RoleManager<IdentityRo
         {
             UserName = "Tehnician",
             Email = "tehnician@tehnician.com",
-            IsActive = true
+            AccountDeleted = false
         };
         var result2 = await userManager.CreateAsync(tehnician, password);
         await userManager.AddToRoleAsync(tehnician, AppRoles.Technician);
@@ -53,7 +53,7 @@ public class SeedDbHandler(UserManager<User> userManager, RoleManager<IdentityRo
         {
             UserName = "User",
             Email = "user@user.com",
-            IsActive = true
+            AccountDeleted = false
         };
         var result3 = await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, AppRoles.User);

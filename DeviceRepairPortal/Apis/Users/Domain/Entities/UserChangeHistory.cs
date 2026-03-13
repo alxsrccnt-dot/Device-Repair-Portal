@@ -4,10 +4,10 @@ namespace Domain.Entities;
 
 public class UserChangeHistory : BaseEntity<int>
 {
-	public string ChangedFieldOldValue { get; set; } = null!;
-	public string ChangedFieldName { get; set; } = null!;
+	public required string ChangedFieldOldValue { get; set; }
+	public required string ChangedFieldName { get; set; }
 	public DateTime ChangedAt { get; set; }
 
-	public string UserId { get; set; } = null!;
-	public User User { get; set; } = null!;
+	public required string UserId { get; set; }
+	public required User User { get; set; }
 }

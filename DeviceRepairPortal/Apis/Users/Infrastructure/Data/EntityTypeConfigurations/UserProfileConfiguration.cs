@@ -8,7 +8,7 @@ internal class UserProfileConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(x => x.IsActive)
+        builder.Property(x => x.AccountDeleted)
             .HasDefaultValue(true);
         
         builder.Property(x => x.IsRestricted)

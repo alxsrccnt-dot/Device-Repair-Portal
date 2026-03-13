@@ -17,7 +17,7 @@ public class RegisterCommandHandler(UserManager<User> userManager,
 		{
 			UserName = request.UserName,
 			Email = request.Email,
-			IsActive = true
+			AccountDeleted = false
 		};
 
 		var result = await userManager.CreateAsync(user, request.Password);
