@@ -4,7 +4,7 @@ namespace Application.Monitoring.Jobs.Dtos;
 
 public class JobDetailsDto : CreatedInformationsDto
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
     public DateTime? EndDate { get; init; }
     public TicketDto Ticket { get; init; }
     public InvestigationDto? Investigation { get; init; }

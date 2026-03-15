@@ -49,7 +49,8 @@ internal class JobReadRepository(ApplicationDbContext context) : IJobReadReposit
 			query = query.Where(t => t.CreateAt.Date == request.StartDate.Value.Date);
 
 		var jobs = await query
-            .Take(request.PageSize)
+            .Skip((request.PageNumber - 1) * request.PageSize)
+			.Take(request.PageSize)
             .ToListAsync(cancellationToken);
         var total = await query.CountAsync(cancellationToken);
 
